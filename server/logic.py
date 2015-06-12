@@ -83,7 +83,7 @@ def get_event_details(phone, event_id):
     event_details["polls"] = polls
     return event_details
 
-def answer_polls(phone, poll_option_id):
+def answer_poll(phone, poll_option_id):
     count = db_handler.query_db("""
     SELECT COUNT(*) as count
     FROM poll_option
@@ -116,7 +116,10 @@ def answer_polls(phone, poll_option_id):
     return poll
 
 
-def create_event(uid, event_name, polls, users):
+class EventStatus(object):
+    UNSET, YES, NO = range(3)
+
+def create_event(phone, event_name, polls, users):
     """
     Create an event in the database, get
     event_name - a name chosen by the user for the event
@@ -124,17 +127,17 @@ def create_event(uid, event_name, polls, users):
     users - a list of user to create the event for them.
     :return:
     """
-    event_id = db_handler.insert_db("event", {"event_name": event_name, "creator_id": uid})
-    print event_id
+    user_id = get_user_id(phone)
+    event_id = db_handler.insert_db("event", {"event_name": event_name, "creator_id": user_id})
     for poll in json.loads(polls):
         poll_id = db_handler.insert_db("poll", {"poll_name": poll["pollname"], "event_id": event_id})
         for x in poll["optsion"]:
-            print x
             db_handler.insert_db("poll_option", {"poll_option_name": x, "poll_id": poll_id})
+    db_handler.insert_db("event_user", {"event_id": event_id, "user_id": user_id, "status": EventStatus.YES})
     for user in json.loads(users):
         real_user = get_user_id(user)
-        db_handler.insert_db("event_user", {"event_id": event_id, "user_id": real_user, "status": 0})
-    return str(event_id)
+        db_handler.insert_db("event_user", {"event_id": event_id, "user_id": real_user, "status": EventStatus.UNSET})
+    return get_event_details(phone, event_id)
 
 
 
