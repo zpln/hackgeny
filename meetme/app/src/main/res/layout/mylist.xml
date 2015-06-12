@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="horizontal"
     android:id="@+id/Listy">
+
     <ImageView
         android:id="@+id/icon"
         android:layout_width="50dp"
@@ -12,34 +13,60 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:src="@mipmap/ic_launcher" />
-    <TextView
-        android:id="@+id/EventName"
-        android:layout_width="0px"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:paddingTop="5dp"
+        android:src="@mipmap/ic_launcher"
         android:layout_weight="1" />
 
-    <TextView
-        android:id="@+id/EventLocation"
-        android:layout_width="0px"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:paddingTop="5dp"
-        android:layout_weight="1" />
-    <TextView
-        android:id="@+id/EventDate"
-        android:layout_width="0px"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:paddingTop="5dp"
-        android:layout_weight="2" />
-    <TextView
-        android:id="@+id/EventParticipants"
-        android:layout_width="0px"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:paddingTop="5dp"
-        android:layout_weight="1" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="5">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/EventDate"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:paddingTop="5dp"
+                android:layout_weight="2" />
+
+            <TextView
+                android:id="@+id/EventParticipants"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:paddingTop="5dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/EventName"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:paddingTop="5dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/EventLocation"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:paddingTop="5dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

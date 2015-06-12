@@ -133,22 +133,32 @@ public class MainActivity extends ActionBarActivity {
 
                                 @Override
                                 public View getView(int position, View convertView, ViewGroup parent) {
-//                                    LinearLayout layout = (LinearLayout) LayoutInflater.from(that).inflate(R.layout.mylist, null);
-//                                    for (int i = 0; i < layout.getChildCount(); i++) {
-//                                        View childAt = layout.getChildAt(i);
-//                                        if (childAt instanceof TextView) {
-//                                            TextView textView = (TextView) childAt;
-//                                            textView.setText(String.format("%d", i));
-//                                        }
-//                                    }
                                     LinearLayout layout = (LinearLayout) LayoutInflater.from(that).inflate(R.layout.mylist, null);
-                                    TextView event_name = (TextView) layout.getChildAt(1);
+                                    LinearLayout dataLayout = (LinearLayout) layout.getChildAt(1);
+                                    LinearLayout upperDataLayout = (LinearLayout) dataLayout.getChildAt(0);
+                                    LinearLayout lowerDataLayout = (LinearLayout) dataLayout.getChildAt(1);
+                                    for (int i = 0; i < upperDataLayout.getChildCount(); i++) {
+                                        View childAt = upperDataLayout.getChildAt(i);
+                                        if (childAt instanceof TextView) {
+                                            TextView textView = (TextView) childAt;
+                                            textView.setText(String.format("%d", i));
+                                        }
+                                    }
+                                    for (int i = 0; i < lowerDataLayout.getChildCount(); i++) {
+                                        View childAt = lowerDataLayout.getChildAt(i);
+                                        if (childAt instanceof TextView) {
+                                            TextView textView = (TextView) childAt;
+                                            textView.setText(String.format("_%d", i));
+                                        }
+                                    }
+
+                                    TextView event_name = (TextView) upperDataLayout.getChildAt(0);
                                     event_name.setText(events[position].name);
-                                    TextView location = (TextView) layout.getChildAt(2);
-                                    location.setText(events[position].location);
-                                    TextView date = (TextView) layout.getChildAt(3);
-                                    date.setText(new SimpleDateFormat("yyyy-MM-dd hh:mm").format(events[position].date));
-                                    TextView participants = (TextView) layout.getChildAt(4);
+                                    TextView location = (TextView) upperDataLayout.getChildAt(1);
+                                    location.setText("at " + events[position].location);
+                                    TextView date = (TextView) lowerDataLayout.getChildAt(0);
+                                    date.setText(new SimpleDateFormat("dd-MM-yy hh:mm").format(events[position].date));
+                                    TextView participants = (TextView) lowerDataLayout.getChildAt(1);
                                     participants.setText(Arrays.toString(events[position].participants));
                                     return layout;
                                 }
