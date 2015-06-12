@@ -3,6 +3,7 @@ import db_handler
 
 # Python
 import flask
+from flask import request
 
 app = flask.Flask(__name__)
 
@@ -10,6 +11,15 @@ app = flask.Flask(__name__)
 def get_events():
     events = db_handler.query_db("SELECT * FROM event")
     return flask.jsonify({"events": events})
+
+@app.route('/Answear_poll')
+def answear_polls():
+    uid = flask.request.args.get("uid")
+    opt_id = flask.request.args.get("opt_id")
+    db_handler.instert_db("user_poll_options", (uid, opt_id))
+    return "inserted data"
+
+
 
 @app.before_request
 def before_request():
