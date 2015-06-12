@@ -25,30 +25,20 @@ def query_db(query, args=(), one_row_only=False):
     else:
         return rows
 
-def insert_db(table_name, values):
+def insert_db(table_name, parameters):
     """
     Insert values to table
     :param table_name: Name of table
-    :param values: List of values
+    :param parameters: Dictionary of name and value
     :return: ID of row inserted to
     """
-    value_placeholders = []
-    # Wrap strings with quotes
-    for value in values.values():
-        if type(value) is str:
-            value_placeholders.append("'?'")
-        else:
-            value_placeholders.append("?")
-    temp_col_name = values.keys()
-    temp_col_name = str(temp_col_name)[1:-1]
-    insert_str = "INSERT INTO {table_name} ({col_names}) VALUES ({args})".format(
-        table_name=table_name, args=",".join(value_placeholders),
-        col_names=temp_col_name
+    insert_str = "INSERT INTO {table_name} ({columns}) VALUES ({values})".format(
+        table_name=table_name, columns=", ".join(parameters.keys()), values=", ".join('?' * len(parameters)),
     )
-    print insert_str
+
     cur = flask.g.db.cursor()
-    cur.execute(insert_str, values.values())
+    cur.execute(insert_str, parameters.values())
     flask.g.db.commit()
+
     # Return the ID of the entry inserted
-    print " I am here"
     return cur.lastrowid

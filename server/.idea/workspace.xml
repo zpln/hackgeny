@@ -14,7 +14,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/server$server.coverage" NAME="server Coverage Results" MODIFIED="1434127334602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$server.coverage" NAME="server Coverage Results" MODIFIED="1434135743282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -28,17 +28,30 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.3483145">
-              <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.4207493">
+              <caret line="56" column="73" selection-start-line="56" selection-start-column="73" selection-end-line="56" selection-end-column="73" />
               <folding>
-                <marker date="1434128969000" expanded="true" signature="1724:1953" placeholder="SELECT event..event..." />
-                <marker date="1434128969000" expanded="true" signature="2337:2595" placeholder="SELECT event..event..." />
-                <marker date="1434128969000" expanded="true" signature="2689:2795" placeholder="SELECT poll...poll..." />
-                <marker date="1434128969000" expanded="true" signature="2913:3213" placeholder="SELECT poll_..poll_option..." />
-                <marker date="1434128969000" expanded="true" signature="3491:3842" placeholder="SELECT poll_..poll_option..." />
-                <marker date="1434128969000" expanded="true" signature="4347:4764" placeholder="SELECT COUNT..." />
-                <marker date="1434128969000" expanded="true" signature="5017:5057" placeholder="SELECT user_..user..." />
-                <marker date="1434128969000" expanded="true" signature="5679:5965" placeholder="SELECT user_..user..." />
+                <element signature="e#10#22#0" expanded="true" />
+                <marker date="1434136749000" expanded="true" signature="1942:2396" placeholder="SELECT user_..user..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="logic.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/logic.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="95" column="49" selection-start-line="95" selection-start-column="49" selection-end-line="95" selection-end-column="49" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+                <marker date="1434136443000" expanded="true" signature="231:460" placeholder="SELECT event..event..." />
+                <marker date="1434136443000" expanded="true" signature="592:850" placeholder="SELECT event..event..." />
+                <marker date="1434136443000" expanded="true" signature="928:1034" placeholder="SELECT poll...poll..." />
+                <marker date="1434136443000" expanded="true" signature="1144:1444" placeholder="SELECT poll_..poll_option..." />
+                <marker date="1434136443000" expanded="true" signature="1714:2065" placeholder="SELECT poll_..poll_option..." />
+                <marker date="1434136443000" expanded="true" signature="2342:2759" placeholder="SELECT COUNT..." />
+                <marker date="1434136443000" expanded="true" signature="2971:3011" placeholder="SELECT user_..user..." />
               </folding>
             </state>
           </provider>
@@ -48,12 +61,10 @@
         <entry file="file://$PROJECT_DIR$/db_handler.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="27" column="13" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="13" />
+              <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
-                <marker date="1434128577000" expanded="true" signature="1273:1285" placeholder="INSERT INTO ..." />
-                <marker date="1434128577000" expanded="true" signature="1273:1304" placeholder="INSERT INTO ..." />
-                <marker date="1434128577000" expanded="true" signature="1273:1313" placeholder="INSERT INTO ..." />
+                <marker date="1434136673000" expanded="true" signature="1077:1131" placeholder="INSERT INTO ..." />
               </folding>
             </state>
           </provider>
@@ -72,6 +83,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/db.py" />
+        <option value="$PROJECT_DIR$/logic.py" />
         <option value="$PROJECT_DIR$/db_handler.py" />
         <option value="$PROJECT_DIR$/server.py" />
       </list>
@@ -376,14 +388,14 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296875" sideWeight="0.4953125" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.49375" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.50625" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4140625" sideWeight="0.49375" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.50625" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296875" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -406,7 +418,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="4" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -416,18 +430,8 @@
           <caret line="13" column="28" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <marker date="1434128577000" expanded="true" signature="1273:1285" placeholder="INSERT INTO ..." />
-            <marker date="1434128577000" expanded="true" signature="1273:1304" placeholder="INSERT INTO ..." />
-            <marker date="1434128577000" expanded="true" signature="1273:1313" placeholder="INSERT INTO ..." />
+            <marker date="1434136673000" expanded="true" signature="1077:1131" placeholder="INSERT INTO ..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Python/2.7/site-packages/flask/globals.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7050562">
-          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -446,32 +450,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/flask/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6381579">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/flask/globals.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/flask/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3314121">
+          <caret line="983" column="0" selection-start-line="983" selection-start-column="0" selection-end-line="983" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/db_handler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="4" selection-end-line="27" selection-end-column="13" />
+          <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <marker date="1434128577000" expanded="true" signature="1273:1285" placeholder="INSERT INTO ..." />
-            <marker date="1434128577000" expanded="true" signature="1273:1304" placeholder="INSERT INTO ..." />
-            <marker date="1434128577000" expanded="true" signature="1273:1313" placeholder="INSERT INTO ..." />
+            <marker date="1434136673000" expanded="true" signature="1077:1131" placeholder="INSERT INTO ..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/logic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="95" column="49" selection-start-line="95" selection-start-column="49" selection-end-line="95" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+            <marker date="1434136443000" expanded="true" signature="231:460" placeholder="SELECT event..event..." />
+            <marker date="1434136443000" expanded="true" signature="592:850" placeholder="SELECT event..event..." />
+            <marker date="1434136443000" expanded="true" signature="928:1034" placeholder="SELECT poll...poll..." />
+            <marker date="1434136443000" expanded="true" signature="1144:1444" placeholder="SELECT poll_..poll_option..." />
+            <marker date="1434136443000" expanded="true" signature="1714:2065" placeholder="SELECT poll_..poll_option..." />
+            <marker date="1434136443000" expanded="true" signature="2342:2759" placeholder="SELECT COUNT..." />
+            <marker date="1434136443000" expanded="true" signature="2971:3011" placeholder="SELECT user_..user..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.3483145">
-          <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.4207493">
+          <caret line="56" column="73" selection-start-line="56" selection-start-column="73" selection-end-line="56" selection-end-column="73" />
           <folding>
-            <marker date="1434128969000" expanded="true" signature="1724:1953" placeholder="SELECT event..event..." />
-            <marker date="1434128969000" expanded="true" signature="2337:2595" placeholder="SELECT event..event..." />
-            <marker date="1434128969000" expanded="true" signature="2689:2795" placeholder="SELECT poll...poll..." />
-            <marker date="1434128969000" expanded="true" signature="2913:3213" placeholder="SELECT poll_..poll_option..." />
-            <marker date="1434128969000" expanded="true" signature="3491:3842" placeholder="SELECT poll_..poll_option..." />
-            <marker date="1434128969000" expanded="true" signature="4347:4764" placeholder="SELECT COUNT..." />
-            <marker date="1434128969000" expanded="true" signature="5017:5057" placeholder="SELECT user_..user..." />
-            <marker date="1434128969000" expanded="true" signature="5679:5965" placeholder="SELECT user_..user..." />
+            <element signature="e#10#22#0" expanded="true" />
+            <marker date="1434136749000" expanded="true" signature="1942:2396" placeholder="SELECT user_..user..." />
           </folding>
         </state>
       </provider>
