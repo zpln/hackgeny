@@ -33,7 +33,6 @@ def fill_poll_options_in_poll(phone, poll):
     selected_poll_option = db_handler.query_db("""
     SELECT poll_option.poll_option_id FROM poll_option
     INNER JOIN user_poll_option
-    INNER JOIN user
     WHERE poll_option.poll_id = ?
     AND poll_option.poll_option_id = user_poll_option.poll_option_id
     AND user_poll_option.user_id = ?
@@ -44,15 +43,19 @@ def fill_poll_options_in_poll(phone, poll):
         selected_poll_option = selected_poll_option[0]["poll_option_id"]
 
     poll_options = db_handler.query_db("""
-    SELECT poll_option.poll_option_id, poll_option.poll_option_name,
-    COUNT(poll_option.poll_option_id) AS poll_option_count
+    SELECT poll_option.poll_option_id, poll_option.poll_option_name
     FROM poll_option
-    INNER JOIN user_poll_option
     WHERE poll_option.poll_id = ?
-    AND user_poll_option.poll_option_id = poll_option.poll_option_id
-    GROUP BY
-    poll_option.poll_option_id
     """, (poll['poll_id'],))
+
+    for poll_option in poll_options:
+        poll_option_count = db_handler.query_db("""
+        SELECT COUNT(*) AS poll_option_count
+        FROM user_poll_option
+        WHERE user_poll_option.poll_option_id = ?
+        """, (poll_option['poll_option_id'],), True)["poll_option_count"]
+        poll_option["poll_option_count"] = poll_option_count
+
     poll["options"] = poll_options
     poll["selected_poll_option"] = selected_poll_option
 
