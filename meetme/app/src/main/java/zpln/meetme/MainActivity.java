@@ -58,95 +58,6 @@ import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
 
-    private String userId;
-    private HttpClient client;
-    private String serverUrl;
-
-    private class getEventsTask extends AsyncTask<Void, Void, List<Event>> {
-
-        protected List<Event> doInBackground(Void... params) {
-            HttpGet request = null;
-            HttpResponse response = null;
-            JsonReader reader = null;
-            List<Event> events = null;
-
-            try {
-                // request = new HttpGet(serverUrl + "get_events");
-                // request.addHeader("user_id", userId);
-                List<NameValuePair> urlParams = new ArrayList<NameValuePair>();
-                urlParams.add(new BasicNameValuePair("user_id", userId));
-                request = new HttpGet(addParametersToUrl(serverUrl + "get_events", urlParams));
-                response = client.execute(request);
-                reader = new JsonReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-                events = readEvents(reader);
-                reader.close();
-            }
-            catch (Exception e) {
-                String msg = e.getMessage();
-            }
-
-            return events;
-        }
-
-        private List<Event> readEvents(JsonReader reader) throws IOException {
-            List<Event> events = new ArrayList<Event>();
-            reader.beginObject();
-            while (reader.hasNext()) {
-                String name = reader.nextName();
-                if (name.equals("events")) {
-                    reader.beginArray();
-                    while (reader.hasNext()) {
-                        events.add(new Event(reader));
-                    }
-                    reader.endArray();
-                } else {
-                    reader.skipValue();
-                }
-            }
-            reader.endObject();
-            return events;
-        }
-
-        protected void onPostExecute(List<Event> events) {
-            //TODO: tomer, put your code here
-            return;
-        }
-    }
-
-    private class getDetailedEventTask extends AsyncTask<Integer, Void, DetailedEvent> {
-
-        protected DetailedEvent doInBackground(Integer... eventId) {
-            HttpGet request = null;
-            HttpResponse response = null;
-            JsonReader reader = null;
-            DetailedEvent detailedEvent = null;
-
-            try {
-                //request = new HttpGet(serverUrl + "get_event_details");
-                //request.addHeader("user_id", userId);
-                //request.addHeader("event_id", String.valueOf(eventId[0]));
-                List<NameValuePair> urlParams = new ArrayList<NameValuePair>();
-                urlParams.add(new BasicNameValuePair("user_id", userId));
-                urlParams.add(new BasicNameValuePair("event_id", String.valueOf(eventId[0])));
-                request = new HttpGet(addParametersToUrl(serverUrl + "get_event_details", urlParams));
-                response = client.execute(request);
-                reader = new JsonReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-                detailedEvent = new DetailedEvent(reader);
-                reader.close();
-            }
-            catch (Exception e) {
-                String msg = e.getMessage();
-            }
-
-            return detailedEvent;
-        }
-
-        protected void onPostExecute(DetailedEvent detailedEvent) {
-            //TODO: tomer, put your code here
-            return;
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -375,12 +286,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setTamarView() {
-        userId = "0545920004";
-        client = new DefaultHttpClient();
-        serverUrl = new String("http://10.0.0.13:5000/");
+        Utility.userId = "0545920004";
+        Utility.serverUrl = new String("http://10.0.0.13:5000/");
 
-        new getEventsTask().execute();
-        new getDetailedEventTask().execute(1);
+        new GetEventsTask().execute();
+        new GetDetailedEventTask().execute(1);
 
         setContentView(R.layout.activity_main);
     }
