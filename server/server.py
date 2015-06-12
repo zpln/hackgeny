@@ -64,6 +64,13 @@ def answer_polls():
     return logic.answer_polls(data["user_id"], int(data["poll_option_id"]))
 
 
+@app.route('/create_event', methods=['POST'])
+@json()
+def create_event():
+    data = check_required_parameters(("user_id", "event_name", "polls", "users"), True)
+    return logic.create_event(data["user_id"], data["event_name"], data["polls"], data["users"])
+
+
 @app.route('/add_poll_option')
 @json()
 def add_poll_option():
