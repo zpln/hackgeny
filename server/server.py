@@ -21,7 +21,7 @@ def format_success_or_error(message, is_error):
     return flask.jsonify({message_type: message})
 
 
-def check_required_parameters(parameters):
+def check_required_parameters(parameters, post=False):
     """
     Checks that every parameter in parameters exists,
     if so - return a tuple with True, and a dictionary of parameter
@@ -32,7 +32,10 @@ def check_required_parameters(parameters):
     """
     parameter_values = {}
     for parameter in parameters:
-        parameter_value = flask.request.args.get(parameter, None)
+        if (post == False):
+            parameter_value = flask.request.args.get(parameter, None)
+        else:
+            parameter_value = flask.request.form.get(parameter, None)
         if parameter_value is None:
             error_message = "Required parameter {parameter} is not supplied".format(parameter=parameter)
             return False, flask.jsonify({"error": error_message})
@@ -58,7 +61,6 @@ def get_events():
     AND user.phone = ?
     """, (data["user_id"],))
     return flask.jsonify({"events": events})
-
 
 @app.route('/get_event_details')
 def get_event_details():
@@ -152,6 +154,15 @@ def answer_polls():
 
     return flask.jsonify(format_success_or_error("User poll selection was successfully inserted", False))
 
+@app.route('/create_event', methods=['POST'])
+def create_event():
+    """
+    Creaete an event in the database, get
+    event_name - a name chossen by the user for the event
+    polls - the polls that the user created
+    users - a list of user to create the event for them.
+    :return:
+    """
 
 @app.before_request
 def before_request():
