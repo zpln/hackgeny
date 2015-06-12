@@ -151,13 +151,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTamarView();
+//        setTamarView();
 
 //        setContentView(R.layout.event_list);
 //        createPartyListView();
 //
-//        setContentView(R.layout.party_event_view);
-//        createPartyEventView();
+        setContentView(R.layout.party_event_view);
+        createPartyEventView();
     }
 
     private void createPartyListView() {
@@ -225,11 +225,6 @@ public class MainActivity extends ActionBarActivity {
         ListView partyPollListView = (ListView) findViewById(R.id.partyPollListView);
 
 
-        Map<String, Integer> keyCount = new HashMap<>();
-        keyCount.put("Hapak", 2);
-        keyCount.put("Panasi", 3);
-        keyCount.put("Moses", 1);
-        keyCount.put("Shmafia", 5);
         List<PollOption> pollOptions = new LinkedList<>();
         pollOptions.add(new PollOption(1, "Hapak", 2));
         pollOptions.add(new PollOption(1, "Panasi", 3));
