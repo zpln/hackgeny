@@ -35,6 +35,10 @@ def index():
         new_poll["name"] = poll["poll_name"]
         if len(poll["options"]) > 0:
             new_poll["bar_width"] = (100.0 / len(poll["options"])) - 1
+        if len(poll["options"]) >= 5:
+            new_poll["font_size"] = 2.275
+        else:
+            new_poll["font_size"] = 3.375
         num_of_votes = float(sum([option["poll_option_count"] for option in poll["options"]]))
         counter = 0
         for option in poll["options"]:
