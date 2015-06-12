@@ -60,15 +60,15 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+          super.onCreate(savedInstanceState);
 
 //        setTamarView();
 
-//        setContentView(R.layout.event_list);
-//        createPartyListView();
+          setContentView(R.layout.event_list);
+          createPartyListView();
 //
-        setContentView(R.layout.party_event_view);
-        createPartyEventView();
+  //      setContentView(R.layout.party_event_view);
+//        createPartyEventView();
     }
 
     private void createPartyListView() {
@@ -318,13 +318,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void postPollResponse(int poll_option_id) {
+        HttpClient client = new DefaultHttpClient();
         HttpPost post = null;
         HttpResponse response = null;
 
         try {
-            post = new HttpPost(serverUrl);
+            post = new HttpPost(Utility.serverUrl);
             List<NameValuePair> invitationResponseData = new ArrayList<NameValuePair>(2);
-            invitationResponseData.add(new BasicNameValuePair("user_id", userId));
+            invitationResponseData.add(new BasicNameValuePair("user_id", Utility.userId));
             invitationResponseData.add(new BasicNameValuePair("option_id", String.valueOf(poll_option_id)));
             post.setEntity(new UrlEncodedFormEntity(invitationResponseData));
             response = client.execute(post);
@@ -338,13 +339,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void postEvent(DetailedEvent detailedEvent) {
+        HttpClient client = new DefaultHttpClient();
         HttpPost post = null;
         HttpResponse response = null;
 
         try {
-            post = new HttpPost(serverUrl);
+            post = new HttpPost(Utility.serverUrl);
             List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
-            eventData.add(new BasicNameValuePair("user_id", userId));
+            eventData.add(new BasicNameValuePair("user_id",Utility. userId));
             eventData.add(new BasicNameValuePair("event_name", detailedEvent.getEventName()));
             post.setEntity(new UrlEncodedFormEntity(eventData));
             response = client.execute(post);
