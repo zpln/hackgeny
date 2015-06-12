@@ -17,6 +17,16 @@ def query_db(query, args=(), one=False):
     return (rv[0] if rv else None) if one else rv
 
 def insert_db(table_name, args=()):
-    insert_str = "INSERT INTO {table_name} VALUES {args}".format(table_name=table_name, args=",".join(args))
+    args_placeholders = []
+    # Wrap strings with quotes
+    for arg in args:
+        if type(arg) is str:
+            args_placeholders.append("'?'")
+        else:
+            args_placeholders.append("?")
+
+    insert_str = "INSERT INTO {table_name} VALUES ({args})".format(
+        table_name=table_name, args=",".join(args_placeholders)
+    )
     flask.g.db.execute(insert_str, args)
     flask.g.db.commit()

@@ -1,9 +1,9 @@
 # Project
 import db_handler
+import sqlite3
 
 # Python
 import flask
-from flask import request
 
 app = flask.Flask(__name__)
 
@@ -55,12 +55,77 @@ def get_events():
     """, (user_id,))
     return flask.jsonify({"events": events})
 
-@app.route('/Answear_poll')
-def answear_polls():
-    uid = flask.request.args.get("uid")
-    opt_id = flask.request.args.get("opt_id")
-    db_handler.instert_db("user_poll_options", (uid, opt_id))
-    return "inserted data"
+
+@app.route('/get_event_details')
+def get_event_details():
+    required_exists, data = check_required_parameters(("user_id", "event_id"))
+    if not required_exists:
+        # If required items doesn't exist, return the JSON error message
+        return data
+    user_id, event_id = data
+
+    event_details = db_handler.query_db("""
+    SELECT event.event_id, event.event_name, event_user.status
+    FROM event
+    INNER JOIN event_user
+    INNER JOIN user
+    WHERE event.event_id = event_user.event_id
+    AND event.event_id = ?
+    AND event_user.user_id = user.user_id
+    AND user.phone = ?
+    """, (event_id, user_id), True)
+
+    polls = db_handler.query_db("""
+    SELECT poll.poll_id, poll.poll_name, poll.overridden_poll_option
+    FROM poll
+    WHERE poll.event_id = ?
+    """, (event_id,))
+
+    for poll in polls:
+        poll_options = db_handler.query_db("""
+        SELECT poll_option.poll_option_id, poll_option.poll_option_name,
+        COUNT(poll_option.poll_option_id) AS poll_option_count
+        FROM poll_option
+        INNER JOIN user_poll_option
+        WHERE poll_option.poll_id = ?
+        AND user_poll_option.poll_option_id = poll_option.poll_option_id
+        GROUP BY
+        poll_option.poll_option_id
+        """, (poll['poll_id'],))
+        poll["options"] = poll_options
+    event_details["polls"] = polls
+
+    return flask.jsonify(event_details)
+
+
+@app.route('/answer_poll')
+def answer_polls():
+    required_exists, data = check_required_parameters(("user_id", "poll_option_id"))
+    if not required_exists:
+        # If required items doesn't exist, return the JSON error message
+        return data
+    user_id, poll_option_id = data
+
+    count = db_handler.query_db("""
+    SELECT COUNT(*) as count
+    FROM poll_option
+    INNER JOIN user_poll_option
+    WHERE poll_option.poll_id IN (SELECT poll.poll_id
+    FROM poll
+    INNER JOIN poll_option
+    WHERE poll.poll_id = poll_option.poll_id
+    AND poll_option.poll_option_id = ?)
+    AND user_poll_option.poll_option_id = poll_option.poll_option_id
+    AND user_poll_option.user_id = ?
+    """, (poll_option_id, user_id), True)["count"]
+
+    # TODO: Support changing your mind
+    if count > 0:
+        return format_error("Do not vote twice for the same poll")
+
+    db_handler.insert_db("user_poll_option", (user_id, poll_option_id))
+
+    return flask.jsonify({"success": "User poll selection was successfully inserted"})
 
 
 
