@@ -16,10 +16,8 @@ def query_db(query, args=(), one=False):
                for idx, value in enumerate(row)) for row in cur.fetchall()]
     return (rv[0] if rv else None) if one else rv
 
-def instert_db( table_name, args=(), one=False):
-    inst_str = "INSERT INTO " + table_name + " VALUES "
-    inst_str = inst_str + "(" + "?,"*(len(args) -1) + "?)"
-    flask.g.db.execute(inst_str, args)
+def insert_db(table_name, args=()):
+    insert_str = "INSERT INTO {table_name} VALUES ".format(table_name=table_name)
+    insert_str += "(" + ",".join(args) + ")"
+    flask.g.db.execute(insert_str, args)
     flask.g.db.commit()
-
-
