@@ -1,5 +1,6 @@
 import sys
 import os
+
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 import flask
@@ -7,6 +8,7 @@ import json
 
 from server import server
 from server import db_handler
+from server.logic import APIException
 
 FILE_DIR = os.path.dirname(__file__)
 EVENTS_DETAILS = os.path.join(FILE_DIR, "event-details.html")
@@ -16,11 +18,17 @@ BARS_COLORS = ["teal", "salmon", "peach", "lime"]
 app = flask.Flask("mobile meetme")
 
 @app.route('/')
-def index():
+@app.route('/<event_id>')
+def index(event_id=None):
+    if not event_id:
+        return "Please specify an event id"
     conn = db_handler.connect_db()
     db_handler.get_db_connection = lambda: conn
     #server.before_request()
-    event_details = server.logic.get_event_details("0545920004", 1)
+    try:
+        event_details = server.logic.get_event_details("0545920004", int(event_id))
+    except APIException, e:
+        return str(e)
     print event_details
 
     params = dict()
