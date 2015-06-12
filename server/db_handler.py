@@ -45,10 +45,8 @@ def insert_db(table_name, values):
         table_name=table_name, args=",".join(value_placeholders),
         col_names=temp_col_name
     )
-    print insert_str
     cur = flask.g.db.cursor()
     cur.execute(insert_str, values.values())
     flask.g.db.commit()
     # Return the ID of the entry inserted
-    print " I am here"
     return cur.lastrowid

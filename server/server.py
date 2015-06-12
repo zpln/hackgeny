@@ -3,6 +3,7 @@ import db_handler
 
 # Python
 import flask
+import json
 
 app = flask.Flask(__name__)
 
@@ -165,6 +166,20 @@ def create_event():
     users - a list of user to create the event for them.
     :return:
     """
+    req, data = check_required_parameters(("uid", "event_name", "polls", "users"), True)
+    if not req:
+        return data
+    event_id = db_handler.insert_db("event", {"event_name": data["event_name"], "creator_id": data["uid"]})
+    for poll in json.loads(data["polls"]):
+        poll_id = db_handler.insert_db("poll", {"poll_name": poll["pollname"], "event_id": event_id})
+        for x in poll["optsion"]:
+            db_handler.insert_db("poll_option", {"poll_option_name": x, "poll_id": poll_id})
+    for user in json.loads(data["users"]):
+        real_user = db_handler.query_db("""SELECT user_id FROM user WHERE user.phone = ? """, (str(user),), True)
+        if real_user is None:
+            return  "Error, dont have such user"
+        db_handler.insert_db("event_user", {"event_id": event_id, "user_id": real_user["user_id"], "status": 0})
+    return str(event_id)
 
 
 @app.before_request
@@ -180,4 +195,4 @@ def after_request(response):
 
 if __name__ == '__main__':
     # TODO: Remove debug on production
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True)
