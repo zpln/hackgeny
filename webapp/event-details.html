@@ -16,6 +16,7 @@
 	<meta charset="utf-8" />
 	<title>Meetme Event</title>
 </head>
+
 <!--
 <body onload="popup_download()">
 -->
@@ -25,54 +26,30 @@
 	<section class="card">
 		<h1>Event Details:</h1>
 	 	<h2>
-	 	<strong>Location:</strong> ~~location~~<br/>
-	 	<strong>Time:</strong> ~~time~~
+	 	<strong>Location:</strong> {{ location }}<br/>
+	 	<strong>Time:</strong> {{ time }}
 	 	</h2>
   	</section>
 
-  	<section class="card">
-		<strong><h1>Poll</h1></strong>
-	 	<h2>Location:</h2>
+  	{% for poll in polls %}
 
-	 	<ul class="chart">
-        <li onclick="popup_vote()" class="bar teal" style="height: 200px;" title="95">
-		<div class="percent">3 friends</div>
-		<div class="skill">Hapak</div></li>
-		    <li onclick="popup_vote()" class="bar salmon" style="height: 133px;" title="90">
-		<div class="percent">2 friends</div>
-		<div class="skill">Panasi</div></li>
-		    <li onclick="popup_vote()" class="bar peach" style="height: 67px;" title="80">
-		<div class="percent">1 friends</div>
-		<div class="skill">Shmafia</div></li>
-		    <li onclick="popup_vote()" class="bar lime" style="height: 0%;" title="75">
-		<div class="percent">0 friends</div>
-		<div class="skill">Moses</div></li>
-		    
-		</ul>
+  		<section class="card">
+			<strong><h1>Poll</h1></strong>
+		 	<h2>{{ poll.name|e }}:</h2>
+
+		 	<ul class="chart">
+
+		 	{% for option in poll.options %}
+		 	<li style="width: {{ poll.bar_width }}%; height: {{ option.height|e }}px;" onclick="popup_vote()" class="bar {{ option.color|e }}">
+			<div class="percent">{{ option.numofvotes|e }} friends</div>
+			<div class="skill">{{ option.value|e }}</div></li>
+		 	{% endfor %}
+			    
+			</ul>
 		
-  	</section>
+  		</section>
 
-  	<section class="card">
-		<strong><h1>Poll</h1></strong>
-	 	<h2>Time:</h2>
-
-	 	<ul class="chart">
-        <li onclick="popup_vote()" class="bar teal" style="height: 67px;" title="95">
-		<div class="percent">1 friends</div>
-		<div class="skill">19:00</div></li>
-		    <li onclick="popup_vote()" class="bar salmon" style="height: 0%;" title="90">
-		<div class="percent">0 friends</div>
-		<div class="skill">19:40</div></li>
-		    <li onclick="popup_vote()" class="bar peach" style="height: 133px;" title="80">
-		<div class="percent">2 friends</div>
-		<div class="skill">20:30</div></li>
-		    <li onclick="popup_vote()" class="bar lime" style="height: 200px;" title="75">
-		<div class="percent">3 friends</div>
-		<div class="skill">22:00</div></li>
-		    
-		</ul>
-		
-  	</section>
+	{% endfor %}
 
 </body>
 </html>
