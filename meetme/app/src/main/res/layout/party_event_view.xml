@@ -4,35 +4,68 @@
     android:layout_height="match_parent"
     android:id="@+id/partyEventView">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="150px"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Event name"
-        android:id="@+id/textView" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="150px">
-
-        <TextView
-            android:layout_width="0px"
-            android:layout_height="fill_parent"
-            android:text="Event location"
-            android:id="@+id/textView2"
-            android:layout_weight="1" />
-
-        <TextView
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:text="Event date"
-            android:id="@+id/textView3"
-            android:layout_weight="1"/>
-    </LinearLayout>
-
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView" />
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Event name"
+                android:id="@+id/textView" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="150px">
+
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="fill_parent"
+                    android:text="Event location"
+                    android:id="@+id/textView2"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="0px"
+                    android:layout_height="wrap_content"
+                    android:text="Event date"
+                    android:id="@+id/textView3"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <ListView
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="500px"
+                android:id="@+id/partyPollListView"></ListView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Marker"
+                android:id="@+id/textView22" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Marker 2"
+                android:id="@+id/textView222" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Marker 3"
+                android:id="@+id/textView221" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>
