@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="/static/js/jquery.js"></script>
+<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/js/run_prettify.js"></script>
+<link href="/static/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/bootstrap-dialog.min.js"></script>
+<link href="/static/css/event-details.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=0.7, maximum-scale=0.7, user-scalable=0">
+<meta charset="utf-8" />
+<title>BootstrapDialog examples</title>
+<style>
+    .login-dialog .modal-dialog {
+        width: 300px;
+    }
+</style>
+</head>
+<body style="padding-bottom: 100px;">
+asdf
+<script type="text/javascript">
+	var dialogInstance1 = new BootstrapDialog({
+        title: 'Welcome to meetme :)',
+        message: 'We hope you enjoy your friend\'s event.\nWant to see all your friends\' events, or create your own events and invite your friends?\nDownload meetme today from meetme.com',
+        type: BootstrapDialog.TYPE_DEFAULT,
+        closable: true,
+        buttons: [{
+                label: 'Download meetme',
+                cssClass: 'btn-primary',
+                action: function(){
+                    alert('Hi Orange!');
+                }
+            }, {
+                label: 'No thanks, continue >>',
+                action: function(dialogItself){
+                    dialogItself.close();
+                }
+            }]
+    });
+    dialogInstance1.open();
+</script>
+</body>
+</html>
