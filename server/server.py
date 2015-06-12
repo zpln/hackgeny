@@ -16,7 +16,7 @@ def format_error(error_message):
     return flask.jsonify({"error": error_message})
 
 
-def check_required_parameters(parameters):
+def check_required_parameters(parameters, post=False):
     """
     Checks that every parameter in parameters exists,
     if so - return a tuple with True, and a list of parameter values
@@ -27,7 +27,10 @@ def check_required_parameters(parameters):
     """
     parameter_values = []
     for parameter in parameters:
-        parameter_value = flask.request.args.get(parameter, None)
+        if (post == False):
+            parameter_value = flask.request.args.get(parameter, None)
+        else:
+            parameter_value = flask.request.form.get(parameter, None)
         if parameter_value is None:
             error_message = "Required parameter {parameter} is not supplied".format(parameter=parameter)
             return False, flask.jsonify({"error": error_message})
@@ -60,7 +63,19 @@ def answear_polls():
     uid = flask.request.args.get("uid")
     opt_id = flask.request.args.get("opt_id")
     db_handler.instert_db("user_poll_options", (uid, opt_id))
-    return "inserted data"
+    return
+
+@app.route('/create_event', methods=['POST'])
+def create_event():
+    """
+    Creaete an event in the database, get
+    event_name - a name chossen by the user for the event
+    polls - the polls that the user created
+    users - a list of user to create the event for them.
+    :return:
+    """
+
+
 
 
 
