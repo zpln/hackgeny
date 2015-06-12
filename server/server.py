@@ -1,6 +1,5 @@
 # Project
 import db_handler
-import sqlite3
 
 # Python
 import flask
@@ -82,6 +81,20 @@ def get_event_details():
     """, (event_id,))
 
     for poll in polls:
+        selected_poll_option = db_handler.query_db("""
+        SELECT poll_option.poll_option_id FROM poll_option
+        INNER JOIN user_poll_option
+        INNER JOIN user
+        WHERE poll_option.poll_id = ?
+        AND poll_option.poll_option_id = user_poll_option.poll_option_id
+        AND user_poll_option.user_id = user.user_id
+        AND user.phone = ?
+        """, (poll['poll_id'], user_id))
+        if len(selected_poll_option) == 0:
+            selected_poll_option = -1
+        else:
+            selected_poll_option = selected_poll_option[0]["poll_option_id"]
+
         poll_options = db_handler.query_db("""
         SELECT poll_option.poll_option_id, poll_option.poll_option_name,
         COUNT(poll_option.poll_option_id) AS poll_option_count
@@ -93,6 +106,7 @@ def get_event_details():
         poll_option.poll_option_id
         """, (poll['poll_id'],))
         poll["options"] = poll_options
+        poll["selected_poll_option"] = selected_poll_option
     event_details["polls"] = polls
 
     return flask.jsonify(event_details)
@@ -110,20 +124,30 @@ def answer_polls():
     SELECT COUNT(*) as count
     FROM poll_option
     INNER JOIN user_poll_option
+    INNER JOIN user
     WHERE poll_option.poll_id IN (SELECT poll.poll_id
     FROM poll
     INNER JOIN poll_option
     WHERE poll.poll_id = poll_option.poll_id
     AND poll_option.poll_option_id = ?)
     AND user_poll_option.poll_option_id = poll_option.poll_option_id
-    AND user_poll_option.user_id = ?
+    AND user_poll_option.user_id = user.user_id
+    AND user.phone = ?
     """, (poll_option_id, user_id), True)["count"]
 
     # TODO: Support changing your mind
     if count > 0:
         return format_error("Do not vote twice for the same poll")
 
-    db_handler.insert_db("user_poll_option", (user_id, poll_option_id))
+    real_user_id = db_handler.query_db("""
+    SELECT user_id FROM user WHERE phone = ?
+    """, (user_id,))
+    if len(real_user_id) != 1:
+        return format_error("User does not exist")
+
+    real_user_id = real_user_id[0]["user_id"]
+
+    db_handler.insert_db("user_poll_option", (real_user_id, poll_option_id))
 
     return flask.jsonify({"success": "User poll selection was successfully inserted"})
 
