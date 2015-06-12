@@ -17,8 +17,11 @@ BARS_COLORS = ["teal", "salmon", "peach", "lime"]
 
 app = flask.Flask("mobile meetme")
 
+@app.route('/')
 @app.route('/<event_id>')
-def index(event_id):
+def index(event_id=None):
+    if not event_id:
+        return "Please specify an event id"
     conn = db_handler.connect_db()
     db_handler.get_db_connection = lambda: conn
     #server.before_request()
