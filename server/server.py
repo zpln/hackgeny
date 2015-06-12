@@ -1,35 +1,34 @@
 # Project
+import logic
 import db_handler
 
 # Python
 import flask
-import json
+import functools
+
 
 app = flask.Flask(__name__)
 
 
-def format_success_or_error(message, is_error):
+def json():
     """
-    Return JSON with supplied error or success message
-    :param message: The string to return in JSON
-    :param is_error: If True: error will be returned. If not - success
-    :return: JSON with error message inside it
+    Wraps functions and return their JSON serialized output
     """
-    if is_error:
-        message_type = "error"
-    else:
-        message_type = "success"
-    return flask.jsonify({message_type: message})
+    def decorated(func):
+        @functools.wraps(func)
+        def json_and_call(*args, **kwargs):
+            return flask.jsonify(func(*args, **kwargs))
+        return json_and_call
+    return decorated
 
 
 def check_required_parameters(parameters, post=False):
     """
     Checks that every parameter in parameters exists,
-    if so - return a tuple with True, and a dictionary of parameter
-    if not - return a tuple with False, and JSON with matching error
+    if so - return a dictionary of the parameters
+    if not - raise exception with the fitting message to the user
     :param parameters: List of parameters that will be checked
-    :return: Tuple:
-    (action_success, parameters/json_error)
+    :return: Parameters dictionary
     """
     parameter_values = {}
     for parameter in parameters:
@@ -39,147 +38,38 @@ def check_required_parameters(parameters, post=False):
             parameter_value = flask.request.form.get(parameter, None)
         if parameter_value is None:
             error_message = "Required parameter {parameter} is not supplied".format(parameter=parameter)
-            return False, flask.jsonify({"error": error_message})
+            raise logic.APIException(error_message)
         else:
             parameter_values[parameter] = parameter_value
-    return True, parameter_values
+    return parameter_values
 
 
 @app.route('/get_events')
+@json()
 def get_events():
-    required_exists, data = check_required_parameters(("user_id",))
-    if not required_exists:
-        # If required items doesn't exist, return the JSON error message
-        return data
+    data = check_required_parameters(("user_id",))
+    return {"events": logic.get_events(data["user_id"])}
 
-    events = db_handler.query_db("""
-    SELECT event.event_id, event.event_name, event_user.status
-    FROM event
-    INNER JOIN event_user
-    INNER JOIN user
-    WHERE event.event_id=event_user.event_id
-    AND event_user.user_id = user.user_id
-    AND user.phone = ?
-    """, (data["user_id"],))
-    return flask.jsonify({"events": events})
+@app.route('/create_event', methods=['POST'])
+@json()
+def create_event():
+    data = check_required_parameters(("uid", "event_name", "polls", "users"), True)
+    return logic.create_event(data["uid"], data["event_name"], data["polls"], data["users"])
 
 
 @app.route('/get_event_details')
+@json()
 def get_event_details():
-    required_exists, data = check_required_parameters(("user_id", "event_id"))
-    if not required_exists:
-        # If required items doesn't exist, return the JSON error message
-        return data
-
-    event_details = db_handler.query_db("""
-    SELECT event.event_id, event.event_name, event_user.status
-    FROM event
-    INNER JOIN event_user
-    INNER JOIN user
-    WHERE event.event_id = event_user.event_id
-    AND event.event_id = ?
-    AND event_user.user_id = user.user_id
-    AND user.phone = ?
-    """, (data["event_id"], data["user_id"]), True)
-
-    polls = db_handler.query_db("""
-    SELECT poll.poll_id, poll.poll_name, poll.overridden_poll_option
-    FROM poll
-    WHERE poll.event_id = ?
-    """, (data["event_id"],))
-
-    for poll in polls:
-        selected_poll_option = db_handler.query_db("""
-        SELECT poll_option.poll_option_id FROM poll_option
-        INNER JOIN user_poll_option
-        INNER JOIN user
-        WHERE poll_option.poll_id = ?
-        AND poll_option.poll_option_id = user_poll_option.poll_option_id
-        AND user_poll_option.user_id = user.user_id
-        AND user.phone = ?
-        """, (poll['poll_id'], data["user_id"]))
-        if len(selected_poll_option) == 0:
-            selected_poll_option = -1
-        else:
-            selected_poll_option = selected_poll_option[0]["poll_option_id"]
-
-        poll_options = db_handler.query_db("""
-        SELECT poll_option.poll_option_id, poll_option.poll_option_name,
-        COUNT(poll_option.poll_option_id) AS poll_option_count
-        FROM poll_option
-        INNER JOIN user_poll_option
-        WHERE poll_option.poll_id = ?
-        AND user_poll_option.poll_option_id = poll_option.poll_option_id
-        GROUP BY
-        poll_option.poll_option_id
-        """, (poll['poll_id'],))
-        poll["options"] = poll_options
-        poll["selected_poll_option"] = selected_poll_option
-    event_details["polls"] = polls
-
-    return flask.jsonify(event_details)
+    data = check_required_parameters(("user_id", "event_id"))
+    return logic.get_event_details(int(data["event_id"]), data["user_id"])
 
 
 @app.route('/answer_poll')
+@json()
 def answer_polls():
-    required_exists, data = check_required_parameters(("user_id", "poll_option_id"))
-    if not required_exists:
-        # If required items doesn't exist, return the JSON error message
-        return data
+    data = check_required_parameters(("user_id", "poll_option_id"))
+    return logic.answer_polls(data["user_id"], int(data["poll_option_id"]))
 
-    count = db_handler.query_db("""
-    SELECT COUNT(*) as count
-    FROM poll_option
-    INNER JOIN user_poll_option
-    INNER JOIN user
-    WHERE poll_option.poll_id IN (SELECT poll.poll_id
-    FROM poll
-    INNER JOIN poll_option
-    WHERE poll.poll_id = poll_option.poll_id
-    AND poll_option.poll_option_id = ?)
-    AND user_poll_option.poll_option_id = poll_option.poll_option_id
-    AND user_poll_option.user_id = user.user_id
-    AND user.phone = ?
-    """, (data["poll_option_id"], data["user_id"]), True)["count"]
-
-    # TODO: Support changing your mind
-    if count > 0:
-        return format_success_or_error("Do not vote twice for the same poll", True)
-
-    user_id = db_handler.query_db("""
-    SELECT user_id FROM user WHERE phone = ?
-    """, (data["user_id"],), True)
-    if user_id is None:
-        return format_success_or_error("User does not exist", True)
-
-    db_handler.insert_db("user_poll_option", (user_id["user_id"], data["poll_option_id"]))
-
-    return flask.jsonify(format_success_or_error("User poll selection was successfully inserted", False))
-
-
-@app.route('/create_event', methods=['POST'])
-def create_event():
-    """
-    Create an event in the database, get
-    event_name - a name chosen by the user for the event
-    polls - the polls that the user created
-    users - a list of user to create the event for them.
-    :return:
-    """
-    req, data = check_required_parameters(("uid", "event_name", "polls", "users"), True)
-    if not req:
-        return data
-    event_id = db_handler.insert_db("event", {"event_name": data["event_name"], "creator_id": data["uid"]})
-    for poll in json.loads(data["polls"]):
-        poll_id = db_handler.insert_db("poll", {"poll_name": poll["pollname"], "event_id": event_id})
-        for x in poll["optsion"]:
-            db_handler.insert_db("poll_option", {"poll_option_name": x, "poll_id": poll_id})
-    for user in json.loads(data["users"]):
-        real_user = db_handler.query_db("""SELECT user_id FROM user WHERE user.phone = ? """, (str(user),), True)
-        if real_user is None:
-            return  "Error, dont have such user"
-        db_handler.insert_db("event_user", {"event_id": event_id, "user_id": real_user["user_id"], "status": 0})
-    return str(event_id)
 
 
 @app.before_request
@@ -192,6 +82,12 @@ def after_request(response):
     flask.g.db.close()
     return response
 
+
+@app.errorhandler(logic.APIException)
+def handle_api_exception(error):
+    response = error.to_json()
+    response.status_code = error.status_code
+    return response
 
 if __name__ == '__main__':
     # TODO: Remove debug on production
