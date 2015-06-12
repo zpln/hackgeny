@@ -7,13 +7,41 @@ import flask
 app = flask.Flask(__name__)
 
 def format_error(error_message):
+    """
+    Return JSON with supplied error message
+    :param error_message: The string to return in JSON
+    :return: JSON with error message inside it
+    """
     return flask.jsonify({"error": error_message})
+
+
+def check_required_parameters(parameters):
+    """
+    Checks that every parameter in parameters exists,
+    if so - return a tuple with True, and a list of parameter values
+    if not - return a tuple with False, and JSON with matching error
+    :param parameters: List of parameters that will be checked
+    :return: Tuple:
+    (action_success, parameter_values/json_error)
+    """
+    parameter_values = []
+    for parameter in parameters:
+        parameter_value = flask.request.args.get(parameter, None)
+        if parameter_value is None:
+            error_message = "Required parameter {parameter} is not supplied".format(parameter=parameter)
+            return False, flask.jsonify({"error": error_message})
+        else:
+            parameter_values.append(parameter_value)
+    return True, parameter_values
+
 
 @app.route('/get_events')
 def get_events():
-    user_id = flask.request.args.get("user_id", None)
-    if user_id is None:
-        return format_error("user_id not supplied")
+    required_exists, data = check_required_parameters(("user_id", ))
+    if not required_exists:
+        # If required items doesn't exist, return the JSON error message
+        return data
+    user_id, = data
 
     events = db_handler.query_db("""
     SELECT event.event_id, event.event_name, event_user.status
@@ -25,6 +53,8 @@ def get_events():
     AND user.phone = ?
     """, (user_id,))
     return flask.jsonify({"events": events})
+
+
 
 @app.before_request
 def before_request():
