@@ -1,5 +1,9 @@
 package zpln.meetme;
 
+import android.os.AsyncTask;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.util.JsonReader;
 import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -22,95 +26,124 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
-    class Event {
-        String name;
-        String location;
-        Date date;
-        String[] participants;
+    private String userId;
+    private HttpClient client;
+    private String serverUrl;
 
-        public Event(String name, String location, Date date, String[] participants) {
-            this.name = name;
-            this.location = location;
-            this.date = date;
-            this.participants = participants;
+    private class getEventsTask extends AsyncTask<Void, Void, List<Event>> {
+
+        protected List<Event> doInBackground(Void... params) {
+            HttpGet request = null;
+            HttpResponse response = null;
+            JsonReader reader = null;
+            List<Event> events = null;
+
+            try {
+                // request = new HttpGet(serverUrl + "get_events");
+                // request.addHeader("user_id", userId);
+                List<NameValuePair> urlParams = new ArrayList<NameValuePair>();
+                urlParams.add(new BasicNameValuePair("user_id", userId));
+                request = new HttpGet(addParametersToUrl(serverUrl + "get_events", urlParams));
+                response = client.execute(request);
+                reader = new JsonReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+                events = readEvents(reader);
+                reader.close();
+            }
+            catch (Exception e) {
+                String msg = e.getMessage();
+            }
+
+            return events;
         }
 
-        @Override
-        public String toString() {
-            return "Event{" +
-                    "name='" + name + '\'' +
-                    ", location='" + location + '\'' +
-                    ", date=" + date +
-                    ", participants=" + Arrays.toString(participants) +
-                    '}';
+        private List<Event> readEvents(JsonReader reader) throws IOException {
+            List<Event> events = new ArrayList<Event>();
+            reader.beginObject();
+            while (reader.hasNext()) {
+                String name = reader.nextName();
+                if (name.equals("events")) {
+                    reader.beginArray();
+                    while (reader.hasNext()) {
+                        events.add(new Event(reader));
+                    }
+                    reader.endArray();
+                } else {
+                    reader.skipValue();
+                }
+            }
+            reader.endObject();
+            return events;
+        }
+
+        protected void onPostExecute(List<Event> events) {
+            //TODO: tomer, put your code here
+            return;
+        }
+    }
+
+    private class getDetailedEventTask extends AsyncTask<Integer, Void, DetailedEvent> {
+
+        protected DetailedEvent doInBackground(Integer... eventId) {
+            HttpGet request = null;
+            HttpResponse response = null;
+            JsonReader reader = null;
+            DetailedEvent detailedEvent = null;
+
+            try {
+                //request = new HttpGet(serverUrl + "get_event_details");
+                //request.addHeader("user_id", userId);
+                //request.addHeader("event_id", String.valueOf(eventId[0]));
+                List<NameValuePair> urlParams = new ArrayList<NameValuePair>();
+                urlParams.add(new BasicNameValuePair("user_id", userId));
+                urlParams.add(new BasicNameValuePair("event_id", String.valueOf(eventId[0])));
+                request = new HttpGet(addParametersToUrl(serverUrl + "get_event_details", urlParams));
+                response = client.execute(request);
+                reader = new JsonReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+                detailedEvent = new DetailedEvent(reader);
+                reader.close();
+            }
+            catch (Exception e) {
+                String msg = e.getMessage();
+            }
+
+            return detailedEvent;
+        }
+
+        protected void onPostExecute(DetailedEvent detailedEvent) {
+            //TODO: tomer, put your code here
+            return;
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.event_list);
-        ListView listview = (ListView) findViewById(R.id.listView);
 
-        Event event1 = new Event("Party", "Hapak", new Date(2015, 1, 2), new String[]{"Stav", "Tamar"});
-        Event event2 = new Event("Party2", "Panasi", new Date(2015, 10, 2), new String[]{"Shoham", "Guy"});
-        final Event[] events = new Event[]{event1, event2};
+        userId = "0545920004";
+        client = new DefaultHttpClient();
+        serverUrl = new String("http://10.0.0.13:5000/");
 
+        new getEventsTask().execute();
+        new getDetailedEventTask().execute(1);
 
-        final MainActivity that = this;
-        listview.setAdapter(new BaseAdapter() {
-                                @Override
-                                public int getCount() {
-                                    return events.length;
-                                }
-
-                                @Override
-                                public Object getItem(int position) {
-                                    return null;
-                                }
-
-                                @Override
-                                public long getItemId(int position) {
-                                    return 0;
-                                }
-
-                                @Override
-                                public View getView(int position, View convertView, ViewGroup parent) {
-                                    LinearLayout layout = (LinearLayout) LayoutInflater.from(that).inflate(R.layout.mylist, null);
-                                    LinearLayout dataLayout = (LinearLayout) layout.getChildAt(1);
-                                    LinearLayout upperDataLayout = (LinearLayout) dataLayout.getChildAt(0);
-                                    LinearLayout lowerDataLayout = (LinearLayout) dataLayout.getChildAt(1);
-                                    for (int i = 0; i < upperDataLayout.getChildCount(); i++) {
-                                        View childAt = upperDataLayout.getChildAt(i);
-                                        if (childAt instanceof TextView) {
-                                            TextView textView = (TextView) childAt;
-                                            textView.setText(String.format("%d", i));
-                                        }
-                                    }
-                                    for (int i = 0; i < lowerDataLayout.getChildCount(); i++) {
-                                        View childAt = lowerDataLayout.getChildAt(i);
-                                        if (childAt instanceof TextView) {
-                                            TextView textView = (TextView) childAt;
-                                            textView.setText(String.format("_%d", i));
-                                        }
-                                    }
-
-                                    TextView event_name = (TextView) upperDataLayout.getChildAt(0);
-                                    event_name.setText(events[position].name);
-                                    TextView location = (TextView) upperDataLayout.getChildAt(1);
-                                    location.setText("at " + events[position].location);
-                                    TextView date = (TextView) lowerDataLayout.getChildAt(0);
-                                    date.setText(new SimpleDateFormat("dd-MM-yy hh:mm").format(events[position].date));
-                                    TextView participants = (TextView) lowerDataLayout.getChildAt(1);
-                                    participants.setText(Arrays.toString(events[position].participants));
-                                    return layout;
-                                }
-                            }
-
-        );
+        setContentView(R.layout.activity_main);
     }
 
     @Override
@@ -133,5 +166,56 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void postPollResponse(int poll_option_id) {
+        HttpPost post = null;
+        HttpResponse response = null;
+
+        try {
+            post = new HttpPost(serverUrl);
+            List<NameValuePair> invitationResponseData = new ArrayList<NameValuePair>(2);
+            invitationResponseData.add(new BasicNameValuePair("user_id", userId));
+            invitationResponseData.add(new BasicNameValuePair("option_id", String.valueOf(poll_option_id)));
+            post.setEntity(new UrlEncodedFormEntity(invitationResponseData));
+            response = client.execute(post);
+
+        } catch (IOException e) {
+            System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+        }
+        finally {
+
+        }
+    }
+
+    public void postEvent(DetailedEvent detailedEvent) {
+        HttpPost post = null;
+        HttpResponse response = null;
+
+        try {
+            post = new HttpPost(serverUrl);
+            List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
+            eventData.add(new BasicNameValuePair("user_id", userId));
+            eventData.add(new BasicNameValuePair("event_name", detailedEvent.getEventName()));
+            post.setEntity(new UrlEncodedFormEntity(eventData));
+            response = client.execute(post);
+
+        } catch (IOException e) {
+            System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+        }
+        finally {
+
+        }
+    }
+
+    private String addParametersToUrl(String url, List<NameValuePair> params){
+        if(!url.endsWith("?")) {
+            url += "?";
+        }
+
+        String paramString = URLEncodedUtils.format(params, "utf-8");
+
+        url += paramString;
+        return url;
     }
 }
