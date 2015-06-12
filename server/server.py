@@ -61,9 +61,7 @@ def get_event_details():
 @json()
 def answer_polls():
     data = check_required_parameters(("user_id", "poll_option_id"))
-    logic.answer_polls(data["user_id"], int(data["poll_option_id"]))
-    # TODO: Return the updated poll
-    return {"success": "User poll selection was successfully inserted"}
+    return logic.answer_polls(data["user_id"], int(data["poll_option_id"]))
 
 
 @app.before_request
