@@ -54,7 +54,7 @@ def get_events():
 @json()
 def get_event_details():
     data = check_required_parameters(("user_id", "event_id"))
-    return logic.get_event_details(int(data["event_id"]), data["user_id"])
+    return logic.get_event_details(data["user_id"], int(data["event_id"]))
 
 
 @app.route('/answer_poll')
@@ -62,6 +62,13 @@ def get_event_details():
 def answer_polls():
     data = check_required_parameters(("user_id", "poll_option_id"))
     return logic.answer_polls(data["user_id"], int(data["poll_option_id"]))
+
+
+@app.route('/add_poll_option')
+@json()
+def add_poll_option():
+    data = check_required_parameters(("user_id", "poll_id", "poll_option_name"))
+    return logic.add_poll_option(data["user_id"], int(data["poll_id"]), data["poll_option_name"])
 
 
 @app.before_request
