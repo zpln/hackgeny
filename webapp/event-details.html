@@ -41,8 +41,11 @@
 
 		 	{% for option in poll.options %}
 		 	<li style="width: {{ poll.bar_width }}%; height: {{ option.height|e }}px;" onclick="popup_vote()" class="bar {{ option.color|e }}">
-			<div class="percent" style="font-size: {{ poll.font_size }}rem;">{{ option.numofvotes|e }} friends</div>
-			<div class="skill">{{ option.value|e }}</div></li>
+		 	<div class="tint block">
+		 	<div class="percent" style="font-size: {{ poll.font_size }}rem;">{{ option.numofvotes|e }} friends</div>
+			<div class="skill">{{ option.value|e }}</div>
+			</div>
+			</li>
 		 	{% endfor %}
 			    
 			</ul>
