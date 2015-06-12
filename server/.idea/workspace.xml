@@ -32,6 +32,7 @@
               <caret line="91" column="31" selection-start-line="91" selection-start-column="31" selection-end-line="91" selection-end-column="31" />
               <folding>
                 <element signature="e#10#22#0" expanded="true" />
+                <marker date="1434143966000" expanded="true" signature="1503:1640" placeholder="..." />
                 <marker date="1434143966000" expanded="true" signature="2343:2797" placeholder="SELECT user_..user..." />
               </folding>
             </state>
@@ -41,8 +42,8 @@
       <file leaf-file-name="logic.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/logic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.30174562">
-              <caret line="138" column="12" selection-start-line="138" selection-start-column="12" selection-end-line="138" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.8628429">
+              <caret line="153" column="45" selection-start-line="153" selection-start-column="45" selection-end-line="153" selection-end-column="45" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
                 <marker date="1434145415000" expanded="true" signature="243:283" placeholder="SELECT user_..user..." />
@@ -516,6 +517,7 @@
           <caret line="91" column="31" selection-start-line="91" selection-start-column="31" selection-end-line="91" selection-end-column="31" />
           <folding>
             <element signature="e#10#22#0" expanded="true" />
+            <marker date="1434143966000" expanded="true" signature="1503:1640" placeholder="..." />
             <marker date="1434143966000" expanded="true" signature="2343:2797" placeholder="SELECT user_..user..." />
           </folding>
         </state>
@@ -523,8 +525,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/logic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30174562">
-          <caret line="138" column="12" selection-start-line="138" selection-start-column="12" selection-end-line="138" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.8628429">
+          <caret line="153" column="45" selection-start-line="153" selection-start-column="45" selection-end-line="153" selection-end-column="45" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
             <marker date="1434145415000" expanded="true" signature="243:283" placeholder="SELECT user_..user..." />
