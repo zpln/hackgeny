@@ -62,28 +62,30 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
 
-//        setTamarView();
+          Utility.userId = "0545920004";
+          Utility.serverUrl = new String("http://10.0.0.13:5000/");
 
-          setContentView(R.layout.event_list);
-          createPartyListView();
+          new GetEventsTask().execute();
+          // new GetDetailedEventTask().execute(1);
+
+//          setContentView(R.layout.activity_main);
+
+          //setContentView(R.layout.event_list);
+          //createPartyListView();
 //
   //      setContentView(R.layout.party_event_view);
 //        createPartyEventView();
     }
 
-    private void createPartyListView() {
+    private void createPartyListView(final List<Event> events) {
         ListView listview = (ListView) findViewById(R.id.listView);
-
-        Event event1 = new Event(1, "sdf", new Status(0), 4);
-        Event event2 = new Event(2, "sdf", new Status(1), 5);
-        final Event[] events = new Event[]{event1, event2};
 
 
         final MainActivity that = this;
         listview.setAdapter(new BaseAdapter() {
                                 @Override
                                 public int getCount() {
-                                    return events.length;
+                                    return events.size();
                                 }
 
                                 @Override
@@ -285,16 +287,6 @@ public class MainActivity extends ActionBarActivity {
         );
     }
 
-    private void setTamarView() {
-        Utility.userId = "0545920004";
-        Utility.serverUrl = new String("http://10.0.0.13:5000/");
-
-        new GetEventsTask().execute();
-        new GetDetailedEventTask().execute(1);
-
-        setContentView(R.layout.activity_main);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -359,14 +351,58 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private String addParametersToUrl(String url, List<NameValuePair> params){
-        if(!url.endsWith("?")) {
-            url += "?";
+
+    private class GetEventsTask extends AsyncTask<Void, Void, List<Event>> {
+
+        public List<Event> doInBackground(Void... params) {
+
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request;
+            HttpResponse response;
+            JsonReader reader;
+            List<Event> events1 = null;
+
+            try {
+                // request = new HttpGet(serverUrl + "get_events");
+                // request.addHeader("user_id", userId);
+                List<NameValuePair> urlParams = new ArrayList<NameValuePair>();
+                urlParams.add(new BasicNameValuePair("user_id", Utility.userId));
+                request = new HttpGet(Utility.addParametersToUrl(Utility.serverUrl + "get_events", urlParams));
+                response = client.execute(request);
+                reader = new JsonReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+                events1 = readEvents(reader);
+                reader.close();
+            }
+            catch (Exception e) {
+                String msg = e.getMessage();
+            }
+            List<Event> events = events1;
+
+            return events;
         }
 
-        String paramString = URLEncodedUtils.format(params, "utf-8");
+        public List<Event> readEvents(JsonReader reader) throws IOException {
+            List<Event> events = new ArrayList<Event>();
+            reader.beginObject();
+            while (reader.hasNext()) {
+                String name = reader.nextName();
+                if (name.equals("events")) {
+                    reader.beginArray();
+                    while (reader.hasNext()) {
+                        events.add(new Event(reader));
+                    }
+                    reader.endArray();
+                } else {
+                    reader.skipValue();
+                }
+            }
+            reader.endObject();
+            return events;
+        }
 
-        url += paramString;
-        return url;
+        public void onPostExecute(List<Event> events) {
+            setContentView(R.layout.event_list);
+            createPartyListView(events);
+        }
     }
 }
