@@ -17,10 +17,6 @@ app = flask.Flask("mobile meetme")
 
 @app.route('/')
 def index():
-    return open(EVENTS_DETAILS).read()
-
-@app.route('/tmp')
-def tmp():
     conn = db_handler.connect_db()
     db_handler.get_db_connection = lambda: conn
     #server.before_request()
