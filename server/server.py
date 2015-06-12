@@ -24,30 +24,29 @@ def format_success_or_error(message, is_error):
 def check_required_parameters(parameters):
     """
     Checks that every parameter in parameters exists,
-    if so - return a tuple with True, and a list of parameter values
+    if so - return a tuple with True, and a dictionary of parameter
     if not - return a tuple with False, and JSON with matching error
     :param parameters: List of parameters that will be checked
     :return: Tuple:
-    (action_success, parameter_values/json_error)
+    (action_success, parameters/json_error)
     """
-    parameter_values = []
+    parameter_values = {}
     for parameter in parameters:
         parameter_value = flask.request.args.get(parameter, None)
         if parameter_value is None:
             error_message = "Required parameter {parameter} is not supplied".format(parameter=parameter)
             return False, flask.jsonify({"error": error_message})
         else:
-            parameter_values.append(parameter_value)
+            parameter_values[parameter] = parameter_value
     return True, parameter_values
 
 
 @app.route('/get_events')
 def get_events():
-    required_exists, data = check_required_parameters(("user_id", ))
+    required_exists, data = check_required_parameters(("user_id",))
     if not required_exists:
         # If required items doesn't exist, return the JSON error message
         return data
-    user_id, = data
 
     events = db_handler.query_db("""
     SELECT event.event_id, event.event_name, event_user.status
@@ -57,7 +56,7 @@ def get_events():
     WHERE event.event_id=event_user.event_id
     AND event_user.user_id = user.user_id
     AND user.phone = ?
-    """, (user_id,))
+    """, (data["user_id"],))
     return flask.jsonify({"events": events})
 
 
@@ -67,7 +66,6 @@ def get_event_details():
     if not required_exists:
         # If required items doesn't exist, return the JSON error message
         return data
-    user_id, event_id = data
 
     event_details = db_handler.query_db("""
     SELECT event.event_id, event.event_name, event_user.status
@@ -78,13 +76,13 @@ def get_event_details():
     AND event.event_id = ?
     AND event_user.user_id = user.user_id
     AND user.phone = ?
-    """, (event_id, user_id), True)
+    """, (data["event_id"], data["user_id"]), True)
 
     polls = db_handler.query_db("""
     SELECT poll.poll_id, poll.poll_name, poll.overridden_poll_option
     FROM poll
     WHERE poll.event_id = ?
-    """, (event_id,))
+    """, (data["event_id"],))
 
     for poll in polls:
         selected_poll_option = db_handler.query_db("""
@@ -95,7 +93,7 @@ def get_event_details():
         AND poll_option.poll_option_id = user_poll_option.poll_option_id
         AND user_poll_option.user_id = user.user_id
         AND user.phone = ?
-        """, (poll['poll_id'], user_id))
+        """, (poll['poll_id'], data["user_id"]))
         if len(selected_poll_option) == 0:
             selected_poll_option = -1
         else:
@@ -124,7 +122,6 @@ def answer_polls():
     if not required_exists:
         # If required items doesn't exist, return the JSON error message
         return data
-    user_id, poll_option_id = data
 
     count = db_handler.query_db("""
     SELECT COUNT(*) as count
@@ -139,21 +136,19 @@ def answer_polls():
     AND user_poll_option.poll_option_id = poll_option.poll_option_id
     AND user_poll_option.user_id = user.user_id
     AND user.phone = ?
-    """, (poll_option_id, user_id), True)["count"]
+    """, (data["poll_option_id"], data["user_id"]), True)["count"]
 
     # TODO: Support changing your mind
     if count > 0:
         return format_success_or_error("Do not vote twice for the same poll", True)
 
-    real_user_id = db_handler.query_db("""
+    user_id = db_handler.query_db("""
     SELECT user_id FROM user WHERE phone = ?
-    """, (user_id,))
-    if len(real_user_id) != 1:
+    """, (data["user_id"],), True)
+    if user_id is None:
         return format_success_or_error("User does not exist", True)
 
-    real_user_id = real_user_id[0]["user_id"]
-
-    db_handler.insert_db("user_poll_option", (real_user_id, poll_option_id))
+    db_handler.insert_db("user_poll_option", (user_id["user_id"], data["poll_option_id"]))
 
     return flask.jsonify(format_success_or_error("User poll selection was successfully inserted", False))
 

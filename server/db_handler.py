@@ -10,23 +10,40 @@ def relative_to_absolute(path):
 def connect_db():
     return sqlite3.connect(relative_to_absolute(DATABASE_PATH))
 
-def query_db(query, args=(), one=False):
-    cur = flask.g.db.execute(query, args)
-    rv = [dict((cur.description[idx][0], value)
-               for idx, value in enumerate(row)) for row in cur.fetchall()]
-    return (rv[0] if rv else None) if one else rv
+def query_db(query, args=(), one_row_only=False):
+    """
+    Perform query on DB, and return rows selected
+    :param query: The SQL query to perform
+    :param args: Arguments that should be placed in query
+    :param one_row_only: Used when only 1 row is returned, will return that row (or None if none returned)
+    :return: Rows (or row) selected
+    """
+    cursor = flask.g.db.execute(query, args)
+    rows = [dict((cursor.description[i][0], value) for i, value in enumerate(row)) for row in cursor.fetchall()]
+    if one_row_only:
+        return rows[0] if rows else None
+    else:
+        return rows
 
-def insert_db(table_name, args=()):
-    args_placeholders = []
+def insert_db(table_name, values):
+    """
+    Insert values to table
+    :param table_name: Name of table
+    :param values: List of values
+    :return: ID of row inserted to
+    """
+    value_placeholders = []
     # Wrap strings with quotes
-    for arg in args:
-        if type(arg) is str:
-            args_placeholders.append("'?'")
+    for value in values:
+        if type(value) is str:
+            value_placeholders.append("'?'")
         else:
-            args_placeholders.append("?")
+            value_placeholders.append("?")
 
     insert_str = "INSERT INTO {table_name} VALUES ({args})".format(
-        table_name=table_name, args=",".join(args_placeholders)
+        table_name=table_name, args=",".join(value_placeholders)
     )
-    flask.g.db.execute(insert_str, args)
+    flask.g.db.execute(insert_str, values)
     flask.g.db.commit()
+    # Return the ID of the entry inserted
+    return flask.g.db.lastrowid
