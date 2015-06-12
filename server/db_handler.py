@@ -10,6 +10,9 @@ def relative_to_absolute(path):
 def connect_db():
     return sqlite3.connect(relative_to_absolute(DATABASE_PATH))
 
+def get_db_connection():
+    return flask.g.db
+
 def query_db(query, args=(), one_row_only=False):
     """
     Perform query on DB, and return rows selected
@@ -18,7 +21,7 @@ def query_db(query, args=(), one_row_only=False):
     :param one_row_only: Used when only 1 row is returned, will return that row (or None if none returned)
     :return: Rows (or row) selected
     """
-    cursor = flask.g.db.execute(query, args)
+    cursor = get_db_connection().execute(query, args)
     rows = [dict((cursor.description[i][0], value) for i, value in enumerate(row)) for row in cursor.fetchall()]
     if one_row_only:
         return rows[0] if rows else None
@@ -36,9 +39,9 @@ def insert_db(table_name, parameters):
         table_name=table_name, columns=", ".join(parameters.keys()), values=", ".join('?' * len(parameters)),
     )
 
-    cur = flask.g.db.cursor()
+    cur = get_db_connection().cursor()
     cur.execute(insert_str, parameters.values())
-    flask.g.db.commit()
+    get_db_connection().commit()
 
     # Return the ID of the entry inserted
     return cur.lastrowid
