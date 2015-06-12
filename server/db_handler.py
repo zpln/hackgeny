@@ -34,16 +34,21 @@ def insert_db(table_name, values):
     """
     value_placeholders = []
     # Wrap strings with quotes
-    for value in values:
+    for value in values.values():
         if type(value) is str:
             value_placeholders.append("'?'")
         else:
             value_placeholders.append("?")
-
-    insert_str = "INSERT INTO {table_name} VALUES ({args})".format(
-        table_name=table_name, args=",".join(value_placeholders)
+    temp_col_name = values.keys()
+    temp_col_name = str(temp_col_name)[1:-1]
+    insert_str = "INSERT INTO {table_name} ({col_names}) VALUES ({args})".format(
+        table_name=table_name, args=",".join(value_placeholders),
+        col_names=temp_col_name
     )
-    flask.g.db.execute(insert_str, values)
+    print insert_str
+    cur = flask.g.db.cursor()
+    cur.execute(insert_str, values.values())
     flask.g.db.commit()
     # Return the ID of the entry inserted
-    return flask.g.db.lastrowid
+    print " I am here"
+    return cur.lastrowid
