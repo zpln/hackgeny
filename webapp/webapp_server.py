@@ -44,11 +44,10 @@ def index():
             new_option["color"] = BARS_COLORS[counter]
             counter += 1
             counter %= len(BARS_COLORS)
-            print "@"*80
-            print option["poll_option_count"]
-            print num_of_votes
-            new_option["height"] = (option["poll_option_count"] / num_of_votes) * 400
-            print new_option["height"]
+            if num_of_votes == 0:
+              new_option["height"] = 0
+            else:  
+              new_option["height"] = (option["poll_option_count"] / num_of_votes) * 400
             new_poll["options"].append(new_option)
         params["polls"].append(new_poll)
 
