@@ -6,13 +6,19 @@ import flask
 
 app = flask.Flask(__name__)
 
-def format_error(error_message):
+
+def format_success_or_error(message, is_error):
     """
-    Return JSON with supplied error message
-    :param error_message: The string to return in JSON
+    Return JSON with supplied error or success message
+    :param message: The string to return in JSON
+    :param is_error: If True: error will be returned. If not - success
     :return: JSON with error message inside it
     """
-    return flask.jsonify({"error": error_message})
+    if is_error:
+        message_type = "error"
+    else:
+        message_type = "success"
+    return flask.jsonify({message_type: message})
 
 
 def check_required_parameters(parameters):
@@ -137,31 +143,32 @@ def answer_polls():
 
     # TODO: Support changing your mind
     if count > 0:
-        return format_error("Do not vote twice for the same poll")
+        return format_success_or_error("Do not vote twice for the same poll", True)
 
     real_user_id = db_handler.query_db("""
     SELECT user_id FROM user WHERE phone = ?
     """, (user_id,))
     if len(real_user_id) != 1:
-        return format_error("User does not exist")
+        return format_success_or_error("User does not exist", True)
 
     real_user_id = real_user_id[0]["user_id"]
 
     db_handler.insert_db("user_poll_option", (real_user_id, poll_option_id))
 
-    return flask.jsonify({"success": "User poll selection was successfully inserted"})
-
+    return flask.jsonify(format_success_or_error("User poll selection was successfully inserted", False))
 
 
 @app.before_request
 def before_request():
     flask.g.db = db_handler.connect_db()
 
+
 @app.after_request
 def after_request(response):
     flask.g.db.close()
     return response
 
+
 if __name__ == '__main__':
     # TODO: Remove debug on production
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")

@@ -14,7 +14,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/server$server.coverage" NAME="server Coverage Results" MODIFIED="1434124251165" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/server$server.coverage" NAME="server Coverage Results" MODIFIED="1434127334602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -28,22 +28,22 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.6432585">
-              <caret line="1" column="17" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.24157304">
+              <caret line="157" column="105" selection-start-line="157" selection-start-column="105" selection-end-line="157" selection-end-column="105" />
               <folding>
-                <marker date="1434124666000" expanded="true" signature="1444:1673" placeholder="SELECT event..event..." />
-                <marker date="1434124666000" expanded="true" signature="2078:2336" placeholder="SELECT event..event..." />
-                <marker date="1434124666000" expanded="true" signature="2414:2520" placeholder="SELECT poll...." />
-                <marker date="1434124666000" expanded="true" signature="2630:2891" placeholder="SELECT poll_..poll_option..." />
-                <marker date="1434124666000" expanded="true" signature="2630:2930" placeholder="SELECT poll_..poll_option..." />
-                <marker date="1434124666000" expanded="true" signature="2630:3188" placeholder="SELECT poll_..poll_option..." />
-                <marker date="1434124666000" expanded="true" signature="3200:3551" placeholder="SELECT poll_..poll_options..." />
-                <marker date="1434124666000" expanded="true" signature="4091:4473" placeholder="SELECT COUNT..." />
-                <marker date="1434124666000" expanded="true" signature="4091:4498" placeholder="SELECT COUNT..." />
-                <marker date="1434124666000" expanded="true" signature="4091:4504" placeholder="SELECT COUNT..." />
-                <marker date="1434124666000" expanded="true" signature="4091:4508" placeholder="SELECT COUNT..." />
-                <marker date="1434124666000" expanded="true" signature="4733:4773" placeholder="SELECT user_..user..." />
-                <marker date="1434124666000" expanded="true" signature="4733:5358" placeholder="SELECT user_..user..." />
+                <marker date="1434127447000" expanded="true" signature="1626:1855" placeholder="SELECT event..event..." />
+                <marker date="1434127447000" expanded="true" signature="2260:2518" placeholder="SELECT event..event..." />
+                <marker date="1434127447000" expanded="true" signature="2596:2702" placeholder="SELECT poll...." />
+                <marker date="1434127447000" expanded="true" signature="2812:3073" placeholder="SELECT poll_..poll_option..." />
+                <marker date="1434127447000" expanded="true" signature="2812:3112" placeholder="SELECT poll_..poll_option..." />
+                <marker date="1434127447000" expanded="true" signature="2812:3370" placeholder="SELECT poll_..poll_option..." />
+                <marker date="1434127447000" expanded="true" signature="3382:3733" placeholder="SELECT poll_..poll_options..." />
+                <marker date="1434127447000" expanded="true" signature="4273:4655" placeholder="SELECT COUNT..." />
+                <marker date="1434127447000" expanded="true" signature="4273:4680" placeholder="SELECT COUNT..." />
+                <marker date="1434127447000" expanded="true" signature="4273:4686" placeholder="SELECT COUNT..." />
+                <marker date="1434127447000" expanded="true" signature="4273:4690" placeholder="SELECT COUNT..." />
+                <marker date="1434127447000" expanded="true" signature="4932:4972" placeholder="SELECT user_..user..." />
+                <marker date="1434127447000" expanded="true" signature="4932:5610" placeholder="SELECT user_..user..." />
               </folding>
             </state>
           </provider>
@@ -379,9 +379,9 @@
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296875" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.496875" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.503125" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296875" sideWeight="0.4953125" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.49375" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.50625" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -465,22 +465,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.6432585">
-          <caret line="1" column="17" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.24157304">
+          <caret line="157" column="105" selection-start-line="157" selection-start-column="105" selection-end-line="157" selection-end-column="105" />
           <folding>
-            <marker date="1434124666000" expanded="true" signature="1444:1673" placeholder="SELECT event..event..." />
-            <marker date="1434124666000" expanded="true" signature="2078:2336" placeholder="SELECT event..event..." />
-            <marker date="1434124666000" expanded="true" signature="2414:2520" placeholder="SELECT poll...." />
-            <marker date="1434124666000" expanded="true" signature="2630:2891" placeholder="SELECT poll_..poll_option..." />
-            <marker date="1434124666000" expanded="true" signature="2630:2930" placeholder="SELECT poll_..poll_option..." />
-            <marker date="1434124666000" expanded="true" signature="2630:3188" placeholder="SELECT poll_..poll_option..." />
-            <marker date="1434124666000" expanded="true" signature="3200:3551" placeholder="SELECT poll_..poll_options..." />
-            <marker date="1434124666000" expanded="true" signature="4091:4473" placeholder="SELECT COUNT..." />
-            <marker date="1434124666000" expanded="true" signature="4091:4498" placeholder="SELECT COUNT..." />
-            <marker date="1434124666000" expanded="true" signature="4091:4504" placeholder="SELECT COUNT..." />
-            <marker date="1434124666000" expanded="true" signature="4091:4508" placeholder="SELECT COUNT..." />
-            <marker date="1434124666000" expanded="true" signature="4733:4773" placeholder="SELECT user_..user..." />
-            <marker date="1434124666000" expanded="true" signature="4733:5358" placeholder="SELECT user_..user..." />
+            <marker date="1434127447000" expanded="true" signature="1626:1855" placeholder="SELECT event..event..." />
+            <marker date="1434127447000" expanded="true" signature="2260:2518" placeholder="SELECT event..event..." />
+            <marker date="1434127447000" expanded="true" signature="2596:2702" placeholder="SELECT poll...." />
+            <marker date="1434127447000" expanded="true" signature="2812:3073" placeholder="SELECT poll_..poll_option..." />
+            <marker date="1434127447000" expanded="true" signature="2812:3112" placeholder="SELECT poll_..poll_option..." />
+            <marker date="1434127447000" expanded="true" signature="2812:3370" placeholder="SELECT poll_..poll_option..." />
+            <marker date="1434127447000" expanded="true" signature="3382:3733" placeholder="SELECT poll_..poll_options..." />
+            <marker date="1434127447000" expanded="true" signature="4273:4655" placeholder="SELECT COUNT..." />
+            <marker date="1434127447000" expanded="true" signature="4273:4680" placeholder="SELECT COUNT..." />
+            <marker date="1434127447000" expanded="true" signature="4273:4686" placeholder="SELECT COUNT..." />
+            <marker date="1434127447000" expanded="true" signature="4273:4690" placeholder="SELECT COUNT..." />
+            <marker date="1434127447000" expanded="true" signature="4932:4972" placeholder="SELECT user_..user..." />
+            <marker date="1434127447000" expanded="true" signature="4932:5610" placeholder="SELECT user_..user..." />
           </folding>
         </state>
       </provider>
