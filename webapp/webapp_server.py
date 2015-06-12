@@ -43,11 +43,11 @@ def index():
         counter = 0
 
         if poll["poll_name"] == "Location" and poll["overridden_poll_option"] != -1:
-            params["location"] = [option["value"] for option in poll["options"] if
+            params["location"] = [option["poll_option_name"] for option in poll["options"] if
                                   option["poll_option_id"] == poll["overridden_poll_option"]][0]
 
         if poll["poll_name"] == "Time" and poll["overridden_poll_option"] != -1:
-            params["time"] = [option["value"] for option in poll["options"] if
+            params["time"] = [option["poll_option_name"] for option in poll["options"] if
                                   option["poll_option_id"] == poll["overridden_poll_option"]][0]
 
         for option in poll["options"]:
