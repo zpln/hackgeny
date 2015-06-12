@@ -38,10 +38,18 @@ def insert_db(table_name, parameters):
     insert_str = "INSERT INTO {table_name} ({columns}) VALUES ({values})".format(
         table_name=table_name, columns=", ".join(parameters.keys()), values=", ".join('?' * len(parameters)),
     )
-
     cur = get_db_connection().cursor()
     cur.execute(insert_str, parameters.values())
     get_db_connection().commit()
 
     # Return the ID of the entry inserted
     return cur.lastrowid
+
+def update_db(table, vals, params, condition):
+    update_str = "update {table_name} {data}=? where {cond}".format(table_name=table, data="='?',".join(vals), cond=condition)
+    print update_str
+    print vals
+    print params
+    cur = get_db_connection().cursor()
+    cur.execute(update_str, params)
+    print update_str

@@ -148,8 +148,10 @@ def create_event(phone, event_name, polls, users):
         for option_name in poll["option_names"]:
             db_handler.insert_db("poll_option", {"poll_option_name": option_name, "poll_id": poll_id})
     db_handler.insert_db("event_user", {"event_id": event_id, "user_id": user_id, "status": EventStatus.YES})
+
     for user in json.loads(users):
         real_user = get_user_id(user)
+        db_handler.update_db("users", user.keys(), user.values(),str("user_id=" + real_user))
         db_handler.insert_db("event_user", {"event_id": event_id, "user_id": real_user, "status": EventStatus.UNSET})
     return get_event_details(phone, event_id)
 
