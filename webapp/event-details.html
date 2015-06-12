@@ -1,45 +1,78 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-<script src="/static/js/jquery.js"></script>
-<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-<script src="/static/bootstrap/js/bootstrap.min.js"></script>
-<script src="/static/js/run_prettify.js"></script>
-<link href="/static/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
-<script src="/static/js/bootstrap-dialog.min.js"></script>
-<link href="/static/css/event-details.css" rel="stylesheet" type="text/css" />
-<meta name="viewport" content="width=device-width, initial-scale=0.7, maximum-scale=0.7, user-scalable=0">
-<meta charset="utf-8" />
-<title>BootstrapDialog examples</title>
-<style>
-    .login-dialog .modal-dialog {
-        width: 300px;
-    }
-</style>
+	<script src="/static/js/jquery.js"></script>
+	<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/fonts.css" rel="stylesheet" type="text/css" />
+	<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+	<!--<script src="/static/js/run_prettify.js"></script>-->
+	<link href="/static/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
+	<script src="/static/js/bootstrap-dialog.min.js"></script>
+	<script src="/static/js/event-details.js"></script>
+	<link href="/static/css/cards.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/chart.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/event-details.css" rel="stylesheet" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=0.7, maximum-scale=0.7, user-scalable=0">
+	<meta charset="utf-8" />
+	<title>Meetme Event</title>
 </head>
-<body style="padding-bottom: 100px;">
-asdf
-<script type="text/javascript">
-	var dialogInstance1 = new BootstrapDialog({
-        title: 'Welcome to meetme :)',
-        message: 'We hope you enjoy your friend\'s event.\nWant to see all your friends\' events, or create your own events and invite your friends?\nDownload meetme today from meetme.com',
-        type: BootstrapDialog.TYPE_DEFAULT,
-        closable: true,
-        buttons: [{
-                label: 'Download meetme',
-                cssClass: 'btn-primary',
-                action: function(){
-                    alert('Hi Orange!');
-                }
-            }, {
-                label: 'No thanks, continue >>',
-                action: function(dialogItself){
-                    dialogItself.close();
-                }
-            }]
-    });
-    dialogInstance1.open();
-</script>
+<!--
+<body onload="popup_download()">
+-->
+<body>
+	<section class="card"><h1><strong>Event</strong>: {{ event_name }}</h1></section>
+
+	<section class="card">
+		<h1>Event Details:</h1>
+	 	<h2>
+	 	<strong>Location:</strong> ~~location~~<br/>
+	 	<strong>Time:</strong> ~~time~~
+	 	</h2>
+  	</section>
+
+  	<section class="card">
+		<strong><h1>Poll</h1></strong>
+	 	<h2>Location:</h2>
+
+	 	<ul class="chart">
+        <li onclick="popup_vote()" class="bar teal" style="height: 200px;" title="95">
+		<div class="percent">3 friends</div>
+		<div class="skill">Hapak</div></li>
+		    <li onclick="popup_vote()" class="bar salmon" style="height: 133px;" title="90">
+		<div class="percent">2 friends</div>
+		<div class="skill">Panasi</div></li>
+		    <li onclick="popup_vote()" class="bar peach" style="height: 67px;" title="80">
+		<div class="percent">1 friends</div>
+		<div class="skill">Shmafia</div></li>
+		    <li onclick="popup_vote()" class="bar lime" style="height: 0%;" title="75">
+		<div class="percent">0 friends</div>
+		<div class="skill">Moses</div></li>
+		    
+		</ul>
+		
+  	</section>
+
+  	<section class="card">
+		<strong><h1>Poll</h1></strong>
+	 	<h2>Time:</h2>
+
+	 	<ul class="chart">
+        <li onclick="popup_vote()" class="bar teal" style="height: 67px;" title="95">
+		<div class="percent">1 friends</div>
+		<div class="skill">19:00</div></li>
+		    <li onclick="popup_vote()" class="bar salmon" style="height: 0%;" title="90">
+		<div class="percent">0 friends</div>
+		<div class="skill">19:40</div></li>
+		    <li onclick="popup_vote()" class="bar peach" style="height: 133px;" title="80">
+		<div class="percent">2 friends</div>
+		<div class="skill">20:30</div></li>
+		    <li onclick="popup_vote()" class="bar lime" style="height: 200px;" title="75">
+		<div class="percent">3 friends</div>
+		<div class="skill">22:00</div></li>
+		    
+		</ul>
+		
+  	</section>
+
 </body>
 </html>
