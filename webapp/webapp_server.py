@@ -25,8 +25,8 @@ def index():
 
     params = dict()
     params["event_name"] = event_details["event_name"]
-    params["time"] = "TBD"
-    params["location"] = "TBD"
+    params["time"] = "Your friends haven't decided yet. Vote for a time you prefer"
+    params["location"] = "Your friends haven't decided yet. Vote for a location you prefer"
 
     params["polls"] = list()
     for poll in event_details["polls"]:
@@ -41,6 +41,15 @@ def index():
             new_poll["font_size"] = 3.375
         num_of_votes = float(sum([option["poll_option_count"] for option in poll["options"]]))
         counter = 0
+
+        if poll["poll_name"] == "Location" and poll["overridden_poll_option"] != -1:
+            params["location"] = [option["poll_option_name"] for option in poll["options"] if
+                                  option["poll_option_id"] == poll["overridden_poll_option"]][0]
+
+        if poll["poll_name"] == "Time" and poll["overridden_poll_option"] != -1:
+            params["time"] = [option["poll_option_name"] for option in poll["options"] if
+                                  option["poll_option_id"] == poll["overridden_poll_option"]][0]
+
         for option in poll["options"]:
             new_option = dict()
             new_option["numofvotes"] = option["poll_option_count"]
