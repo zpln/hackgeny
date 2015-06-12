@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "zpln.meetme"
-        minSdkVersion 12
+        minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
