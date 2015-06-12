@@ -62,14 +62,18 @@ def fill_poll_options_in_poll(phone, poll):
 
 def get_event_details(phone, event_id):
     event_details = db_handler.query_db("""
-    SELECT event.event_id, event.event_name, event_user.status
+    SELECT event.event_id, event.event_name, user.phone AS creator_id, event_user.status
     FROM event
     INNER JOIN event_user
     INNER JOIN user
     WHERE event.event_id = event_user.event_id
     AND event.event_id = ?
     AND event_user.user_id = ?
+    AND user.user_id = event.creator_id
     """, (event_id, get_user_id(phone)), True)
+
+    if event_details is None:
+        raise APIException("Event doesn't exist or you are not invited")
 
     polls = db_handler.query_db("""
     SELECT poll.poll_id, poll.poll_name, poll.overridden_poll_option
@@ -81,6 +85,17 @@ def get_event_details(phone, event_id):
         fill_poll_options_in_poll(phone, poll)
 
     event_details["polls"] = polls
+
+    user_rows = db_handler.query_db("""
+    SELECT user.phone
+    FROM event_user
+    INNER JOIN user
+    WHERE event_user.event_id = ?
+    AND event_user.user_id = user.user_id
+    """, (event_id,))
+    users = [user["phone"] for user in user_rows]
+    event_details["users"] = users
+
     return event_details
 
 def answer_poll(phone, poll_option_id):
@@ -88,7 +103,6 @@ def answer_poll(phone, poll_option_id):
     SELECT COUNT(*) as count
     FROM poll_option
     INNER JOIN user_poll_option
-    INNER JOIN user
     WHERE poll_option.poll_id IN (SELECT poll.poll_id
     FROM poll
     INNER JOIN poll_option
@@ -146,13 +160,12 @@ def add_poll_option(phone, poll_id, poll_option_name):
     SELECT COUNT(*) AS count
     FROM poll
     INNER JOIN event_user
-    INNER JOIN user
     WHERE poll.poll_id = poll_id
     AND event_user.event_id = poll.event_id
     AND event_user.user_id = ?
     """, (get_user_id(phone),), True)["count"]
     if count == 0:
-        raise APIException("User or poll does not exist")
+        raise APIException("Poll does not exist")
 
     parameters = {"poll_option_name": poll_option_name, "poll_id": poll_id}
     db_handler.insert_db("poll_option", parameters)
