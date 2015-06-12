@@ -28,11 +28,15 @@
       <file leaf-file-name="server.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4114713">
-              <caret line="11" column="44" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
+            <state vertical-scroll-proportion="0.47630924">
+              <caret line="13" column="14" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
               <folding>
-                <marker date="1434111598000" expanded="true" signature="159:173" placeholder="SELECT * FRO..Event..." />
-                <marker date="1434111598000" expanded="true" signature="159:178" placeholder="SELECT * FRO..event..." />
+                <marker date="1434113356000" expanded="true" signature="195:366" placeholder="SELECT event..event..." />
+                <marker date="1434113356000" expanded="true" signature="195:375" placeholder="SELECT event..event..." />
+                <marker date="1434113356000" expanded="true" signature="380:576" placeholder="return flask..." />
+                <marker date="1434113356000" expanded="true" signature="581:596" placeholder="return respo..." />
+                <marker date="1434113356000" expanded="true" signature="598:636" placeholder="if __name__ ..." />
+                <marker date="1434113356000" expanded="true" signature="623:636" placeholder=": # TODO:..." />
               </folding>
             </state>
           </provider>
@@ -413,11 +417,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4114713">
-          <caret line="11" column="44" selection-start-line="11" selection-start-column="44" selection-end-line="11" selection-end-column="44" />
+        <state vertical-scroll-proportion="0.47630924">
+          <caret line="13" column="14" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
           <folding>
-            <marker date="1434111598000" expanded="true" signature="159:173" placeholder="SELECT * FRO..Event..." />
-            <marker date="1434111598000" expanded="true" signature="159:178" placeholder="SELECT * FRO..event..." />
+            <marker date="1434113356000" expanded="true" signature="195:366" placeholder="SELECT event..event..." />
+            <marker date="1434113356000" expanded="true" signature="195:375" placeholder="SELECT event..event..." />
+            <marker date="1434113356000" expanded="true" signature="380:576" placeholder="return flask..." />
+            <marker date="1434113356000" expanded="true" signature="581:596" placeholder="return respo..." />
+            <marker date="1434113356000" expanded="true" signature="598:636" placeholder="if __name__ ..." />
+            <marker date="1434113356000" expanded="true" signature="623:636" placeholder=": # TODO:..." />
           </folding>
         </state>
       </provider>
