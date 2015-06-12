@@ -1,0 +1,43 @@
+function popup_download() {
+var dialogInstance = new BootstrapDialog({
+        title: 'Welcome to meetme :)',
+        message: '<b>We hope you enjoy your friend\'s event</b>\nWant to see all your friends\' events, or create your own events and invite your friends?\nDownload meetme today from <a href="http://meetme.com">meetme.com</a>',
+        type: BootstrapDialog.TYPE_DEFAULT,
+        closable: false,
+        buttons: [{
+                label: 'Download meetme',
+                cssClass: 'btn-primary',
+                action: function(){
+                    alert('Hi Orange!');
+                }
+            }, {
+                label: 'No thanks, continue >>',
+                action: function(dialogItself){
+                    dialogItself.close();
+                }
+            }]
+    });
+    dialogInstance.open();
+}
+
+function popup_vote() {
+var dialogInstance = new BootstrapDialog({
+        title: 'Sorry, can\'t vote',
+        message: 'To vote, or to add new suggestions, please download the meetme app.',
+        type: BootstrapDialog.TYPE_DEFAULT,
+        closable: false,
+        buttons: [{
+                label: 'Download meetme',
+                cssClass: 'btn-primary',
+                action: function(){
+                    alert('Hi Orange!');
+                }
+            }, {
+                label: 'No thanks, continue >>',
+                action: function(dialogItself){
+                    dialogItself.close();
+                }
+            }]
+    });
+    dialogInstance.open();
+}

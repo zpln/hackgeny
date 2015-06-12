@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="/static/js/jquery.js"></script>
+	<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/fonts.css" rel="stylesheet" type="text/css" />
+	<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+	<!--<script src="/static/js/run_prettify.js"></script>-->
+	<link href="/static/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
+	<script src="/static/js/bootstrap-dialog.min.js"></script>
+	<script src="/static/js/event-details.js"></script>
+	<link href="/static/css/cards.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/chart.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/event-details.css" rel="stylesheet" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=0.7, maximum-scale=0.7, user-scalable=0">
+	<meta charset="utf-8" />
+	<title>Meetme Event</title>
+</head>
+
+<!--
+<body onload="popup_download()">
+-->
+<body>
+	<section class="card"><h1><strong>Event</strong>: {{ event_name }}</h1></section>
+
+	<section class="card">
+		<h1>Event Details:</h1>
+	 	<h2>
+	 	<strong>Location:</strong> {{ location }}<br/>
+	 	<strong>Time:</strong> {{ time }}
+	 	</h2>
+  	</section>
+
+  	{% for poll in polls %}
+
+  		<section class="card">
+			<strong><h1>Poll</h1></strong>
+		 	<h2>{{ poll.name|e }}:</h2>
+
+		 	<ul class="chart">
+
+		 	{% for option in poll.options %}
+		 	<li style="width: {{ poll.bar_width }}%; height: {{ option.height|e }}px;" onclick="popup_vote()" class="bar {{ option.color|e }}">
+			<div class="percent" style="font-size: {{ poll.font_size }}rem;">{{ option.numofvotes|e }} friends</div>
+			<div class="skill">{{ option.value|e }}</div></li>
+		 	{% endfor %}
+			    
+			</ul>
+		
+  		</section>
+
+	{% endfor %}
+
+</body>
+</html>

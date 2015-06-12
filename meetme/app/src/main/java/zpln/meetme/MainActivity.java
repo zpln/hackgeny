@@ -4,8 +4,27 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.JsonReader;
+import android.content.Context;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.GridLayout;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextClock;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -125,7 +144,7 @@ public class MainActivity extends ActionBarActivity {
         new getDetailedEventTask().execute(1);
 
         setContentView(R.layout.activity_main);
-        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
