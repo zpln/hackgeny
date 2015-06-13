@@ -29,6 +29,7 @@
             android:layout_weight="1">
 
             <TextView
+                android:text="Date"
                 android:id="@+id/EventDate"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
@@ -37,6 +38,7 @@
                 android:layout_weight="2" />
 
             <TextView
+                android:text="Participants"
                 android:id="@+id/EventParticipants"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
@@ -52,6 +54,7 @@
             android:layout_weight="1">
 
             <TextView
+                android:text="Event Name"
                 android:id="@+id/EventName"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
@@ -60,6 +63,7 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:text="Location"
                 android:id="@+id/EventLocation"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"

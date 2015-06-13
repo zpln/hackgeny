@@ -20,13 +20,17 @@ def get_user_id(phone):
 
 
 def get_events(phone):
-    events = db_handler.query_db("""
-    SELECT event.event_id, event.event_name, event_user.status
+    events = []
+    event_ids = db_handler.query_db("""
+    SELECT event.event_id
     FROM event
     INNER JOIN event_user
     WHERE event.event_id=event_user.event_id
     AND event_user.user_id = ?
     """, (get_user_id(phone),))
+
+    for event_id in event_ids:
+        events.append(get_event_details(phone, event_id["event_id"]))
 
     return events
 

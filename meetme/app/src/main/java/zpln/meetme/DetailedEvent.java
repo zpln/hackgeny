@@ -69,4 +69,25 @@ public class DetailedEvent extends Event{
         reader.endArray();
         return users;
     }
+
+    public String getPollResult(String pollName) {
+        for(Poll poll : this.polls) {
+            if(poll.getPollName().equals(pollName) && poll.getSelectedPollOption() != -1) {
+                for(PollOption pollOption : poll.getPollOptions()) {
+                    if (pollOption.getPollOptionId() == poll.getSelectedPollOption()) {
+                        return pollOption.getPollOptionName();
+                    }
+                }
+            }
+        }
+        return "TBD";
+    }
+
+    public List<Poll> getPolls() {
+        return polls;
+    }
+
+    public List<Integer> getUsers() {
+        return users;
+    }
 }

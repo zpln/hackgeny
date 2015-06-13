@@ -56,4 +56,15 @@ public class Event {
         return this.eventName;
     }
 
+    public int getEventId() {
+        return eventId;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public int getCreatorId() {
+        return creatorId;
+    }
 }

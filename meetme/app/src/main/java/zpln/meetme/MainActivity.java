@@ -62,22 +62,12 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
 
-          Utility.userId = "0545920004";
-          Utility.serverUrl = new String("http://10.0.0.13:5000/");
+
 
           new GetEventsTask().execute();
-          // new GetDetailedEventTask().execute(1);
-
-//          setContentView(R.layout.activity_main);
-
-          //setContentView(R.layout.event_list);
-          //createPartyListView();
-//
-  //      setContentView(R.layout.party_event_view);
-//        createPartyEventView();
     }
 
-    private void createPartyListView(final List<Event> events) {
+    private void createPartyListView(final List<DetailedEvent> events) {
         ListView listview = (ListView) findViewById(R.id.listView);
 
 
@@ -104,29 +94,17 @@ public class MainActivity extends ActionBarActivity {
                                     LinearLayout dataLayout = (LinearLayout) layout.getChildAt(1);
                                     LinearLayout upperDataLayout = (LinearLayout) dataLayout.getChildAt(0);
                                     LinearLayout lowerDataLayout = (LinearLayout) dataLayout.getChildAt(1);
-                                    for (int i = 0; i < upperDataLayout.getChildCount(); i++) {
-                                        View childAt = upperDataLayout.getChildAt(i);
-                                        if (childAt instanceof TextView) {
-                                            TextView textView = (TextView) childAt;
-                                            textView.setText(String.format("%d", i));
-                                        }
-                                    }
-                                    for (int i = 0; i < lowerDataLayout.getChildCount(); i++) {
-                                        View childAt = lowerDataLayout.getChildAt(i);
-                                        if (childAt instanceof TextView) {
-                                            TextView textView = (TextView) childAt;
-                                            textView.setText(String.format("_%d", i));
-                                        }
-                                    }
+
 
                                     TextView event_name = (TextView) upperDataLayout.getChildAt(0);
-                                    event_name.setText("name");
+                                    DetailedEvent detailedEvent = events.get(position);
+                                    event_name.setText(detailedEvent.getEventName());
                                     TextView location = (TextView) upperDataLayout.getChildAt(1);
-                                    location.setText("at location");
+                                    location.setText(detailedEvent.getPollResult("Location"));
                                     TextView date = (TextView) lowerDataLayout.getChildAt(0);
-                                    date.setText("date");
+                                    date.setText(detailedEvent.getPollResult("Time"));
                                     TextView participants = (TextView) lowerDataLayout.getChildAt(1);
-                                    participants.setText("participants");
+                                    participants.setText(String.format("%d invited", detailedEvent.getUsers().size()));
                                     return layout;
                                 }
                             }
@@ -134,160 +112,7 @@ public class MainActivity extends ActionBarActivity {
         );
     }
 
-    private void createPartyEventView() {
-        ListView partyPollListView = (ListView) findViewById(R.id.partyPollListView);
-
-
-        List<PollOption> pollOptions = new LinkedList<>();
-        pollOptions.add(new PollOption(1, "Hapak", 2));
-        pollOptions.add(new PollOption(1, "Panasi", 3));
-        pollOptions.add(new PollOption(1, "Moses", 1));
-        pollOptions.add(new PollOption(1, "Shmafia", 5));
-        Poll whereDoWeEat = new Poll(1, "Where do we eat?", 1, 1, pollOptions);
-
-
-        List<PollOption> pollOptions2 = new LinkedList<>();
-        pollOptions2.add(new PollOption(1, "Bat-El", 6));
-        pollOptions2.add(new PollOption(1, "Nokdim", 4));
-        pollOptions2.add(new PollOption(1, "Bney Kedem", 3));
-        pollOptions2.add(new PollOption(1, "Efrat", 2));
-        Poll whereDoWeGuard = new Poll(1, "Where do we guard?", 1, 1, pollOptions2);
-
-        final Poll polls[] = {whereDoWeEat, whereDoWeGuard, whereDoWeEat};
-        ViewGroup.LayoutParams lp = (ViewGroup.LayoutParams) partyPollListView.getLayoutParams();
-        lp.height = lp.height*polls.length;
-        partyPollListView.setLayoutParams(lp);
-        final MainActivity that = this;
-        partyPollListView.setAdapter(new BaseAdapter() {
-                                         private Typeface mTf;
-
-                                         @Override
-                                         public int getCount() {
-                                             return polls.length;
-                                         }
-
-                                         @Override
-                                         public Object getItem(int position) {
-                                             return null;
-                                         }
-
-                                         @Override
-                                         public long getItemId(int position) {
-                                             return 0;
-                                         }
-
-                                         @Override
-                                         public View getView(int position, View convertView, ViewGroup parent) {
-                                             LinearLayout relativeLayout = (LinearLayout) LayoutInflater.from(that).inflate(R.layout.activity_barchart, null);
-
-                                             BarChart mChart = (BarChart) relativeLayout.getChildAt(0);
-                                             updatedChartByPoll(polls[position], mChart);
-                                             return relativeLayout;
-                                         }
-
-                                         private void updatedChartByPoll(Poll poll, BarChart mChart) {
-
-                                             mChart.setDrawBarShadow(false);
-                                             mChart.setDrawValueAboveBar(true);
-
-                                             mChart.setDescription("");
-
-                                             // if more than 60 entries are displayed in the chart, no values will be
-                                             // drawn
-                                             mChart.setMaxVisibleValueCount(60);
-
-                                             // scaling can now only be done on x- and y-axis separately
-                                             mChart.setPinchZoom(false);
-
-                                             // draw shadows for each bar that show the maximum value
-                                             // mChart.setDrawBarShadow(true);
-
-                                             // mChart.setDrawXLabels(false);
-
-                                             mChart.setDrawGridBackground(false);
-                                             // mChart.setDrawYLabels(false);
-
-                                             mTf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-
-                                             XAxis xAxis = mChart.getXAxis();
-                                             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                                             xAxis.setTypeface(mTf);
-                                             xAxis.setDrawGridLines(false);
-                                             xAxis.setSpaceBetweenLabels(2);
-
-                                             ValueFormatter custom = new MyValueFormatter();
-
-                                             YAxis leftAxis = mChart.getAxisLeft();
-                                             leftAxis.setTypeface(mTf);
-                                             leftAxis.setLabelCount(4);
-                                             leftAxis.setValueFormatter(custom);
-                                             leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
-                                             leftAxis.setSpaceTop(15f);
-
-                                             YAxis rightAxis = mChart.getAxisRight();
-                                             rightAxis.setDrawGridLines(false);
-                                             rightAxis.setTypeface(mTf);
-                                             rightAxis.setLabelCount(4);
-                                             rightAxis.setValueFormatter(custom);
-                                             rightAxis.setSpaceTop(15f);
-
-                                             Legend l = mChart.getLegend();
-                                             l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
-                                             l.setForm(Legend.LegendForm.SQUARE);
-                                             l.setFormSize(9f);
-                                             l.setTextSize(11f);
-                                             l.setXEntrySpace(4f);
-                                             // l.setExtra(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
-                                             // "def", "ghj", "ikl", "mno" });
-                                             // l.setCustom(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
-                                             // "def", "ghj", "ikl", "mno" });
-
-                                             setData(poll, mChart);
-                                         }
-
-                                         private void setData(Poll poll, BarChart mChart) {
-                                             int count = poll.pollOptions.size();
-                                             List<PollOption> values = poll.pollOptions;
-                                             int max = 0;
-                                             for (PollOption pollOption: values) {
-                                                 if (pollOption.pollOptionCount > max) {
-                                                     max = pollOption.pollOptionCount;
-                                                 }
-                                             }
-                                             float range = max;
-                                             Iterator<PollOption> iterators = poll.pollOptions.iterator();
-                                             ArrayList<String> xVals = new ArrayList<String>();
-                                             for (int i = 0; i < count; i++) {
-                                                 xVals.add(iterators.next().pollOptionName);
-                                             }
-
-                                             ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
-
-                                             iterators = poll.pollOptions.iterator();
-                                             for (int i = 0; i < count; i++) {
-                                                 float val = (float) (iterators.next().pollOptionCount);
-                                                 yVals1.add(new BarEntry(val, i));
-                                             }
-
-                                             BarDataSet set1 = new BarDataSet(yVals1, poll.pollName);
-                                             set1.setBarSpacePercent(40f);
-
-                                             ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
-                                             dataSets.add(set1);
-
-                                             BarData data = new BarData(xVals, dataSets);
-                                             // data.setValueFormatter(new MyValueFormatter());
-                                             data.setValueTextSize(10f);
-                                             data.setValueTypeface(mTf);
-
-                                             mChart.setData(data);
-                                         }
-                                     }
-
-        );
-    }
-
-    @Override
+   @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -352,15 +177,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    private class GetEventsTask extends AsyncTask<Void, Void, List<Event>> {
+    private class GetEventsTask extends AsyncTask<Void, Void, List<DetailedEvent>> {
 
-        public List<Event> doInBackground(Void... params) {
+        public List<DetailedEvent> doInBackground(Void... params) {
 
             HttpClient client = new DefaultHttpClient();
             HttpGet request;
             HttpResponse response;
             JsonReader reader;
-            List<Event> events1 = null;
+            List<DetailedEvent> events = null;
 
             try {
                 // request = new HttpGet(serverUrl + "get_events");
@@ -370,26 +195,25 @@ public class MainActivity extends ActionBarActivity {
                 request = new HttpGet(Utility.addParametersToUrl(Utility.serverUrl + "get_events", urlParams));
                 response = client.execute(request);
                 reader = new JsonReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-                events1 = readEvents(reader);
+                events = readEvents(reader);
                 reader.close();
             }
             catch (Exception e) {
                 String msg = e.getMessage();
             }
-            List<Event> events = events1;
 
             return events;
         }
 
-        public List<Event> readEvents(JsonReader reader) throws IOException {
-            List<Event> events = new ArrayList<Event>();
+        public List<DetailedEvent> readEvents(JsonReader reader) throws IOException {
+            List<DetailedEvent> events = new ArrayList<>();
             reader.beginObject();
             while (reader.hasNext()) {
                 String name = reader.nextName();
                 if (name.equals("events")) {
                     reader.beginArray();
                     while (reader.hasNext()) {
-                        events.add(new Event(reader));
+                        events.add(new DetailedEvent(reader));
                     }
                     reader.endArray();
                 } else {
@@ -400,7 +224,7 @@ public class MainActivity extends ActionBarActivity {
             return events;
         }
 
-        public void onPostExecute(List<Event> events) {
+        public void onPostExecute(List<DetailedEvent> events) {
             setContentView(R.layout.event_list);
             createPartyListView(events);
         }
