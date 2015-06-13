@@ -71,6 +71,7 @@ def index(event_id=None):
               new_option["height"] = (option["poll_option_count"] / num_of_votes) * 400
             new_poll["options"].append(new_option)
         params["polls"].append(new_poll)
+        params["participants"] = event_details["users"]
 
 
     return flask.render_template_string(open(EVENTS_DETAILS).read(), **params)
