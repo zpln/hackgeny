@@ -11,10 +11,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -41,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class DetailedEventActivity extends ActionBarActivity {
 
@@ -59,7 +63,7 @@ public class DetailedEventActivity extends ActionBarActivity {
         LinearLayout mainView = (LinearLayout) findViewById(R.id.partyEventView);
 
         ScrollView scrollView = (ScrollView) mainView.getChildAt(0);
-        LinearLayout linearLayout = (LinearLayout) scrollView.getChildAt(0);
+        final LinearLayout linearLayout = (LinearLayout) scrollView.getChildAt(0);
         TextView eventName = (TextView) linearLayout.getChildAt(0);
         eventName.setText(detailedEvent.getEventName());
 
@@ -98,8 +102,31 @@ public class DetailedEventActivity extends ActionBarActivity {
                                          public View getView(int position, View convertView, ViewGroup parent) {
                                              LinearLayout relativeLayout = (LinearLayout) LayoutInflater.from(that).inflate(R.layout.activity_barchart, null);
 
+                                             Poll currentPoll = detailedEvent.getPolls().get(position);
+
                                              BarChart mChart = (BarChart) relativeLayout.getChildAt(0);
-                                             updatedChartByPoll(detailedEvent.getPolls().get(position), mChart);
+                                             updatedChartByPoll(currentPoll, mChart);
+                                             LinearLayout linearLayout1 = (LinearLayout) relativeLayout.getChildAt(1);
+
+                                             final Spinner spinner = (Spinner) linearLayout1.getChildAt(1);
+
+                                             String options[] = new String[currentPoll.getPollOptions().size()];
+                                             for (int i = 0; i < options.length; i++) {
+                                                 options[i] = currentPoll.getPollOptions().get(i).getPollOptionName();
+                                             }
+                                             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(that, android.R.layout.simple_spinner_item, options);
+                                             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+                                             spinner.setAdapter(spinnerArrayAdapter);
+
+                                             Button voteForPollButton = (Button) linearLayout1.getChildAt(0);
+                                             voteForPollButton.setOnClickListener(new View.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(View v) {
+                                                     String selectedOption = (String) spinner.getSelectedItem();
+                                                     //FIXME : tamar - send this to server
+                                                 }
+                                             });
+
                                              return relativeLayout;
                                          }
 
