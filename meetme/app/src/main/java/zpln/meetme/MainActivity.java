@@ -74,6 +74,20 @@ public class MainActivity extends ActionBarActivity {
         new PostDetailedEvent();
     }
 
+    private int getImageByStatus(Status status) {
+        switch (status) {
+            case NOT_ATTNEDING:
+                return R.mipmap.no;
+
+            case ATTENDING:
+                return R.mipmap.yes;
+
+            case NOT_ANSWERED:
+            default:
+                return R.mipmap.maybe;
+        }
+    }
+
     private void createPartyListView(final List<DetailedEvent> events) {
         ListView listview = (ListView) findViewById(R.id.listView);
 
@@ -123,25 +137,26 @@ public class MainActivity extends ActionBarActivity {
                                         }
                                     });
 
-                                    switch (detailedEvent.status) {
-                                        case NOT_ATTNEDING:
-                                            icon.setImageResource(R.mipmap.no);
-                                            break;
-
-                                        case ATTENDING:
-                                            icon.setImageResource(R.mipmap.yes);
-                                            break;
-
-                                        case NOT_ANSWERED:
-                                            icon.setImageResource(R.mipmap.maybe);
-                                            break;
-                                    }
+                                    icon.setImageResource(that.getImageByStatus(detailedEvent.status));
                                     icon.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Intent intent = new Intent(that, DetailedEventActivity.class);
-                                            intent.putExtra("eventId", String.format("%d", detailedEvent.getEventId()));
-                                            startActivity(intent);
+                                            Status nextStatus;
+
+                                            switch (detailedEvent.status) {
+                                                case NOT_ATTNEDING:
+                                                case NOT_ANSWERED:
+                                                    nextStatus = Status.ATTENDING;
+                                                    break;
+                                                case ATTENDING:
+                                                default:
+                                                    nextStatus = Status.NOT_ATTNEDING;
+                                                    break;
+                                            }
+
+                                            // TODO: Use Tamar's change_status()
+                                            detailedEvent.status = nextStatus;
+                                            ((ImageView) v).setImageResource(that.getImageByStatus(nextStatus));
                                         }
                                     });
                                     return layout;
