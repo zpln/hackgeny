@@ -58,6 +58,12 @@ public class DetailedEvent extends Event{
         reader.endObject();
     }
 
+    public DetailedEvent(String eventName, List<Poll> polls, List<User> users) {
+        super(eventName);
+        this.polls = polls;
+        this.users = users;
+    }
+
     private List<Poll> readPolls(JsonReader reader) throws IOException {
         List<Poll> polls = new ArrayList<Poll>();
         reader.beginArray();

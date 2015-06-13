@@ -52,6 +52,13 @@ public class Event {
         reader.endObject();
     }
 
+    public Event(String eventName) {
+        this.eventId = -1;
+        this.eventName = eventName;
+        this.status = Status.NOT_ANSWERED;
+        this.creatorId = -1;
+    }
+
     String getEventName(){
         return this.eventName;
     }
