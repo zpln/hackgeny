@@ -66,9 +66,11 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-          super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
-          new GetEventsTask().execute();
+        new GetEventsTask().execute();
+
+        new PostDetailedEvent();
     }
 
     private void createPartyListView(final List<DetailedEvent> events) {
