@@ -4,7 +4,7 @@ function goto_meetme_website() {
 
 function popup_download() {
         var dialogInstance = new BootstrapDialog({
-                title: 'Welcome to meetme :)',
+                title: '<img src="/static/img/meetme_256.png" alt="" style="width: 64px; height: 64px;" />',
                 message: '<b>We hope you enjoy your friend\'s event</b>\nWant to see all your friends\' events, or create your own events and invite your friends?\nDownload meetme today from <a href="http://meetme.com">meetme.com</a>',
                 type: BootstrapDialog.TYPE_DEFAULT,
                 closable: false,
