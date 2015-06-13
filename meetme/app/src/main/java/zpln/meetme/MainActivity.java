@@ -2,6 +2,7 @@ package zpln.meetme;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -122,10 +123,18 @@ public class MainActivity extends ActionBarActivity {
                                         }
                                     });
 
+                                    switch (detailedEvent.status) {
+                                        case NOT_ATTNEDING:
+                                            icon.setImageResource(R.mipmap.no);
+                                            break;
 
-                                    switch (detailedEvent.status.getStatus()) {
-                                        case NOT_ATTENDING:
-                                            ...
+                                        case ATTENDING:
+                                            icon.setImageResource(R.mipmap.yes);
+                                            break;
+
+                                        case NOT_ANSWERED:
+                                            icon.setImageResource(R.mipmap.maybe);
+                                            break;
                                     }
                                     icon.setOnClickListener(new View.OnClickListener() {
                                         @Override
