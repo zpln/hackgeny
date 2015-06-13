@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
@@ -18,13 +19,22 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CreateEventActivity extends ActionBarActivity {
-    final public static List<MiniPoll> polls = new LinkedList<>();
+    final public static List<Poll> polls = new LinkedList<>();
     static String currentEventName = "";
-    public static List<String> contancs = new LinkedList<>();
+    public static List<User> contancs = new LinkedList<>();
     private static final int PICK_CONTACT_REQUEST = 1;
     final CreateEventActivity that = this;
     @Override
@@ -36,8 +46,8 @@ public class CreateEventActivity extends ActionBarActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(CreatePollActivity.miniPoll != null ){
-            polls.add(CreatePollActivity.miniPoll);
+        if(CreatePollActivity.poll != null ){
+            polls.add(CreatePollActivity.poll);
             finish();
             startActivity(getIntent());
         }
@@ -49,7 +59,7 @@ public class CreateEventActivity extends ActionBarActivity {
                 // Get the URI that points to the selected contact
                 Uri contactUri = data.getData();
                 // We only need the NUMBER column, because there will be only one row in the result
-                String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER};
+                String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
 
                 // Perform the query on the contact to get the NUMBER column
                 // We don't need a selection or sort order (there's only one result for the given URI)
@@ -61,9 +71,11 @@ public class CreateEventActivity extends ActionBarActivity {
                 cursor.moveToFirst();
 
                 // Retrieve the phone number from the NUMBER column
-                int column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                String number = cursor.getString(column);
-                contancs.add(number);
+                int number_column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                String number = cursor.getString(number_column);
+                int name_column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                String name = cursor.getString(name_column);
+                contancs.add(new User(number, name));
             }
         }
     }
@@ -106,7 +118,8 @@ public class CreateEventActivity extends ActionBarActivity {
         publishNewEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //FIXME : post to server here
+                DetailedEvent event = new DetailedEvent(that.currentEventName, polls, contancs);
+                new PostDetailedEvent().execute(event);
                 polls.clear();
                 contancs.clear();
                 that.currentEventName = "";
@@ -155,6 +168,49 @@ public class CreateEventActivity extends ActionBarActivity {
 
         );
     }
+
+    private void gotoMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public class PostDetailedEvent extends AsyncTask<DetailedEvent, Void, Void> {
+
+        protected Void doInBackground(DetailedEvent... detailedEvent) {
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = null;
+            HttpResponse response = null;
+
+            try {
+                post = new HttpPost(Utility.serverUrl + "create_event");
+                List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
+                eventData.add(new BasicNameValuePair("user_id",Utility.userId));
+                eventData.add(new BasicNameValuePair("event_name", detailedEvent[0].getEventName()));
+                eventData.add(new BasicNameValuePair("polls", detailedEvent[0].getPollsJsonArray().toString()));
+                eventData.add(new BasicNameValuePair("users", detailedEvent[0].getUsersJsonArray().toString()));
+                post.setEntity(new UrlEncodedFormEntity(eventData));
+                /**
+                 MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                 entity.addPart("number", new StringBody("5555555555"));
+                 entity.addPart("clip", new StringBody("rickroll"));
+                 File fileToUpload = new File(filePath);
+                 FileBody fileBody = new FileBody(fileToUpload, "application/octet-stream");
+                 entity.addPart("upload_file", fileBody);
+                 entity.addPart("tos", new StringBody("agree"));
+                 post.setEntity(entity);
+                 **/
+                response = client.execute(post);
+            } catch (Exception e) {
+                String msg = e.getMessage();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(Void... detailedEvent) {
+            gotoMainActivity();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

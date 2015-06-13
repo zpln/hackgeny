@@ -9,9 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.EditText;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class CreatePollActivity extends ActionBarActivity {
 
-    static MiniPoll miniPoll;
+    static Poll poll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,22 +28,20 @@ public class CreatePollActivity extends ActionBarActivity {
         final LinearLayout linearLayout = (LinearLayout) scrollView.getChildAt(0);
         Button addPollButton = (Button) findViewById(R.id.addPollButton);
         final CreatePollActivity that = this;
-        this.miniPoll = null;
+        this.poll = null;
 
         addPollButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                miniPoll = new MiniPoll();
-                miniPoll.name = ((EditText) linearLayout.getChildAt(0)).getText().toString();
-                miniPoll.options = new String[6];
+                String pollName = ((EditText) linearLayout.getChildAt(0)).getText().toString();
+                List<PollOption> options = new LinkedList<>();
                 for(int i = 0; i < 6; i++) {
-                    String pollOption = ((EditText) linearLayout.getChildAt(i + 2)).getText().toString();
-                    if (pollOption.length() == 0) {
-                        miniPoll.options[i] = null;
-                    } else {
-                        miniPoll.options[i] = pollOption;
+                    String pollOptionName = ((EditText) linearLayout.getChildAt(i + 2)).getText().toString();
+                    if (pollOptionName.length() != 0) {
+                        options.add(new PollOption(pollOptionName));
                     }
                 }
+                poll = new Poll(pollName, options); 
                 finish();
             }
         });
