@@ -50,7 +50,11 @@ public class DetailedEvent extends Event{
                 reader.skipValue();
             }
         }
-
+        /**
+        this.users = new ArrayList<User>();
+        this.users.add(new User("0542254016", "netta"));
+        this.users.add(new User("0542254017", "stav"));
+        **/
         reader.endObject();
     }
 
@@ -91,23 +95,27 @@ public class DetailedEvent extends Event{
         JSONArray pollsJsonArray = new JSONArray();
         for(Poll poll : this.polls) {
             try {
-                JSONObject pollJsonObject = new JSONObject();
-                pollJsonObject.put("poll_name", poll.getPollName());
+                pollsJsonArray.put(poll.getJsonObject());
+            } catch (JSONException e) {
+                // this sucks
+            }
 
-                JSONArray optionsJsonArray = new JSONArray();
-                for(PollOption pollOption : poll.getPollOptions()) {
-                    optionsJsonArray.put(pollOption.getPollOptionName());
-                }
-                pollJsonObject.put("options", optionsJsonArray);
+        }
+        return pollsJsonArray;
+    }
 
-                pollsJsonArray.put(pollJsonObject);
+    public JSONArray getUsersJsonArray() {
+        JSONArray usersJsonArray = new JSONArray();
+        for(User user : this.users) {
+            try {
+                usersJsonArray.put(user.getJsonObject());
             } catch (JSONException e) {
                 // this sucks
             }
 
         }
 
-        return pollsJsonArray;
+        return usersJsonArray;
     }
 
     public List<Poll> getPolls() {

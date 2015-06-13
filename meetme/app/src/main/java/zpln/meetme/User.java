@@ -2,6 +2,9 @@ package zpln.meetme;
 
 import android.util.JsonReader;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 /**
@@ -32,5 +35,20 @@ public class User {
             }
         }
         reader.endObject();
+    }
+
+    public JSONObject getJsonObject() throws JSONException{
+        JSONObject userJsonObject = new JSONObject();
+        userJsonObject.put("user_id", this.getUserId());
+        userJsonObject.put("user_name", this.getUserName());
+        return userJsonObject;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getUserName() {
+        return userName;
     }
 }

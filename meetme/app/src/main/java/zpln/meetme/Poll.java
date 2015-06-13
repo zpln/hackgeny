@@ -2,6 +2,10 @@ package zpln.meetme;
 
 import android.util.JsonReader;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +72,18 @@ public class Poll {
             }
         }
         return false;
+    }
+
+    public JSONObject getJsonObject() throws JSONException {
+        JSONObject pollJsonObject = new JSONObject();
+        pollJsonObject.put("poll_name", this.getPollName());
+
+        JSONArray optionsJsonArray = new JSONArray();
+        for(PollOption pollOption : this.getPollOptions()) {
+            optionsJsonArray.put(pollOption.getPollOptionName());
+        }
+        pollJsonObject.put("option_names", optionsJsonArray);
+        return pollJsonObject;
     }
 
     public String getPollName() {
