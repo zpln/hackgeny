@@ -34,7 +34,7 @@ import java.util.List;
 public class CreateEventActivity extends ActionBarActivity {
     final public static List<Poll> polls = new LinkedList<>();
     static String currentEventName = "";
-    public static List<User> contancs = new LinkedList<>();
+    public static List<User> contacts = new LinkedList<>();
     private static final int PICK_CONTACT_REQUEST = 1;
     final CreateEventActivity that = this;
     @Override
@@ -46,7 +46,7 @@ public class CreateEventActivity extends ActionBarActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(CreatePollActivity.poll != null ){
+        if (CreatePollActivity.poll != null ){
             polls.add(CreatePollActivity.poll);
             finish();
             startActivity(getIntent());
@@ -75,7 +75,7 @@ public class CreateEventActivity extends ActionBarActivity {
                 String number = cursor.getString(number_column);
                 int name_column = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                 String name = cursor.getString(name_column);
-                contancs.add(new User(number, name));
+                contacts.add(new User(number, name));
             }
         }
     }
@@ -118,10 +118,10 @@ public class CreateEventActivity extends ActionBarActivity {
         publishNewEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DetailedEvent event = new DetailedEvent(that.currentEventName, polls, contancs);
+                DetailedEvent event = new DetailedEvent(that.currentEventName, polls, contacts);
                 new PostDetailedEvent().execute(event);
                 polls.clear();
-                contancs.clear();
+                contacts.clear();
                 that.currentEventName = "";
                 ((EditText) findViewById(R.id.eventName)).setText("", TextView.BufferType.EDITABLE);
                 finish();
@@ -161,7 +161,7 @@ public class CreateEventActivity extends ActionBarActivity {
                                              TextView dynamicTextView = new TextView(that);
                                              dynamicTextView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
                                              dynamicTextView.setPadding(20, 20, 20, 20);
-                                             dynamicTextView.setText((CharSequence) polls.get(position).name);
+                                             dynamicTextView.setText((CharSequence) polls.get(position).getPollName());
                                              return dynamicTextView;
                                          }
                                      }

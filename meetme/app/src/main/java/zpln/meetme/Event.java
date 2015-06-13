@@ -17,21 +17,21 @@ public class Event {
     public Event() {
         this.eventId = -1;
         this.eventName = null;
-        this.status = Status.NOT_ANSWERED;
+        this.status = Status.UNANSWERED;
         this.creatorId = -1;
     }
 
     public Event(int eventId, String eventName, Status status, int creatorId) {
         this.eventId = eventId;
         this.eventName = eventName;
-        this.status = Status.NOT_ANSWERED;
+        this.status = Status.UNANSWERED;
         this.creatorId = creatorId;
     }
 
     public Event(JsonReader reader) throws IOException {
         this.eventId = -1;
         this.eventName = null;
-        this.status = Status.NOT_ANSWERED;
+        this.status = Status.UNANSWERED;
         this.creatorId = -1;
 
         reader.beginObject();
@@ -55,7 +55,7 @@ public class Event {
     public Event(String eventName) {
         this.eventId = -1;
         this.eventName = eventName;
-        this.status = Status.NOT_ANSWERED;
+        this.status = Status.UNANSWERED;
         this.creatorId = -1;
     }
 

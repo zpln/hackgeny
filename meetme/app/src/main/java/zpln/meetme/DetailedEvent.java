@@ -4,10 +4,10 @@ import android.util.JsonReader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,7 +26,7 @@ public class DetailedEvent extends Event{
     public DetailedEvent(JsonReader reader) throws IOException {
         this.eventId = -1;
         this.eventName = null;
-        this.status = Status.NOT_ANSWERED;
+        this.status = Status.UNANSWERED;
         this.creatorId = -1;
         this.polls = null;
         this.users = null;
@@ -60,8 +60,11 @@ public class DetailedEvent extends Event{
 
     public DetailedEvent(String eventName, List<Poll> polls, List<User> users) {
         super(eventName);
-        this.polls = polls;
-        this.users = users;
+        // Deep copy to clean up polls and users afterwards
+        this.polls = new LinkedList<>();
+        this.polls.addAll(polls);
+        this.users = new LinkedList<>();
+        this.users.addAll(users);
     }
 
     private List<Poll> readPolls(JsonReader reader) throws IOException {
