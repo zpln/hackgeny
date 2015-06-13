@@ -1,5 +1,6 @@
 package zpln.meetme;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -46,18 +47,11 @@ public class DetailedEventActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        int eventId = 1;
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("eventId");
+        int eventId = Integer.parseInt(message);
         new GetDetailedEventTask().execute(eventId);
-        // new GetDetailedEventTask().execute(1);
 
-//          setContentView(R.layout.activity_main);
-
-        //setContentView(R.layout.event_list);
-        //createPartyListView();
-//
-        //      setContentView(R.layout.party_event_view);
-//        createPartyEventView();
     }
 
 

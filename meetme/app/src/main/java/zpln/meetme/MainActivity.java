@@ -1,5 +1,6 @@
 package zpln.meetme;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -97,7 +99,7 @@ public class MainActivity extends ActionBarActivity {
 
 
                                     TextView event_name = (TextView) upperDataLayout.getChildAt(0);
-                                    DetailedEvent detailedEvent = events.get(position);
+                                    final DetailedEvent detailedEvent = events.get(position);
                                     event_name.setText(detailedEvent.getEventName());
                                     TextView location = (TextView) upperDataLayout.getChildAt(1);
                                     location.setText(detailedEvent.getPollResult("Location"));
@@ -105,6 +107,15 @@ public class MainActivity extends ActionBarActivity {
                                     date.setText(detailedEvent.getPollResult("Time"));
                                     TextView participants = (TextView) lowerDataLayout.getChildAt(1);
                                     participants.setText(String.format("%d invited", detailedEvent.getUsers().size()));
+
+                                    layout.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(that, DetailedEventActivity.class);
+                                            intent.putExtra("eventId", String.format("%d", detailedEvent.getEventId()));
+                                            startActivity(intent);
+                                        }
+                                    });
                                     return layout;
                                 }
                             }
