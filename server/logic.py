@@ -91,7 +91,7 @@ def get_event_details(phone, event_id):
     event_details["polls"] = polls
 
     users = db_handler.query_db("""
-    SELECT user.phone, user.user_name
+    SELECT user.phone AS user_id, user.user_name
     FROM event_user
     INNER JOIN user
     WHERE event_user.event_id = ?
@@ -155,7 +155,7 @@ def create_event(phone, event_name, polls, users):
     for user in json.loads(users):
         current_user_id = get_user_id(user["phone"])
         db_handler.update_db(
-            "user", ("user_name",), (user["name"],), str("user_id={user_id}".format(user_id=current_user_id))
+            "user", {"user_name": user["name"]}, str("user_id={user_id}".format(user_id=current_user_id))
         )
         db_handler.insert_db(
             "event_user", {"event_id": event_id, "user_id": current_user_id, "status": EventStatus.UNSET}
@@ -179,7 +179,12 @@ def add_poll_option(phone, poll_id, poll_option_name):
     parameters = {"poll_option_name": poll_option_name, "poll_id": poll_id}
     db_handler.insert_db("poll_option", parameters)
 
+
+
 def change_status(phone, event_id, new_status):
     user_id = get_user_id(phone)
-    db_handler.update_db("event_user", ["status"], (str(new_status),), "event_id={0} and user_id={1}".format(event_id, user_id))
-    return {"ok": "done"}
+    db_handler.update_db(
+        "event_user", {"status": new_status},
+        "event_id={event_id} and user_id={user_id}".format(event_id=event_id, user_id=user_id)
+    )
+    return get_event_details(phone, event_id)

@@ -80,8 +80,8 @@ def add_poll_option():
 @app.route('/change_status')
 @json()
 def change_status():
-    data = check_required_parameters(("phone", "event_id", "new_status"))
-    return logic.change_status(data["phone"], data["event_id"], data["new_status"])
+    data = check_required_parameters(("user_id", "event_id", "new_status"))
+    return logic.change_status(data["user_id"], data["event_id"], data["new_status"])
 
 
 @app.before_request
