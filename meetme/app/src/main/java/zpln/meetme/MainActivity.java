@@ -64,8 +64,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
 
-
-
           new GetEventsTask().execute();
     }
 
@@ -166,27 +164,37 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    public void postEvent(DetailedEvent detailedEvent) {
-        HttpClient client = new DefaultHttpClient();
-        HttpPost post = null;
-        HttpResponse response = null;
+    private void gotoMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+    
+    // tomer, my man, move this to the correct activity
+    public class PostDetailedEvent extends AsyncTask<DetailedEvent, Void, Void> {
 
-        try {
-            post = new HttpPost(Utility.serverUrl);
-            List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
-            eventData.add(new BasicNameValuePair("user_id",Utility. userId));
-            eventData.add(new BasicNameValuePair("event_name", detailedEvent.getEventName()));
-            post.setEntity(new UrlEncodedFormEntity(eventData));
-            response = client.execute(post);
+        protected Void doInBackground(DetailedEvent... detailedEvent) {
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = null;
+            HttpResponse response = null;
 
-        } catch (IOException e) {
-            System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+            try {
+                post = new HttpPost(Utility.serverUrl + "create_event");
+                List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
+                eventData.add(new BasicNameValuePair("user_id",Utility.userId));
+                eventData.add(new BasicNameValuePair("event_name", detailedEvent[0].getEventName()));
+                eventData.add(new BasicNameValuePair("polls", detailedEvent[0].getPollsJsonArray().toString()));
+                post.setEntity(new UrlEncodedFormEntity(eventData));
+                response = client.execute(post);
+            } catch (Exception e) {
+                String msg = e.getMessage();
+            }
+            return null;
         }
-        finally {
 
+        protected void onPostExecute(Void... detailedEvent) {
+            gotoMainActivity();
         }
     }
-
 
     private class GetEventsTask extends AsyncTask<Void, Void, List<DetailedEvent>> {
 
