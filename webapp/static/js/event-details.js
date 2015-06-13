@@ -15,6 +15,7 @@ function popup_download() {
                     }, {
                         label: 'No thanks, continue >>',
                         action: function(dialogItself){
+                            $(".hide_on_start").css("display", "block");
                             dialogItself.close();
                         }
                     }]
@@ -23,6 +24,7 @@ function popup_download() {
 }
 
 function popup_download_delayed() {
+    $(".hide_on_start").css("display", "none");
     setTimeout(popup_download, 0);
 }
 
