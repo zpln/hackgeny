@@ -77,11 +77,11 @@ def add_poll_option():
     data = check_required_parameters(("user_id", "poll_id", "poll_option_name"))
     return logic.add_poll_option(data["user_id"], int(data["poll_id"]), data["poll_option_name"])
 
-@app.route('/change_status')
+@app.route('/change_status', methods=['POST'])
 @json()
 def change_status():
-    data = check_required_parameters(("user_id", "event_id", "new_status"))
-    return logic.change_status(data["user_id"], data["event_id"], data["new_status"])
+    data = check_required_parameters(("user_id", "event_id", "new_status"), True)
+    return logic.change_status(data["user_id"], int(data["event_id"]), int(data["new_status"]))
 
 
 @app.before_request
