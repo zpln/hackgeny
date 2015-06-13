@@ -46,7 +46,7 @@ def insert_db(table_name, parameters):
     return cur.lastrowid
 
 def update_db(table, params, vals, condition):
-    update_str = "UPDATE {table_name} SET {cols}=? WHERE {cond}".format(table_name=table, cols="='?', ".join(params), cond=condition)
+    update_str = "UPDATE {table_name} SET {cols}=? WHERE {cond}".format(table_name=table, cols="=?, ".join(params), cond=condition)
     cur = get_db_connection().cursor()
     cur.execute(update_str, vals)
     get_db_connection().commit()

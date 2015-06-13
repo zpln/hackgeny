@@ -179,3 +179,8 @@ def add_poll_option(phone, poll_id, poll_option_name):
 
     parameters = {"poll_option_name": poll_option_name, "poll_id": poll_id}
     db_handler.insert_db("poll_option", parameters)
+
+def change_status(phone, event_id, new_status):
+    user_id = get_user_id(phone)
+    db_handler.update_db("event_user", ["status"], (str(new_status),), "event_id={0} and user_id={1}".format(event_id, user_id))
+    return {"ok": "done"}
