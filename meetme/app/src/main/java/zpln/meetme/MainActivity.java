@@ -145,7 +145,7 @@ public class MainActivity extends ActionBarActivity {
                 List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
                 eventData.add(new BasicNameValuePair("user_id",Utility.userId));
                 eventData.add(new BasicNameValuePair("event_id", String.valueOf(eventStatusAnswer[0].getEventId())));
-                eventData.add(new BasicNameValuePair("new_status", String.valueOf(eventStatusAnswer[0].getStatus())));
+                eventData.add(new BasicNameValuePair("new_status", String.valueOf(eventStatusAnswer[0].getStatus().ordinal())));
                 post.setEntity(new UrlEncodedFormEntity(eventData));
                 response = client.execute(post);
             } catch (Exception e) {
