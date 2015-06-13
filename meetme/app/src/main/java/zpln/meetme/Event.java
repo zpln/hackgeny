@@ -11,27 +11,27 @@ public class Event {
 
     protected int eventId;
     protected String eventName;
-    protected int status;
+    protected Status status;
     protected int creatorId;
 
     public Event() {
         this.eventId = -1;
         this.eventName = null;
-        this.status = -1;
+        this.status = Status.NOT_ANSWERED;
         this.creatorId = -1;
     }
 
     public Event(int eventId, String eventName, Status status, int creatorId) {
         this.eventId = eventId;
         this.eventName = eventName;
-        this.status = -1;
+        this.status = Status.NOT_ANSWERED;
         this.creatorId = creatorId;
     }
 
     public Event(JsonReader reader) throws IOException {
         this.eventId = -1;
         this.eventName = null;
-        this.status = -1;
+        this.status = Status.NOT_ANSWERED;
         this.creatorId = -1;
 
         reader.beginObject();
@@ -42,7 +42,7 @@ public class Event {
             } else if (name.equals("event_name")) {
                 this.eventName = reader.nextString();
             } else if (name.equals("status")) {
-                this.status = reader.nextInt();
+                this.status = Status.values()[reader.nextInt()];
             } else if (name.equals("creator_id")) {
                 this.creatorId = reader.nextInt();
             }else {
@@ -60,7 +60,7 @@ public class Event {
         return eventId;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
