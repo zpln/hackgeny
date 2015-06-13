@@ -185,27 +185,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void postPollResponse(int poll_option_id) {
-        HttpClient client = new DefaultHttpClient();
-        HttpPost post = null;
-        HttpResponse response = null;
-
-        try {
-            post = new HttpPost(Utility.serverUrl);
-            List<NameValuePair> invitationResponseData = new ArrayList<NameValuePair>(2);
-            invitationResponseData.add(new BasicNameValuePair("user_id", Utility.userId));
-            invitationResponseData.add(new BasicNameValuePair("option_id", String.valueOf(poll_option_id)));
-            post.setEntity(new UrlEncodedFormEntity(invitationResponseData));
-            response = client.execute(post);
-
-        } catch (IOException e) {
-            // this sucks
-        }
-        finally {
-
-        }
-    }
-
     private class GetEventsTask extends AsyncTask<Void, Void, List<DetailedEvent>> {
 
         public List<DetailedEvent> doInBackground(Void... params) {

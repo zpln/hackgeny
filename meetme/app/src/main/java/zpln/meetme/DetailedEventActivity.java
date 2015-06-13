@@ -48,6 +48,8 @@ import java.util.Objects;
 
 public class DetailedEventActivity extends ActionBarActivity {
 
+    final DetailedEventActivity that = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +101,7 @@ public class DetailedEventActivity extends ActionBarActivity {
                                          }
 
                                          @Override
-                                         public View getView(int position, View convertView, ViewGroup parent) {
+                                         public View getView(final int position, View convertView, ViewGroup parent) {
                                              LinearLayout relativeLayout = (LinearLayout) LayoutInflater.from(that).inflate(R.layout.activity_barchart, null);
 
                                              Poll currentPoll = detailedEvent.getPolls().get(position);
@@ -122,8 +124,13 @@ public class DetailedEventActivity extends ActionBarActivity {
                                              voteForPollButton.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View v) {
-                                                     String selectedOption = (String) spinner.getSelectedItem();
-                                                     //FIXME : tamar - send this to server
+                                                     String selectedOptionName = (String) spinner.getSelectedItem();
+                                                     Poll poll = detailedEvent.getPolls().get(position);
+                                                     for (PollOption pollOption : poll.getPollOptions()) {
+                                                         if (pollOption.getPollOptionName().equals(selectedOptionName)) {
+                                                             new PostPollResponse().execute(pollOption.getPollOptionId());
+                                                         }
+                                                     }
                                                  }
                                              });
 
@@ -252,6 +259,32 @@ public class DetailedEventActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class PostPollResponse extends AsyncTask<Integer, Void, Void> {
+
+        protected Void doInBackground(Integer... pollOptionId) {
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = null;
+            HttpResponse response = null;
+
+            try {
+                post = new HttpPost(Utility.serverUrl + "answer_poll");
+                List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
+                eventData.add(new BasicNameValuePair("user_id",Utility.userId));
+                eventData.add(new BasicNameValuePair("poll_option_id", pollOptionId.toString()));
+                post.setEntity(new UrlEncodedFormEntity(eventData));
+                response = client.execute(post);
+            } catch (Exception e) {
+                String msg = e.getMessage();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(Void... bla) {
+            that.finish();
+            that.startActivity(getIntent());
+        }
     }
 
 
