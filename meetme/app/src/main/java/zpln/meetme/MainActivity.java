@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,11 +38,11 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-          super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
+        new GetEventsTask().execute();
 
-
-          new GetEventsTask().execute();
+        new PostDetailedEvent();
     }
 
     private void createPartyListView(final List<DetailedEvent> events) {
@@ -68,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
                                 @Override
                                 public View getView(int position, View convertView, ViewGroup parent) {
                                     LinearLayout layout = (LinearLayout) LayoutInflater.from(that).inflate(R.layout.mylist, null);
+                                    ImageView icon = (ImageView) layout.getChildAt(0);
                                     LinearLayout dataLayout = (LinearLayout) layout.getChildAt(1);
                                     LinearLayout upperDataLayout = (LinearLayout) dataLayout.getChildAt(0);
                                     LinearLayout lowerDataLayout = (LinearLayout) dataLayout.getChildAt(1);
@@ -84,6 +86,28 @@ public class MainActivity extends ActionBarActivity {
                                     participants.setText(String.format("%d invited", detailedEvent.getUsers().size()));
 
                                     layout.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(that, DetailedEventActivity.class);
+                                            intent.putExtra("eventId", String.format("%d", detailedEvent.getEventId()));
+                                            startActivity(intent);
+                                        }
+                                    });
+
+                                    switch (detailedEvent.status) {
+                                        case NOT_ATTNEDING:
+                                            icon.setImageResource(R.mipmap.no);
+                                            break;
+
+                                        case ATTENDING:
+                                            icon.setImageResource(R.mipmap.yes);
+                                            break;
+
+                                        case NOT_ANSWERED:
+                                            icon.setImageResource(R.mipmap.maybe);
+                                            break;
+                                    }
+                                    icon.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             Intent intent = new Intent(that, DetailedEventActivity.class);
@@ -141,27 +165,37 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    public void postEvent(DetailedEvent detailedEvent) {
-        HttpClient client = new DefaultHttpClient();
-        HttpPost post = null;
-        HttpResponse response = null;
+    private void gotoMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+    
+    // tomer, my man, move this to the correct activity
+    public class PostDetailedEvent extends AsyncTask<DetailedEvent, Void, Void> {
 
-        try {
-            post = new HttpPost(Utility.serverUrl);
-            List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
-            eventData.add(new BasicNameValuePair("user_id",Utility. userId));
-            eventData.add(new BasicNameValuePair("event_name", detailedEvent.getEventName()));
-            post.setEntity(new UrlEncodedFormEntity(eventData));
-            response = client.execute(post);
+        protected Void doInBackground(DetailedEvent... detailedEvent) {
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = null;
+            HttpResponse response = null;
 
-        } catch (IOException e) {
-            System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+            try {
+                post = new HttpPost(Utility.serverUrl + "create_event");
+                List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
+                eventData.add(new BasicNameValuePair("user_id",Utility.userId));
+                eventData.add(new BasicNameValuePair("event_name", detailedEvent[0].getEventName()));
+                eventData.add(new BasicNameValuePair("polls", detailedEvent[0].getPollsJsonArray().toString()));
+                post.setEntity(new UrlEncodedFormEntity(eventData));
+                response = client.execute(post);
+            } catch (Exception e) {
+                String msg = e.getMessage();
+            }
+            return null;
         }
-        finally {
 
+        protected void onPostExecute(Void... detailedEvent) {
+            gotoMainActivity();
         }
     }
-
 
     private class GetEventsTask extends AsyncTask<Void, Void, List<DetailedEvent>> {
 

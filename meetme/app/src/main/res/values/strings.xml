@@ -1,11 +1,7 @@
 <resources>
-    <string name="app_name">meetme</string>
-    <string name="detailed_event_activity">detailed event</string>
-    <string name="create_event_activity">create event</string>
-    <string name="create_poll_activity">create poll</string>
-
-
-
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">MeetMe</string>
+    <string name="detailed_event_activity">Detailed Event</string>
+    <string name="create_event_activity">Create Event</string>
+    <string name="create_poll_activity">Create Poll</string>
     <string name="action_settings">Settings</string>
 </resources>
