@@ -7,14 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
-
-import java.util.LinkedList;
-import java.util.List;
+import android.widget.EditText;
 
 public class CreatePollActivity extends ActionBarActivity {
 
-    static Poll poll;
+    static MiniPoll miniPoll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,25 +22,27 @@ public class CreatePollActivity extends ActionBarActivity {
 
         LinearLayout mainView = (LinearLayout) findViewById(R.id.createPollView);
         final ScrollView scrollView = (ScrollView) mainView.getChildAt(0);
-        final LinearLayout linearLayout= (LinearLayout) scrollView.getChildAt(0);
-        Button addPollButton = (Button) linearLayout.getChildAt(7);
+        final LinearLayout linearLayout = (LinearLayout) scrollView.getChildAt(0);
+        Button addPollButton = (Button) findViewById(R.id.addPollButton);
         final CreatePollActivity that = this;
+        this.miniPoll = null;
 
         addPollButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String pollName = ((TextView) linearLayout.getChildAt(0)).getText().toString();
-                List<PollOption> options = new LinkedList<>();
+                miniPoll = new MiniPoll();
+                miniPoll.name = ((EditText) linearLayout.getChildAt(0)).getText().toString();
+                miniPoll.options = new String[6];
                 for(int i = 0; i < 6; i++) {
-                    String pollOptionName = ((TextView) linearLayout.getChildAt(i+1)).getText().toString();
-                    if (!pollOptionName.startsWith("Option ")) {
-                        options.add(new PollOption(pollOptionName));
+                    String pollOption = ((EditText) linearLayout.getChildAt(i + 2)).getText().toString();
+                    if (pollOption.length() == 0) {
+                        miniPoll.options[i] = null;
+                    } else {
+                        miniPoll.options[i] = pollOption;
                     }
-                    options.add(new PollOption("asdasd"));
                 }
-                poll = new Poll(pollName, options);
                 finish();
             }
-    });
-}
+        });
+    }
 }

@@ -14,12 +14,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="150px"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Event name"
-                android:id="@+id/textView" />
+                android:layout_height="wrap_content"
+                android:id="@+id/eventName"
+                android:hint="Event Name" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25px" />
 
             <Button
                 android:layout_width="fill_parent"
@@ -31,13 +34,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:text="Add Poll"
-                android:id="@+id/button" />
+                android:id="@+id/addPollButton" />
 
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:text="Publish Event"
-                android:id="@+id/publishNewEvent" />
+                android:id="@+id/publishNewEventButton" />
 
             <ListView
                 android:orientation="vertical"

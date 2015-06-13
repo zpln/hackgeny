@@ -14,55 +14,57 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="150px"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Poll name"
-                android:id="@+id/pollName" />
+                android:layout_height="wrap_content"
+                android:id="@+id/pollName"
+                android:hint="Poll Name" />
 
-            <TextView
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="100px"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Option 1"
-                android:id="@+id/pollOption1" />
-            <TextView
+                android:layout_height="50px" />
+
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="100px"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Option 2"
-                android:id="@+id/pollOption2" />
-            <TextView
+                android:layout_height="wrap_content"
+                android:id="@+id/pollOption1"
+                android:hint="Option 1" />
+
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="100px"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Option 3"
-                android:id="@+id/pollOption3" />
-            <TextView
+                android:layout_height="wrap_content"
+                android:id="@+id/pollOption2"
+                android:hint="Option 2" />
+
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="100px"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Option 4"
-                android:id="@+id/pollOption4" />
-            <TextView
+                android:layout_height="wrap_content"
+                android:id="@+id/pollOption3"
+                android:hint="Option 3" />
+
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="100px"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Option 5"
-                android:id="@+id/pollOption5" />
-            <TextView
+                android:layout_height="wrap_content"
+                android:id="@+id/pollOption4"
+                android:hint="Option 4" />
+
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="100px"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Option 6"
-                android:id="@+id/pollOption6" />
+                android:layout_height="wrap_content"
+                android:id="@+id/pollOption5"
+                android:hint="Option 5" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pollOption6"
+                android:hint="Option 6" />
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Done"
-                android:id="@+id/button2" />
+                android:id="@+id/addPollButton" />
         </LinearLayout>
     </ScrollView>
 
