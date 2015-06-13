@@ -57,10 +57,10 @@ def get_event_details():
     return logic.get_event_details(data["user_id"], int(data["event_id"]))
 
 
-@app.route('/answer_poll')
+@app.route('/answer_poll', methods=['POST'])
 @json()
 def answer_poll():
-    data = check_required_parameters(("user_id", "poll_option_id"))
+    data = check_required_parameters(("user_id", "poll_option_id"), True)
     return logic.answer_poll(data["user_id"], int(data["poll_option_id"]))
 
 
