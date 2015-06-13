@@ -55,6 +55,14 @@ public class Poll {
         reader.endObject();
     }
 
+    public Poll(String pollName, List<PollOption> pollOptions) {
+        this.pollId = -1;
+        this.pollName = pollName;
+        this.selectedPollOption = -1;
+        this.overriddenPollOption = -1;
+        this.pollOptions = pollOptions;
+    }
+
     private List<PollOption> readPollOptions(JsonReader reader) throws IOException {
         List<PollOption> pollOptions = new ArrayList<PollOption>();
         reader.beginArray();

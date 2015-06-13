@@ -177,49 +177,6 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void gotoMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-    
-    // tomer, my man, move this to the correct activity
-    public class PostDetailedEvent extends AsyncTask<DetailedEvent, Void, Void> {
-
-        protected Void doInBackground(DetailedEvent... detailedEvent) {
-            HttpClient client = new DefaultHttpClient();
-            HttpPost post = null;
-            HttpResponse response = null;
-
-            try {
-                post = new HttpPost(Utility.serverUrl + "create_event");
-                List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
-                eventData.add(new BasicNameValuePair("user_id",Utility.userId));
-                eventData.add(new BasicNameValuePair("event_name", detailedEvent[0].getEventName()));
-                eventData.add(new BasicNameValuePair("polls", detailedEvent[0].getPollsJsonArray().toString()));
-                eventData.add(new BasicNameValuePair("users", detailedEvent[0].getUsersJsonArray().toString()));
-                post.setEntity(new UrlEncodedFormEntity(eventData));
-                /**
-                MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
-                entity.addPart("number", new StringBody("5555555555"));
-                entity.addPart("clip", new StringBody("rickroll"));
-                File fileToUpload = new File(filePath);
-                FileBody fileBody = new FileBody(fileToUpload, "application/octet-stream");
-                entity.addPart("upload_file", fileBody);
-                entity.addPart("tos", new StringBody("agree"));
-                post.setEntity(entity);
-                **/
-                response = client.execute(post);
-            } catch (Exception e) {
-                String msg = e.getMessage();
-            }
-            return null;
-        }
-
-        protected void onPostExecute(Void... detailedEvent) {
-            gotoMainActivity();
-        }
-    }
-
     private class GetEventsTask extends AsyncTask<Void, Void, List<DetailedEvent>> {
 
         public List<DetailedEvent> doInBackground(Void... params) {

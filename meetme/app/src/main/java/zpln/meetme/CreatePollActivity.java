@@ -9,9 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class CreatePollActivity extends ActionBarActivity {
 
-    static MiniPoll miniPoll;
+    static Poll poll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +32,18 @@ public class CreatePollActivity extends ActionBarActivity {
         addPollButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                miniPoll = new MiniPoll();
-                miniPoll.name = ((TextView) linearLayout.getChildAt(0)).getText().toString();
-                miniPoll.options = new String[6];
+                String pollName = ((TextView) linearLayout.getChildAt(0)).getText().toString();
+                List<PollOption> options = new LinkedList<>();
                 for(int i = 0; i < 6; i++) {
-                    String pollOption = ((TextView) linearLayout.getChildAt(i+1)).getText().toString();
-                    if (pollOption.startsWith("Option ")) {
-                        miniPoll.options[i] = null;
-                    } else {
-                        miniPoll.options[i] = pollOption;
+                    String pollOptionName = ((TextView) linearLayout.getChildAt(i+1)).getText().toString();
+                    if (!pollOptionName.startsWith("Option ")) {
+                        options.add(new PollOption(pollOptionName));
                     }
+                    options.add(new PollOption("asdasd"));
                 }
+                poll = new Poll(pollName, options);
                 finish();
             }
-        });
-    }
+    });
+}
 }

@@ -18,6 +18,12 @@ public class PollOption {
         this.pollOptionCount = pollOptionCount;
     }
 
+    public PollOption(String pollOptionName) {
+        this.pollOptionId = -1;
+        this.pollOptionName = pollOptionName;
+        this.pollOptionCount = -1;
+    }
+
     public PollOption(JsonReader reader) throws IOException {
         this.pollOptionId = -1;
         this.pollOptionName = null;
