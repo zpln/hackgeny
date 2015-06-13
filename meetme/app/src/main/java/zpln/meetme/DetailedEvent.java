@@ -2,6 +2,10 @@ package zpln.meetme;
 
 import android.util.JsonReader;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +15,9 @@ import java.util.List;
  */
 public class DetailedEvent extends Event{
     private List<Poll> polls;
-    private List<Integer> users;
+    private List<User> users;
 
-    public DetailedEvent(int eventId, String eventName, Status status, int creatorId, List<Poll> polls, List<Integer> users){
+    public DetailedEvent(int eventId, String eventName, Status status, int creatorId, List<Poll> polls, List<User> users){
         super(eventId, eventName, status, creatorId);
         this.polls = polls;
         this.users = users;
@@ -60,11 +64,11 @@ public class DetailedEvent extends Event{
         return polls;
     }
 
-    private List<Integer> readUsers(JsonReader reader) throws IOException {
-        List<Integer> users = new ArrayList<Integer>();
+    private List<User> readUsers(JsonReader reader) throws IOException {
+        List<User> users = new ArrayList<>();
         reader.beginArray();
         while (reader.hasNext()) {
-            users.add(reader.nextInt());
+            users.add(new User(reader));
         }
         reader.endArray();
         return users;
@@ -81,6 +85,29 @@ public class DetailedEvent extends Event{
             }
         }
         return "TBD";
+    }
+
+    public JSONArray getPollsJsonArray() {
+        JSONArray pollsJsonArray = new JSONArray();
+        for(Poll poll : this.polls) {
+            try {
+                JSONObject pollJsonObject = new JSONObject();
+                pollJsonObject.put("poll_name", poll.getPollName());
+
+                JSONArray optionsJsonArray = new JSONArray();
+                for(PollOption pollOption : poll.getPollOptions()) {
+                    optionsJsonArray.put(pollOption.getPollOptionName());
+                }
+                pollJsonObject.put("options", optionsJsonArray);
+
+                pollsJsonArray.put(pollJsonObject);
+            } catch (JSONException e) {
+                // this sucks
+            }
+
+        }
+
+        return pollsJsonArray;
     }
 
     public List<Poll> getPolls() {
