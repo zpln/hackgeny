@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class Utility {
     public static String userId = "0545920004";
-    public static String serverUrl = new String("http://10.0.0.8:5000/");
+    public static String serverUrl = new String("http://10.0.0.7:5000/");
 
 
     public static String addParametersToUrl(String url, List<NameValuePair> params){
