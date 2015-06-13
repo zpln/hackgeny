@@ -26,7 +26,7 @@ public class DetailedEvent extends Event{
     public DetailedEvent(JsonReader reader) throws IOException {
         this.eventId = -1;
         this.eventName = null;
-        this.status = null;
+        this.status = -1;
         this.creatorId = -1;
         this.polls = null;
         this.users = null;
@@ -39,7 +39,7 @@ public class DetailedEvent extends Event{
             } else if (name.equals("event_name")) {
                 this.eventName = reader.nextString();
             } else if (name.equals("status")) {
-                this.status = new Status(reader.nextInt());
+                this.status = reader.nextInt();
             } else if (name.equals("creator_id")) {
                 this.creatorId = reader.nextInt();
             } else if (name.equals("polls")) {
