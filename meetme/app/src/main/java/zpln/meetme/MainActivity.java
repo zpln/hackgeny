@@ -121,10 +121,9 @@ public class MainActivity extends ActionBarActivity {
                                                     nextStatus = Status.NOT_ATTNEDING;
                                                     break;
                                             }
-
-                                            // TODO: Use Tamar's change_status()
-                                            detailedEvent.status = nextStatus;
+                                            detailedEvent.setStatus(nextStatus);
                                             ((ImageView) v).setImageResource(that.getImageByStatus(nextStatus));
+                                            new PostEventStatus().execute(new EventStatusAnswer(detailedEvent.getEventId(), nextStatus));
                                         }
                                     });
                                     return layout;
@@ -132,6 +131,28 @@ public class MainActivity extends ActionBarActivity {
                             }
 
         );
+    }
+
+    public class PostEventStatus extends AsyncTask<EventStatusAnswer, Void, Void> {
+
+        protected Void doInBackground(EventStatusAnswer... eventStatusAnswer) {
+            HttpClient client = new DefaultHttpClient();
+            HttpPost post = null;
+            HttpResponse response = null;
+
+            try {
+                post = new HttpPost(Utility.serverUrl + "change_status");
+                List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
+                eventData.add(new BasicNameValuePair("user_id",Utility.userId));
+                eventData.add(new BasicNameValuePair("event_id", String.valueOf(eventStatusAnswer[0].getEventId())));
+                eventData.add(new BasicNameValuePair("new_status", String.valueOf(eventStatusAnswer[0].getStatus())));
+                post.setEntity(new UrlEncodedFormEntity(eventData));
+                response = client.execute(post);
+            } catch (Exception e) {
+                String msg = e.getMessage();
+            }
+            return null;
+        }
     }
 
    @Override
@@ -170,7 +191,7 @@ public class MainActivity extends ActionBarActivity {
             response = client.execute(post);
 
         } catch (IOException e) {
-            System.err.println("IndexOutOfBoundsException: " + e.getMessage());
+            // this sucks
         }
         finally {
 

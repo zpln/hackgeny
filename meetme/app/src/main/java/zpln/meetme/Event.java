@@ -71,6 +71,9 @@ public class Event {
         return status;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
     public int getCreatorId() {
         return creatorId;
     }
