@@ -14,25 +14,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/eventName"
+                android:hint="Event Name" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Event name"
-                    android:id="@+id/textView"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:layout_width="0px"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/eventNameText"
-                    android:layout_weight="2" />
-            </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="25px" />
 
             <Button
                 android:layout_width="fill_parent"
@@ -44,13 +34,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:text="Add Poll"
-                android:id="@+id/button" />
+                android:id="@+id/addPollButton" />
 
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:text="Publish Event"
-                android:id="@+id/publishNewEvent" />
+                android:id="@+id/publishNewEventButton" />
 
             <ListView
                 android:orientation="vertical"

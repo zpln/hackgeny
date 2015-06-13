@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -24,7 +23,7 @@ import java.util.List;
 
 public class CreateEventActivity extends ActionBarActivity {
     final public static List<MiniPoll> polls = new LinkedList<>();
-    static String currentEventNameText = "";
+    static String currentEventName = "";
     public static List<String> contancs = new LinkedList<>();
     private static final int PICK_CONTACT_REQUEST = 1;
     final CreateEventActivity that = this;
@@ -72,23 +71,22 @@ public class CreateEventActivity extends ActionBarActivity {
     @Override
     public void onResume() {
         super.onResume();
-        EditText edit = (EditText) findViewById(R.id.eventNameText);
-        edit.setText(this.currentEventNameText, TextView.BufferType.EDITABLE);
+        EditText edit = (EditText) findViewById(R.id.eventName);
+        edit.setText(this.currentEventName, TextView.BufferType.EDITABLE);
     }
 
     private void createPartyEventView() {
         setContentView(R.layout.create_event_view);
         ScrollView scrollView = (ScrollView) findViewById(R.id.createEventScrollView);
 
-        LinearLayout linearLayout = (LinearLayout) scrollView.getChildAt(0);
-        Button pickFriendsButton = (Button) linearLayout.getChildAt(1);
-        Button addPollButton = (Button) linearLayout.getChildAt(2);
-        Button sendPollButton = (Button) linearLayout.getChildAt(3);
+        Button selectFriendsButton = (Button) findViewById(R.id.selectFriendsButton);
+        Button addPollButton = (Button) findViewById(R.id.addPollButton);
+        Button publishNewEventButton = (Button) findViewById(R.id.publishNewEventButton);
 
-        pickFriendsButton.setOnClickListener(new View.OnClickListener() {
+        selectFriendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                that.currentEventNameText = ((EditText) findViewById(R.id.eventNameText)).getText().toString();
+                that.currentEventName = ((EditText) findViewById(R.id.eventName)).getText().toString();
                 Intent pickContactIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts"));
                 pickContactIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE); // Show user only contacts w/ phone numbers
                 startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST);
@@ -99,20 +97,20 @@ public class CreateEventActivity extends ActionBarActivity {
         addPollButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                that.currentEventNameText = ((EditText) findViewById(R.id.eventNameText)).getText().toString();
+                that.currentEventName = ((EditText) findViewById(R.id.eventName)).getText().toString();
                 Intent intent = new Intent(that, CreatePollActivity.class);
                 startActivityForResult(intent, 0);
             }
         });
 
-        sendPollButton.setOnClickListener(new View.OnClickListener() {
+        publishNewEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //FIXME : post to server here
                 polls.clear();
                 contancs.clear();
-                that.currentEventNameText = "";
-                ((EditText) findViewById(R.id.eventNameText)).setText("", TextView.BufferType.EDITABLE);
+                that.currentEventName = "";
+                ((EditText) findViewById(R.id.eventName)).setText("", TextView.BufferType.EDITABLE);
                 finish();
             }
         });

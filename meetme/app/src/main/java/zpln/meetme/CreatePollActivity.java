@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.EditText;
 
 public class CreatePollActivity extends ActionBarActivity {
 
@@ -22,19 +22,19 @@ public class CreatePollActivity extends ActionBarActivity {
 
         LinearLayout mainView = (LinearLayout) findViewById(R.id.createPollView);
         final ScrollView scrollView = (ScrollView) mainView.getChildAt(0);
-        final LinearLayout linearLayout= (LinearLayout) scrollView.getChildAt(0);
-        Button addPollButton = (Button) linearLayout.getChildAt(7);
+        final LinearLayout linearLayout = (LinearLayout) scrollView.getChildAt(0);
+        Button addPollButton = (Button) findViewById(R.id.addPollButton);
         final CreatePollActivity that = this;
 
         addPollButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 miniPoll = new MiniPoll();
-                miniPoll.name = ((TextView) linearLayout.getChildAt(0)).getText().toString();
+                miniPoll.name = ((EditText) linearLayout.getChildAt(0)).getText().toString();
                 miniPoll.options = new String[6];
                 for(int i = 0; i < 6; i++) {
-                    String pollOption = ((TextView) linearLayout.getChildAt(i+1)).getText().toString();
-                    if (pollOption.startsWith("Option ")) {
+                    String pollOption = ((EditText) linearLayout.getChildAt(i + 2)).getText().toString();
+                    if (pollOption.length() == 0) {
                         miniPoll.options[i] = null;
                     } else {
                         miniPoll.options[i] = pollOption;
