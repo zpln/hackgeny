@@ -19,8 +19,9 @@ import java.util.List;
  * Created by tamar on 6/13/2015.
  */
 public class Utility {
-    public static String userId = null;
-    public static String serverUrl = null;
+    public static String userId = "0545920004";
+    public static String serverUrl = new String("http://10.0.0.8:5000/");
+
 
     public static String addParametersToUrl(String url, List<NameValuePair> params){
         if(!url.endsWith("?")) {
