@@ -35,14 +35,11 @@ import java.util.List;
 public class MainActivity extends ActionBarActivity {
 
     final MainActivity that = this;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         new GetEventsTask().execute();
-
-        new PostDetailedEvent();
     }
 
     private int getImageByStatus(Status status) {
@@ -199,7 +196,18 @@ public class MainActivity extends ActionBarActivity {
                 eventData.add(new BasicNameValuePair("user_id",Utility.userId));
                 eventData.add(new BasicNameValuePair("event_name", detailedEvent[0].getEventName()));
                 eventData.add(new BasicNameValuePair("polls", detailedEvent[0].getPollsJsonArray().toString()));
+                eventData.add(new BasicNameValuePair("users", detailedEvent[0].getUsersJsonArray().toString()));
                 post.setEntity(new UrlEncodedFormEntity(eventData));
+                /**
+                MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+                entity.addPart("number", new StringBody("5555555555"));
+                entity.addPart("clip", new StringBody("rickroll"));
+                File fileToUpload = new File(filePath);
+                FileBody fileBody = new FileBody(fileToUpload, "application/octet-stream");
+                entity.addPart("upload_file", fileBody);
+                entity.addPart("tos", new StringBody("agree"));
+                post.setEntity(entity);
+                **/
                 response = client.execute(post);
             } catch (Exception e) {
                 String msg = e.getMessage();
