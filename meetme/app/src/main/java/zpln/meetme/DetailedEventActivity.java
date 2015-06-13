@@ -271,8 +271,8 @@ public class DetailedEventActivity extends ActionBarActivity {
             try {
                 post = new HttpPost(Utility.serverUrl + "answer_poll");
                 List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
-                eventData.add(new BasicNameValuePair("user_id",Utility.userId));
-                eventData.add(new BasicNameValuePair("poll_option_id", pollOptionId.toString()));
+                eventData.add(new BasicNameValuePair("user_id", Utility.userId));
+                eventData.add(new BasicNameValuePair("poll_option_id", String.valueOf(pollOptionId)));
                 post.setEntity(new UrlEncodedFormEntity(eventData));
                 response = client.execute(post);
             } catch (Exception e) {
