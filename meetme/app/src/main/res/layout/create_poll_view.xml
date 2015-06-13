@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/createPollView">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="150px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Poll name"
+                android:id="@+id/pollName" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Option 1"
+                android:id="@+id/pollOption1" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Option 2"
+                android:id="@+id/pollOption2" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Option 3"
+                android:id="@+id/pollOption3" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Option 4"
+                android:id="@+id/pollOption4" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Option 5"
+                android:id="@+id/pollOption5" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100px"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Option 6"
+                android:id="@+id/pollOption6" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Done"
+                android:id="@+id/button2" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

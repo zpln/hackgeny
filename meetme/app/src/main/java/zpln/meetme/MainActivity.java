@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
@@ -60,6 +61,8 @@ import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
 
+    final MainActivity that = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
@@ -71,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
         ListView listview = (ListView) findViewById(R.id.listView);
 
 
-        final MainActivity that = this;
+
         listview.setAdapter(new BaseAdapter() {
                                 @Override
                                 public int getCount() {
@@ -245,6 +248,14 @@ public class MainActivity extends ActionBarActivity {
 
         public void onPostExecute(List<DetailedEvent> events) {
             setContentView(R.layout.event_list);
+            Button createNewEventButton = (Button) findViewById(R.id.createNewEvent);
+            createNewEventButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(that, CreateEventActivity.class);
+                    startActivity(intent);
+                }
+            });
             createPartyListView(events);
         }
     }
