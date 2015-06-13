@@ -54,7 +54,7 @@ def update_db(table_name, parameters, condition=None):
 
     update_str = "UPDATE {table_name} SET {set_string}".format(table_name=table_name, set_string=set_string)
     if condition is not None:
-        " WHERE {condition}".format(condition=condition)
+        update_str += " WHERE {condition}".format(condition=condition)
     cur = get_db_connection().cursor()
     cur.execute(update_str, parameters.values())
     get_db_connection().commit()

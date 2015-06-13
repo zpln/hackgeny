@@ -10,6 +10,7 @@ import java.io.IOException;
 public class PollOption {
     private int pollOptionId;
     private String pollOptionName;
+
     private int pollOptionCount;
 
     public PollOption(int pollOptionId, String pollOptionName, int pollOptionCount){
@@ -52,4 +53,6 @@ public class PollOption {
     public String getPollOptionName() {
         return this.pollOptionName;
     }
+
+    public int getPollOptionCount() { return pollOptionCount; }
 }

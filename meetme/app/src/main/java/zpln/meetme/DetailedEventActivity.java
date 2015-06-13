@@ -195,26 +195,26 @@ public class DetailedEventActivity extends ActionBarActivity {
                                              List<PollOption> values = poll.pollOptions;
                                              int max = 0;
                                              for (PollOption pollOption : values) {
-                                                 if (pollOption.pollOptionCount > max) {
-                                                     max = pollOption.pollOptionCount;
+                                                 if (pollOption.getPollOptionCount() > max) {
+                                                     max = pollOption.getPollOptionCount();
                                                  }
                                              }
                                              float range = max;
                                              Iterator<PollOption> iterators = poll.pollOptions.iterator();
                                              ArrayList<String> xVals = new ArrayList<String>();
                                              for (int i = 0; i < count; i++) {
-                                                 xVals.add(iterators.next().pollOptionName);
+                                                 xVals.add(iterators.next().getPollOptionName());
                                              }
 
                                              ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
                                              iterators = poll.pollOptions.iterator();
                                              for (int i = 0; i < count; i++) {
-                                                 float val = (float) (iterators.next().pollOptionCount);
+                                                 float val = (float) (iterators.next().getPollOptionCount());
                                                  yVals1.add(new BarEntry(val, i));
                                              }
 
-                                             BarDataSet set1 = new BarDataSet(yVals1, poll.pollName);
+                                             BarDataSet set1 = new BarDataSet(yVals1, poll.getPollName());
                                              set1.setBarSpacePercent(40f);
 
                                              ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
