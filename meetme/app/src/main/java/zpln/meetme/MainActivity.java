@@ -20,6 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextClock;
@@ -96,6 +97,7 @@ public class MainActivity extends ActionBarActivity {
                                 @Override
                                 public View getView(int position, View convertView, ViewGroup parent) {
                                     LinearLayout layout = (LinearLayout) LayoutInflater.from(that).inflate(R.layout.mylist, null);
+                                    ImageView icon = (ImageView) layout.getChildAt(0);
                                     LinearLayout dataLayout = (LinearLayout) layout.getChildAt(1);
                                     LinearLayout upperDataLayout = (LinearLayout) dataLayout.getChildAt(0);
                                     LinearLayout lowerDataLayout = (LinearLayout) dataLayout.getChildAt(1);
@@ -112,6 +114,20 @@ public class MainActivity extends ActionBarActivity {
                                     participants.setText(String.format("%d invited", detailedEvent.getUsers().size()));
 
                                     layout.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(that, DetailedEventActivity.class);
+                                            intent.putExtra("eventId", String.format("%d", detailedEvent.getEventId()));
+                                            startActivity(intent);
+                                        }
+                                    });
+
+
+                                    switch (detailedEvent.status.getStatus()) {
+                                        case NOT_ATTENDING:
+                                            ...
+                                    }
+                                    icon.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             Intent intent = new Intent(that, DetailedEventActivity.class);
