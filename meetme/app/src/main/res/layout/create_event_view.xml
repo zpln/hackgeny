@@ -24,6 +24,12 @@
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:text="Select Friends"
+                android:id="@+id/selectFriendsButton" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="Add Poll"
                 android:id="@+id/button" />
 
