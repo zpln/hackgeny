@@ -127,7 +127,6 @@ public class DetailedEventActivity extends ActionBarActivity {
                                              spinner.setAdapter(spinnerArrayAdapter);
 
                                              Button voteForPollButton = (Button) linearLayout1.getChildAt(0);
-                                             voteForPollButton.setEnabled((currentPoll.getSelectedPollOption() != -1));
                                              voteForPollButton.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View v) {
