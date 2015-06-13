@@ -62,8 +62,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
 
-          Utility.userId = "0545920004";
-          Utility.serverUrl = new String("http://10.0.0.13:5000/");
+
 
           new GetEventsTask().execute();
           // new GetDetailedEventTask().execute(1);
@@ -77,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
 //        createPartyEventView();
     }
 
-    private void createPartyListView(final List<Event> events) {
+    private void createPartyListView(final List<DetailedEvent> events) {
         ListView listview = (ListView) findViewById(R.id.listView);
 
 
@@ -104,29 +103,17 @@ public class MainActivity extends ActionBarActivity {
                                     LinearLayout dataLayout = (LinearLayout) layout.getChildAt(1);
                                     LinearLayout upperDataLayout = (LinearLayout) dataLayout.getChildAt(0);
                                     LinearLayout lowerDataLayout = (LinearLayout) dataLayout.getChildAt(1);
-                                    for (int i = 0; i < upperDataLayout.getChildCount(); i++) {
-                                        View childAt = upperDataLayout.getChildAt(i);
-                                        if (childAt instanceof TextView) {
-                                            TextView textView = (TextView) childAt;
-                                            textView.setText(String.format("%d", i));
-                                        }
-                                    }
-                                    for (int i = 0; i < lowerDataLayout.getChildCount(); i++) {
-                                        View childAt = lowerDataLayout.getChildAt(i);
-                                        if (childAt instanceof TextView) {
-                                            TextView textView = (TextView) childAt;
-                                            textView.setText(String.format("_%d", i));
-                                        }
-                                    }
+
 
                                     TextView event_name = (TextView) upperDataLayout.getChildAt(0);
-                                    event_name.setText("name");
+                                    DetailedEvent detailedEvent = events.get(position);
+                                    event_name.setText(detailedEvent.getEventName());
                                     TextView location = (TextView) upperDataLayout.getChildAt(1);
-                                    location.setText("at location");
+                                    location.setText(detailedEvent.getPollResult("Location"));
                                     TextView date = (TextView) lowerDataLayout.getChildAt(0);
-                                    date.setText("date");
+                                    date.setText(detailedEvent.getPollResult("Time"));
                                     TextView participants = (TextView) lowerDataLayout.getChildAt(1);
-                                    participants.setText("participants");
+                                    participants.setText(String.format("%d invited", detailedEvent.getUsers().size()));
                                     return layout;
                                 }
                             }
@@ -352,15 +339,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    private class GetEventsTask extends AsyncTask<Void, Void, List<Event>> {
+    private class GetEventsTask extends AsyncTask<Void, Void, List<DetailedEvent>> {
 
-        public List<Event> doInBackground(Void... params) {
+        public List<DetailedEvent> doInBackground(Void... params) {
 
             HttpClient client = new DefaultHttpClient();
             HttpGet request;
             HttpResponse response;
             JsonReader reader;
-            List<Event> events1 = null;
+            List<DetailedEvent> events = null;
 
             try {
                 // request = new HttpGet(serverUrl + "get_events");
@@ -370,26 +357,25 @@ public class MainActivity extends ActionBarActivity {
                 request = new HttpGet(Utility.addParametersToUrl(Utility.serverUrl + "get_events", urlParams));
                 response = client.execute(request);
                 reader = new JsonReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
-                events1 = readEvents(reader);
+                events = readEvents(reader);
                 reader.close();
             }
             catch (Exception e) {
                 String msg = e.getMessage();
             }
-            List<Event> events = events1;
 
             return events;
         }
 
-        public List<Event> readEvents(JsonReader reader) throws IOException {
-            List<Event> events = new ArrayList<Event>();
+        public List<DetailedEvent> readEvents(JsonReader reader) throws IOException {
+            List<DetailedEvent> events = new ArrayList<>();
             reader.beginObject();
             while (reader.hasNext()) {
                 String name = reader.nextName();
                 if (name.equals("events")) {
                     reader.beginArray();
                     while (reader.hasNext()) {
-                        events.add(new Event(reader));
+                        events.add(new DetailedEvent(reader));
                     }
                     reader.endArray();
                 } else {
@@ -400,7 +386,7 @@ public class MainActivity extends ActionBarActivity {
             return events;
         }
 
-        public void onPostExecute(List<Event> events) {
+        public void onPostExecute(List<DetailedEvent> events) {
             setContentView(R.layout.event_list);
             createPartyListView(events);
         }

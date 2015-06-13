@@ -42,4 +42,8 @@ public class PollOption {
     public int getPollOptionId() {
         return pollOptionId;
     }
+
+    public String getPollOptionName() {
+        return this.pollOptionName;
+    }
 }

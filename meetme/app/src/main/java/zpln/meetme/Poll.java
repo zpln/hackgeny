@@ -4,7 +4,6 @@ import android.util.JsonReader;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -63,12 +62,31 @@ public class Poll {
     }
 
     public boolean validatePollOptionId(int optionId) {
-        Iterator<PollOption> pollOptionsIterator = this.pollOptions.iterator();
-        while (pollOptionsIterator.hasNext()){
-            if (pollOptionsIterator.next().getPollOptionId() == optionId){
+        for (PollOption pollOption : this.pollOptions) {
+            if (pollOption.getPollOptionId() == optionId){
                 return true;
             }
         }
         return false;
+    }
+
+    public String getPollName() {
+        return pollName;
+    }
+
+    public int getPollId() {
+        return pollId;
+    }
+
+    public int getSelectedPollOption() {
+        return selectedPollOption;
+    }
+
+    public int getOverriddenPollOption() {
+        return overriddenPollOption;
+    }
+
+    public List<PollOption> getPollOptions() {
+        return pollOptions;
     }
 }
