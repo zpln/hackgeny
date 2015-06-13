@@ -200,7 +200,7 @@ public class CreateEventActivity extends ActionBarActivity {
             return null;
         }
 
-        protected void onPostExecute(Void... detailedEvent) {
+        public void onPostExecute(Void detailedEvent) {
             that.finish();
         }
     }

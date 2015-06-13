@@ -287,7 +287,7 @@ public class DetailedEventActivity extends ActionBarActivity {
             return null;
         }
 
-        protected void onPostExecute(Void... bla) {
+        public void onPostExecute(Void  bla) {
             that.finish();
             that.startActivity(getIntent());
         }
