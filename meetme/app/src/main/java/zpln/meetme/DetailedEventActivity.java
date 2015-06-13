@@ -69,9 +69,9 @@ public class DetailedEventActivity extends ActionBarActivity {
 
         LinearLayout extraDetails = (LinearLayout) linearLayout.getChildAt(1);
         TextView eventLocation = (TextView) extraDetails.getChildAt(0);
-        eventLocation.setText(detailedEvent.getPollResult("Location"));
+        eventLocation.setText("at " + detailedEvent.getPollResult("Location"));
         TextView eventDate = (TextView) extraDetails.getChildAt(1);
-        eventDate.setText(detailedEvent.getPollResult("Time"));
+        eventDate.setText("on " + detailedEvent.getPollResult("Time"));
 
         ListView partyPollListView = (ListView) findViewById(R.id.partyPollListView);
         View childAt = partyPollListView.getChildAt(1);
