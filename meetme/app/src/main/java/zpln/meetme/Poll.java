@@ -14,10 +14,10 @@ import java.util.List;
  * Created by tamar on 6/12/2015.
  */
 public class Poll {
-    public int pollId;
-    public String pollName;
-    public int selectedPollOption;
-    public int overriddenPollOption;
+    private int pollId;
+    private String pollName;
+    private int selectedPollOption;
+    private int overriddenPollOption;
     List<PollOption> pollOptions;
 
     public Poll(int pollId, String pollName, int selectedPollOption, int overriddenPollOption, List<PollOption> pollOptions){

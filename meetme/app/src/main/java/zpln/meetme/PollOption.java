@@ -8,9 +8,9 @@ import java.io.IOException;
  * Created by tamar on 6/12/2015.
  */
 public class PollOption {
-    public int pollOptionId;
-    public String pollOptionName;
-    public int pollOptionCount;
+    private int pollOptionId;
+    private String pollOptionName;
+    private int pollOptionCount;
 
     public PollOption(int pollOptionId, String pollOptionName, int pollOptionCount){
         this.pollOptionId = pollOptionId;
