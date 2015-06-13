@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class CreateEventActivity extends ActionBarActivity {
     final public static List<MiniPoll> polls = new LinkedList<>();
+    static String currentEventNameText = "";
     final CreateEventActivity that = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,13 @@ public class CreateEventActivity extends ActionBarActivity {
         startActivity(getIntent());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        EditText edit = (EditText) findViewById(R.id.eventNameText);
+        edit.setText(this.currentEventNameText, TextView.BufferType.EDITABLE);
+    }
+
     private void createPartyEventView() {
         setContentView(R.layout.create_event_view);
         ScrollView scrollView = (ScrollView) findViewById(R.id.createEventScrollView);
@@ -47,9 +56,9 @@ public class CreateEventActivity extends ActionBarActivity {
         addPollButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                that.currentEventNameText = ((EditText) findViewById(R.id.eventNameText)).getText().toString();
                 Intent intent = new Intent(that, CreatePollActivity.class);
                 startActivityForResult(intent, 0);
-
             }
         });
 
@@ -58,6 +67,8 @@ public class CreateEventActivity extends ActionBarActivity {
             public void onClick(View v) {
                 //FIXME : post to server here
                 polls.clear();
+                that.currentEventNameText = "";
+                ((EditText) findViewById(R.id.eventNameText)).setText("", TextView.BufferType.EDITABLE);
                 finish();
             }
         });
