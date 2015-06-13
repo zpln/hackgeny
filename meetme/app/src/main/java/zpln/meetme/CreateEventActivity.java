@@ -147,6 +147,7 @@ public class CreateEventActivity extends ActionBarActivity {
                                          public View getView(int position, View convertView, ViewGroup parent) {
                                              TextView dynamicTextView = new TextView(that);
                                              dynamicTextView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+                                             dynamicTextView.setPadding(20, 20, 20, 20);
                                              dynamicTextView.setText((CharSequence) polls.get(position).name);
                                              return dynamicTextView;
                                          }

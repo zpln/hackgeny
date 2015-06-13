@@ -25,6 +25,7 @@ public class CreatePollActivity extends ActionBarActivity {
         final LinearLayout linearLayout = (LinearLayout) scrollView.getChildAt(0);
         Button addPollButton = (Button) findViewById(R.id.addPollButton);
         final CreatePollActivity that = this;
+        this.miniPoll = null;
 
         addPollButton.setOnClickListener(new View.OnClickListener() {
             @Override
