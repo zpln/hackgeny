@@ -47,7 +47,7 @@ def index(event_id=None):
             new_poll["font_size"] = 2.275
         else:
             new_poll["font_size"] = 3.375
-        num_of_votes = float(sum([option["poll_option_count"] for option in poll["options"]]))
+        max_num_of_votes = float(max([option["poll_option_count"] for option in poll["options"]]))
         counter = 0
 
         if poll["poll_name"] == "Location" and poll["overridden_poll_option"] != -1:
@@ -65,10 +65,10 @@ def index(event_id=None):
             new_option["color"] = BARS_COLORS[counter]
             counter += 1
             counter %= len(BARS_COLORS)
-            if num_of_votes == 0:
+            if max_num_of_votes == 0:
               new_option["height"] = 0
             else:  
-              new_option["height"] = (option["poll_option_count"] / num_of_votes) * 400
+              new_option["height"] = (option["poll_option_count"] / max_num_of_votes) * 400
             new_poll["options"].append(new_option)
         params["polls"].append(new_poll)
         params["participants"] = event_details["users"]

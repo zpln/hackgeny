@@ -19,7 +19,8 @@
 </head>
 
 
-<body onload="popup_download()">
+<body onload="popup_download_delayed()">
+	<div class="hide_on_start">
 	<section class="card"><h1><strong>Event</strong>: {{ event_name }}</h1></section>
 
 	<section class="card">
@@ -58,5 +59,6 @@
   		</section>
 
 	{% endfor %}
+	</div>
 </body>
 </html>

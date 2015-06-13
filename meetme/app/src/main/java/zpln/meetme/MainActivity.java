@@ -44,13 +44,13 @@ public class MainActivity extends ActionBarActivity {
 
     private int getImageByStatus(Status status) {
         switch (status) {
-            case NOT_ATTNEDING:
+            case NOT_ATTENDING:
                 return R.mipmap.no;
 
             case ATTENDING:
                 return R.mipmap.yes;
 
-            case NOT_ANSWERED:
+            case UNANSWERED:
             default:
                 return R.mipmap.maybe;
         }
@@ -112,13 +112,13 @@ public class MainActivity extends ActionBarActivity {
                                             Status nextStatus;
 
                                             switch (detailedEvent.status) {
-                                                case NOT_ATTNEDING:
-                                                case NOT_ANSWERED:
+                                                case NOT_ATTENDING:
+                                                case UNANSWERED:
                                                     nextStatus = Status.ATTENDING;
                                                     break;
                                                 case ATTENDING:
                                                 default:
-                                                    nextStatus = Status.NOT_ATTNEDING;
+                                                    nextStatus = Status.NOT_ATTENDING;
                                                     break;
                                             }
                                             detailedEvent.setStatus(nextStatus);
