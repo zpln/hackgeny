@@ -26,7 +26,13 @@
 		<h1>Event Details:</h1>
 	 	<h2>
 	 	<strong>Location:</strong> {{ location }}<br/>
-	 	<strong>Time:</strong> {{ time }}
+	 	<strong>Time:</strong> {{ time }}<br/>
+	 	<strong>Participants:</strong>
+	 	<ul>
+	 	{% for participant in participants %}
+	 	<li>{{ participant.user_name|e }}</li>
+	 	{% endfor %}
+	 	</ul>
 	 	</h2>
   	</section>
 
