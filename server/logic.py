@@ -90,14 +90,13 @@ def get_event_details(phone, event_id):
 
     event_details["polls"] = polls
 
-    user_rows = db_handler.query_db("""
-    SELECT user.phone
+    users = db_handler.query_db("""
+    SELECT user.phone, user.user_name
     FROM event_user
     INNER JOIN user
     WHERE event_user.event_id = ?
     AND event_user.user_id = user.user_id
     """, (event_id,))
-    users = [user["phone"] for user in user_rows]
     event_details["users"] = users
 
     return event_details
