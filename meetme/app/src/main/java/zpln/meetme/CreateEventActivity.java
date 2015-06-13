@@ -19,36 +19,53 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CreateEventActivity extends ActionBarActivity {
-
+    final public static List<MiniPoll> polls = new LinkedList<>();
+    final CreateEventActivity that = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createPartyEventView();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        polls.add(CreatePollActivity.miniPoll);
+        finish();
+        startActivity(getIntent());
+    }
 
     private void createPartyEventView() {
-        LinearLayout mainView = (LinearLayout) findViewById(R.id.partyEventView);
+        setContentView(R.layout.create_event_view);
+        ScrollView scrollView = (ScrollView) findViewById(R.id.createEventScrollView);
 
-        ScrollView scrollView = (ScrollView) mainView.getChildAt(0);
         LinearLayout linearLayout = (LinearLayout) scrollView.getChildAt(0);
-
-        final List<MiniPoll> polls = new LinkedList<>();
         Button addPollButton = (Button) linearLayout.getChildAt(1);
-        final CreateEventActivity that = this;
+        Button sendPollButton = (Button) linearLayout.getChildAt(2);
+
 
         addPollButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(that, CreatePollActivity.class);
-                startActivity(intent);
-                polls.add(CreatePollActivity.miniPoll);
-                setContentView(R.layout.create_event_view);
+                startActivityForResult(intent, 0);
+
             }
         });
 
-        setContentView(R.layout.create_event_view);
+        sendPollButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //FIXME : post to server here
+                polls.clear();
+                finish();
+            }
+        });
 
+        updateListView(that);
+    }
+
+    private void updateListView(final CreateEventActivity that) {
         ListView partyPollListView = (ListView) findViewById(R.id.newPollsListView);
 
         ViewGroup.LayoutParams lp = (ViewGroup.LayoutParams) partyPollListView.getLayoutParams();
@@ -77,7 +94,7 @@ public class CreateEventActivity extends ActionBarActivity {
                                          public View getView(int position, View convertView, ViewGroup parent) {
                                              TextView dynamicTextView = new TextView(that);
                                              dynamicTextView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
-                                             dynamicTextView.setText((CharSequence) polls.get(position));
+                                             dynamicTextView.setText((CharSequence) polls.get(position).name);
                                              return dynamicTextView;
                                          }
                                      }
