@@ -56,6 +56,14 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    // in order that this activity be refreshred whenever it is displayed (after a call to startActivityOnResult returns)
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        finish();
+        startActivity(getIntent());
+    }
+
     private void createPartyListView(final List<DetailedEvent> events) {
         ListView listview = (ListView) findViewById(R.id.listView);
 
@@ -252,7 +260,7 @@ public class MainActivity extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(that, CreateEventActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, 0);
                 }
             });
             createPartyListView(events);

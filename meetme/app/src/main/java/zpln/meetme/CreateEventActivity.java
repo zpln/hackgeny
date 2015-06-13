@@ -124,7 +124,6 @@ public class CreateEventActivity extends ActionBarActivity {
                 contacts.clear();
                 that.currentEventName = "";
                 ((EditText) findViewById(R.id.eventName)).setText("", TextView.BufferType.EDITABLE);
-                finish();
             }
         });
 
@@ -169,11 +168,6 @@ public class CreateEventActivity extends ActionBarActivity {
         );
     }
 
-    private void gotoMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
     public class PostDetailedEvent extends AsyncTask<DetailedEvent, Void, Void> {
 
         protected Void doInBackground(DetailedEvent... detailedEvent) {
@@ -207,7 +201,7 @@ public class CreateEventActivity extends ActionBarActivity {
         }
 
         protected void onPostExecute(Void... detailedEvent) {
-            gotoMainActivity();
+            that.finish();
         }
     }
 
