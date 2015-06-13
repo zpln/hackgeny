@@ -108,6 +108,11 @@ public class DetailedEventActivity extends ActionBarActivity {
 
                                              BarChart mChart = (BarChart) relativeLayout.getChildAt(0);
                                              updatedChartByPoll(currentPoll, mChart);
+                                             // if the poll is already answered do not present the vote button
+                                             if (currentPoll.getSelectedPollOption() != -1) {
+                                                return mChart;
+                                             }
+
                                              LinearLayout linearLayout1 = (LinearLayout) relativeLayout.getChildAt(1);
 
                                              final Spinner spinner = (Spinner) linearLayout1.getChildAt(1);
@@ -116,11 +121,13 @@ public class DetailedEventActivity extends ActionBarActivity {
                                              for (int i = 0; i < options.length; i++) {
                                                  options[i] = currentPoll.getPollOptions().get(i).getPollOptionName();
                                              }
+
                                              ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(that, android.R.layout.simple_spinner_item, options);
                                              spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
                                              spinner.setAdapter(spinnerArrayAdapter);
 
                                              Button voteForPollButton = (Button) linearLayout1.getChildAt(0);
+                                             voteForPollButton.setEnabled((currentPoll.getSelectedPollOption() != -1));
                                              voteForPollButton.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View v) {
@@ -271,8 +278,8 @@ public class DetailedEventActivity extends ActionBarActivity {
             try {
                 post = new HttpPost(Utility.serverUrl + "answer_poll");
                 List<NameValuePair> eventData = new ArrayList<NameValuePair>(2);
-                eventData.add(new BasicNameValuePair("user_id",Utility.userId));
-                eventData.add(new BasicNameValuePair("poll_option_id", pollOptionId.toString()));
+                eventData.add(new BasicNameValuePair("user_id", Utility.userId));
+                eventData.add(new BasicNameValuePair("poll_option_id", pollOptionId[0] + ""));
                 post.setEntity(new UrlEncodedFormEntity(eventData));
                 response = client.execute(post);
             } catch (Exception e) {
