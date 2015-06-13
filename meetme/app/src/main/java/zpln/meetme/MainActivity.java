@@ -1,44 +1,23 @@
 package zpln.meetme;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.JsonReader;
-import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextClock;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ValueFormatter;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -46,18 +25,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -67,6 +40,20 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         new GetEventsTask().execute();
+    }
+
+    private int getImageByStatus(Status status) {
+        switch (status) {
+            case NOT_ATTNEDING:
+                return R.mipmap.no;
+
+            case ATTENDING:
+                return R.mipmap.yes;
+
+            case NOT_ANSWERED:
+            default:
+                return R.mipmap.maybe;
+        }
     }
 
     private void createPartyListView(final List<DetailedEvent> events) {
@@ -93,6 +80,7 @@ public class MainActivity extends ActionBarActivity {
                                 @Override
                                 public View getView(int position, View convertView, ViewGroup parent) {
                                     LinearLayout layout = (LinearLayout) LayoutInflater.from(that).inflate(R.layout.mylist, null);
+                                    ImageView icon = (ImageView) layout.getChildAt(0);
                                     LinearLayout dataLayout = (LinearLayout) layout.getChildAt(1);
                                     LinearLayout upperDataLayout = (LinearLayout) dataLayout.getChildAt(0);
                                     LinearLayout lowerDataLayout = (LinearLayout) dataLayout.getChildAt(1);
@@ -114,6 +102,29 @@ public class MainActivity extends ActionBarActivity {
                                             Intent intent = new Intent(that, DetailedEventActivity.class);
                                             intent.putExtra("eventId", String.format("%d", detailedEvent.getEventId()));
                                             startActivity(intent);
+                                        }
+                                    });
+
+                                    icon.setImageResource(that.getImageByStatus(detailedEvent.status));
+                                    icon.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Status nextStatus;
+
+                                            switch (detailedEvent.status) {
+                                                case NOT_ATTNEDING:
+                                                case NOT_ANSWERED:
+                                                    nextStatus = Status.ATTENDING;
+                                                    break;
+                                                case ATTENDING:
+                                                default:
+                                                    nextStatus = Status.NOT_ATTNEDING;
+                                                    break;
+                                            }
+
+                                            // TODO: Use Tamar's change_status()
+                                            detailedEvent.status = nextStatus;
+                                            ((ImageView) v).setImageResource(that.getImageByStatus(nextStatus));
                                         }
                                     });
                                     return layout;
@@ -258,7 +269,7 @@ public class MainActivity extends ActionBarActivity {
 
         public void onPostExecute(List<DetailedEvent> events) {
             setContentView(R.layout.event_list);
-            Button createNewEventButton = (Button) findViewById(R.id.createNewEvent);
+            Button createNewEventButton = (Button) findViewById(R.id.createNewEventButton);
             createNewEventButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

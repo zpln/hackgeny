@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/partyEventView">
+    android:id="@+id/createEventView">
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView" >
+        android:id="@+id/createEventScrollView" >
 
         <LinearLayout
             android:orientation="vertical"
@@ -24,8 +24,20 @@
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:text="Select Friends"
+                android:id="@+id/selectFriendsButton" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="Add Poll"
                 android:id="@+id/button" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Publish Event"
+                android:id="@+id/publishNewEvent" />
 
             <ListView
                 android:orientation="vertical"

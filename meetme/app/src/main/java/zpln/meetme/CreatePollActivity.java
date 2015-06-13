@@ -17,23 +17,23 @@ public class CreatePollActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        String message = intent.getStringExtra("eventId");
-        int eventId = Integer.parseInt(message);
         setContentView(R.layout.create_poll_view);
+
 
         LinearLayout mainView = (LinearLayout) findViewById(R.id.createPollView);
         final ScrollView scrollView = (ScrollView) mainView.getChildAt(0);
-        Button addPollButton = (Button) scrollView.getChildAt(7);
+        final LinearLayout linearLayout= (LinearLayout) scrollView.getChildAt(0);
+        Button addPollButton = (Button) linearLayout.getChildAt(7);
         final CreatePollActivity that = this;
 
         addPollButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 miniPoll = new MiniPoll();
-                miniPoll.name = ((TextView) scrollView.getChildAt(1)).getText().toString();
+                miniPoll.name = ((TextView) linearLayout.getChildAt(0)).getText().toString();
                 miniPoll.options = new String[6];
                 for(int i = 0; i < 6; i++) {
-                    String pollOption = ((TextView) scrollView.getChildAt(i+1)).getText().toString();
+                    String pollOption = ((TextView) linearLayout.getChildAt(i+1)).getText().toString();
                     if (pollOption.startsWith("Option ")) {
                         miniPoll.options[i] = null;
                     } else {
