@@ -114,7 +114,7 @@ public class DetailedEvent extends Event{
         return polls;
     }
 
-    public List<Integer> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 }

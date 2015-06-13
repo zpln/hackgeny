@@ -20,6 +20,14 @@
             android:name=".DetailedEventActivity"
             android:label="@string/detailed_event_activity" >
         </activity>
+        <activity
+            android:name=".CreateEventActivity"
+            android:label="@string/create_event_activity" >
+        </activity>
+        <activity
+            android:name=".CreatePollActivity"
+            android:label="@string/create_poll_activity" >
+        </activity>
     </application>
 
 </manifest>
