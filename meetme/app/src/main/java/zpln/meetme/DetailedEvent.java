@@ -76,7 +76,7 @@ public class DetailedEvent extends Event{
     }
 
     private List<Poll> readPolls(JsonReader reader) throws IOException {
-        List<Poll> polls = new ArrayList<Poll>();
+        List<Poll> polls = new ArrayList<>();
         reader.beginArray();
         while (reader.hasNext()) {
             polls.add(new Poll(reader));
