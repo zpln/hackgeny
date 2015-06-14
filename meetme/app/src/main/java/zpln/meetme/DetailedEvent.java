@@ -34,20 +34,28 @@ public class DetailedEvent extends Event{
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("event_id")) {
-                this.eventId = reader.nextInt();
-            } else if (name.equals("event_name")) {
-                this.eventName = reader.nextString();
-            } else if (name.equals("status")) {
-                this.status = Status.values()[reader.nextInt()];
-            } else if (name.equals("creator_id")) {
-                this.creatorId = reader.nextInt();
-            } else if (name.equals("polls")) {
-                this.polls = readPolls(reader);
-            } else if (name.equals("users")) {
-                this.users = readUsers(reader);
-            }else {
-                reader.skipValue();
+            switch (name) {
+                case "event_id":
+                    this.eventId = reader.nextInt();
+                    break;
+                case "event_name":
+                    this.eventName = reader.nextString();
+                    break;
+                case "status":
+                    this.status = Status.values()[reader.nextInt()];
+                    break;
+                case "creator_id":
+                    this.creatorId = reader.nextInt();
+                    break;
+                case "polls":
+                    this.polls = readPolls(reader);
+                    break;
+                case "users":
+                    this.users = readUsers(reader);
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
             }
         }
         /**
