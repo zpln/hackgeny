@@ -1,6 +1,7 @@
 package zpln.meetme;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -97,12 +98,17 @@ public class MainActivity extends ActionBarActivity {
                                     TextView event_name = (TextView) upperDataLayout.getChildAt(0);
                                     final DetailedEvent detailedEvent = events.get(position);
                                     event_name.setText(detailedEvent.getEventName());
+                                    event_name.setTextColor(Color.BLACK);
+                                    event_name.setTextSize(17);
                                     TextView location = (TextView) upperDataLayout.getChildAt(1);
-                                    location.setText(detailedEvent.getPollResult("Location"));
+                                    location.setText("@"+detailedEvent.getPollResult("Location"));
+                                    location.setTextSize(16);
                                     TextView date = (TextView) lowerDataLayout.getChildAt(0);
-                                    date.setText(detailedEvent.getPollResult("Time"));
+                                    date.setText("time: " + detailedEvent.getPollResult("Time"));
+                                    date.setTextSize(16);
                                     TextView participants = (TextView) lowerDataLayout.getChildAt(1);
                                     participants.setText(String.format("%d invited", detailedEvent.getUsers().size()));
+                                    participants.setTextSize(16);
 
                                     layout.setOnClickListener(new View.OnClickListener() {
                                         @Override
