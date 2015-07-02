@@ -1,11 +1,13 @@
 package zpln.meetme;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.facebook.FacebookSdk;
+import com.facebook.login.widget.LoginButton;
 
 
 public class WelcomeActivity extends ActionBarActivity {
@@ -37,5 +39,29 @@ public class WelcomeActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        LoginButton authButton = (LoginButton) findViewById(R.id.login_button);
+
+        float fbIconScale = 1.8F;
+        Drawable drawable = getResources().getDrawable(
+                com.facebook.R.drawable.com_facebook_button_icon);
+        drawable.setBounds(0, 0, (int)(drawable.getIntrinsicWidth()*fbIconScale),
+                (int)(drawable.getIntrinsicHeight()*fbIconScale));
+        authButton.setCompoundDrawables(drawable, null, null, null);
+        authButton.setCompoundDrawablePadding(getResources().
+                getDimensionPixelSize(R.dimen.fb_margin_override_textpadding));
+        authButton.setPadding(
+                getResources().getDimensionPixelSize(
+                        R.dimen.fb_margin_override_lr),
+                getResources().getDimensionPixelSize(
+                        R.dimen.fb_margin_override_top),
+                0,
+                getResources().getDimensionPixelSize(
+                        R.dimen.fb_margin_override_bottom));
     }
 }
