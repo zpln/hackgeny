@@ -1,10 +1,12 @@
 package zpln.meetme;
 
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
@@ -50,8 +52,8 @@ public class WelcomeActivity extends ActionBarActivity {
         float fbIconScale = 1.8F;
         Drawable drawable = getResources().getDrawable(
                 com.facebook.R.drawable.com_facebook_button_icon);
-        drawable.setBounds(0, 0, (int)(drawable.getIntrinsicWidth()*fbIconScale),
-                (int)(drawable.getIntrinsicHeight()*fbIconScale));
+        drawable.setBounds(0, 0, (int) (drawable.getIntrinsicWidth() * fbIconScale),
+                (int) (drawable.getIntrinsicHeight() * fbIconScale));
         authButton.setCompoundDrawables(drawable, null, null, null);
         authButton.setCompoundDrawablePadding(getResources().
                 getDimensionPixelSize(R.dimen.fb_margin_override_textpadding));
@@ -63,5 +65,9 @@ public class WelcomeActivity extends ActionBarActivity {
                 0,
                 getResources().getDimensionPixelSize(
                         R.dimen.fb_margin_override_bottom));
+
+        TextView logo_txt = (TextView) findViewById(R.id.logo_txtview);
+        Typeface amplify = Typeface.createFromAsset(getAssets(), "amplify.ttf");
+        logo_txt.setTypeface(amplify);
     }
 }
