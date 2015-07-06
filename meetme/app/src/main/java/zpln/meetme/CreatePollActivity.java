@@ -34,7 +34,7 @@ public class CreatePollActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 String pollName = ((EditText) linearLayout.getChildAt(0)).getText().toString();
-                List<PollOption> options = new LinkedList<>();
+                List<PollOption> options = new LinkedList<PollOption>();
                 for(int i = 0; i < 6; i++) {
                     String pollOptionName = ((EditText) linearLayout.getChildAt(i + 2)).getText().toString();
                     if (pollOptionName.length() != 0) {

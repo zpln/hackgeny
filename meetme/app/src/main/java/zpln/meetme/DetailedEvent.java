@@ -69,14 +69,14 @@ public class DetailedEvent extends Event{
     public DetailedEvent(String eventName, List<Poll> polls, List<User> users) {
         super(eventName);
         // Deep copy to clean up polls and users afterwards
-        this.polls = new LinkedList<>();
+        this.polls = new LinkedList<Poll>();
         this.polls.addAll(polls);
-        this.users = new LinkedList<>();
+        this.users = new LinkedList<User>();
         this.users.addAll(users);
     }
 
     private List<Poll> readPolls(JsonReader reader) throws IOException {
-        List<Poll> polls = new ArrayList<>();
+        List<Poll> polls = new ArrayList<Poll>();
         reader.beginArray();
         while (reader.hasNext()) {
             polls.add(new Poll(reader));
@@ -86,7 +86,7 @@ public class DetailedEvent extends Event{
     }
 
     private List<User> readUsers(JsonReader reader) throws IOException {
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         reader.beginArray();
         while (reader.hasNext()) {
             users.add(new User(reader));

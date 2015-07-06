@@ -220,7 +220,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         public List<DetailedEvent> readEvents(JsonReader reader) throws IOException {
-            List<DetailedEvent> events = new ArrayList<>();
+            List<DetailedEvent> events = new ArrayList<DetailedEvent>();
             reader.beginObject();
             while (reader.hasNext()) {
                 String name = reader.nextName();

@@ -32,9 +32,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CreateEventActivity extends ActionBarActivity {
-    final public static List<Poll> polls = new LinkedList<>();
+    final public static List<Poll> polls = new LinkedList<Poll>();
     static String currentEventName = "";
-    public static List<User> contacts = new LinkedList<>();
+    public static List<User> contacts = new LinkedList<User>();
     private static final int PICK_CONTACT_REQUEST = 1;
     final CreateEventActivity that = this;
     @Override

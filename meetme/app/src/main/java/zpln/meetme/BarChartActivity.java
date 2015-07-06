@@ -130,7 +130,7 @@ public class BarChartActivity extends FragmentActivity implements OnSeekBarChang
     }
 
     private Poll getPoll() {
-        Map<String,Integer> keyCount = new HashMap<>();
+        Map<String,Integer> keyCount = new HashMap<String, Integer>();
         keyCount.put("Hapak", 2);
         keyCount.put("Panasi", 3);
         keyCount.put("Moses", 1);
