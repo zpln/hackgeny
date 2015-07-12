@@ -1,0 +1,17 @@
+body {
+	background: black;
+    padding: 10px;
+    margin: 30px;
+    width: 90%;
+}
+
+.center {
+ 	margin-left: auto;
+ 	margin-right: auto;
+	display: block;
+}
+
+#fb-login-wrap {
+	width: 290px;
+	margin-top: 40px;
+}
