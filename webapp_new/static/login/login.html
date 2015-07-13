@@ -4,6 +4,8 @@
 		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="/static/css/bootstrap-social.css">
 
 		<script src="/static/js/facebook.js"></script>
 		<script src="/static/login/login.js"></script>
@@ -19,9 +21,10 @@
 			<img src="/static/img/logo_256.png" class="center"/>
 		</div>
 		<div class="row">
-			<div id="fb-login-wrap" class="center">
-				<div class="fb-login-button" data-size="xlarge" onlogin="on_fb_login();">Login with Facebook</div>
-			</div>
+			<a id="fb-login" class="btn btn-block btn-social btn-facebook center">
+				<div id="fb-login-icon-wrap"><i class="fa fa-facebook" id="fb-login-icon"></i></div>
+				<span id="fb-login-txt">Login with Facebook</span>
+			</a>
 		</div>
 
 	</body>

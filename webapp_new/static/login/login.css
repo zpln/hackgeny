@@ -11,7 +11,24 @@ body {
 	display: block;
 }
 
-#fb-login-wrap {
-	width: 290px;
+#fb-login {
+	width: 320px;
 	margin-top: 40px;
+	font-weight: bold;
+}
+
+#fb-login-txt {
+	font-size: 24px;
+	margin-left: 15px;
+}
+
+#fb-login-icon {
+	font-size: 29px;
+	top: 8px;
+	position: relative;
+}
+
+#fb-login-icon-wrap {
+	border-right: 1px solid rgba(0,0,0,0.2);
+	width: 45px;
 }
