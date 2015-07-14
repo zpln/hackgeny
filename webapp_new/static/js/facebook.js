@@ -6,6 +6,16 @@ window.fbAsyncInit = function() {
     status     : true
   });
 
+  FB.Event.subscribe('auth.statusChange', function(response) {
+    if (response.status === 'connected') {
+      if (response.authResponse) {
+        login_success(response.authResponse);
+      }
+    } else {
+      console.log('User not already logged in, display login button');
+    }
+  });
+
 };
 
 (function(d, s, id){
@@ -37,7 +47,7 @@ function fb_login() {
   } else {
     FB.login(function(response) {
     if (response.authResponse) {
-      login_success(response.authResponse);
+      // Do nothing, the auth.statusChange event dispatcher will handle that
     } else {
       console.log('User cancelled login or did not fully authorize.');
     }
