@@ -7,6 +7,8 @@ window.fbAsyncInit = function() {
   });
 
   FB.Event.subscribe('auth.statusChange', function(response) {
+    // TODO: dont display button, or even hall page, until this function is run. Because maybe,
+    // if the user is already logged in, we want to go directly to main pgae
     if (response.status === 'connected') {
       if (response.authResponse) {
         login_success(response.authResponse);
