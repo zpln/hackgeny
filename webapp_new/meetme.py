@@ -1,9 +1,9 @@
 import flask
 import os
 from flask import Flask, url_for, redirect, g
-import random
 import sqlite3
 from contextlib import closing
+import app_db
 
 import settings
 
@@ -12,8 +12,6 @@ STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 
 app = Flask(APP_NAME)
 app.config.from_object(settings)
-
-MAX_40_BIT = 2**40-1
 
 
 def connect_db():
@@ -39,6 +37,13 @@ def teardown_request(exception):
         db.close()
 
 
+def json(func):
+    def decorator(*args, **kwargs):
+        result = func(*args, **kwargs)
+        return flask.jsonify(result)
+    return decorator
+
+
 @app.route("/")
 def index():
     return redirect(url_for("login"))
@@ -47,13 +52,6 @@ def index():
 @app.route("/login")
 def login():
     return open(os.path.join(STATIC_DIR, "login/login.html"), 'rb').read()
-
-
-def json(func):
-    def decorator(*args, **kwargs):
-        result = func(*args, **kwargs)
-        return flask.jsonify(result)
-    return decorator
 
 
 def check_required_parameters(parameters, post=False):
@@ -78,36 +76,16 @@ def check_required_parameters(parameters, post=False):
     return parameter_values
 
 
-def get_user_id_from_facebook_user_id(fb_user_id):
-    user_id = g.db.execute("SELECT user_id FROM fb_users WHERE fb_user_id=:fb_user_id", {"fb_user_id": fb_user_id})
-    row = user_id.fetchone()
-
-    if row is None:
-        return None
-    else:
-        return row[0]
-
-
-def new_user_id():
-    new_id = random.randrange(MAX_40_BIT/2, MAX_40_BIT)
-    g.db.execute("INSERT INTO users (user_id) VALUES (:user_id)",
-                 {"user_id": new_id})
-    g.db.commit()
-    return new_id
-
-
 @app.route('/fb_login', methods=['POST'])
 @json
 def fb_login():
     fb_user_id = check_required_parameters({"fb_user_id"}, True)["fb_user_id"]
 
-    user_id = get_user_id_from_facebook_user_id(fb_user_id)
+    user_id = app_db.select_user_id_from_facebook_user_id(fb_user_id)
 
     if user_id is None:
-        user_id = new_user_id()
-        g.db.execute("INSERT INTO fb_users (fb_user_id, user_id) VALUES (:fb_user_id, :user_id)",
-                     {"fb_user_id": fb_user_id, "user_id": user_id})
-        g.db.commit()
+        user_id = app_db.insert_new_user_id()
+        app_db.insert_fb_user(fb_user_id, user_id)
 
     return {"user_id": user_id}
 
