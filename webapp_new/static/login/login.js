@@ -1,3 +1,7 @@
 function fb_login_dispatch(response) {
-	$.post(db_server_url + "fb_login", {fb_user_id: response.id});
+	$.post("/fb_login", {fb_user_id: response.id},
+		function(data) {
+			alert(data);
+		}
+	);
 }
