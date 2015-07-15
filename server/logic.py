@@ -2,6 +2,7 @@ import json
 import flask
 import db_handler
 
+
 class APIException(Exception):
     status_code = 400
 
@@ -34,6 +35,7 @@ def get_events(phone):
 
     return events
 
+
 def fill_poll_options_in_poll(phone, poll):
     selected_poll_option = db_handler.query_db("""
     SELECT poll_option.poll_option_id FROM poll_option
@@ -63,6 +65,7 @@ def fill_poll_options_in_poll(phone, poll):
 
     poll["options"] = poll_options
     poll["selected_poll_option"] = selected_poll_option
+
 
 def get_event_details(phone, event_id):
     event_details = db_handler.query_db("""
@@ -101,6 +104,7 @@ def get_event_details(phone, event_id):
 
     return event_details
 
+
 def answer_poll(phone, poll_option_id):
     count = db_handler.query_db("""
     SELECT COUNT(*) as count
@@ -136,6 +140,7 @@ def answer_poll(phone, poll_option_id):
 class EventStatus(object):
     UNSET, YES, NO = range(3)
 
+
 def create_event(phone, event_name, polls, users):
     """
     Create an event in the database, get
@@ -163,7 +168,6 @@ def create_event(phone, event_name, polls, users):
     return get_event_details(phone, event_id)
 
 
-
 def add_poll_option(phone, poll_id, poll_option_name):
     count = db_handler.query_db("""
     SELECT COUNT(*) AS count
@@ -178,7 +182,6 @@ def add_poll_option(phone, poll_id, poll_option_name):
 
     parameters = {"poll_option_name": poll_option_name, "poll_id": poll_id}
     db_handler.insert_db("poll_option", parameters)
-
 
 
 def change_status(phone, event_id, new_status):
