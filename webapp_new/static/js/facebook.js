@@ -37,7 +37,6 @@ function login_success(authResponse) {
 			fb_login_dispatch(response);
 		}
 
-
 	});
 }
 
