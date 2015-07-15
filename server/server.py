@@ -13,11 +13,14 @@ def json():
     """
     Wraps functions and return their JSON serialized output
     """
+
     def decorated(func):
         @functools.wraps(func)
         def json_and_call(*args, **kwargs):
             return flask.jsonify(func(*args, **kwargs))
+
         return json_and_call
+
     return decorated
 
 
@@ -77,6 +80,7 @@ def add_poll_option():
     data = check_required_parameters(("user_id", "poll_id", "poll_option_name"))
     return logic.add_poll_option(data["user_id"], int(data["poll_id"]), data["poll_option_name"])
 
+
 @app.route('/change_status', methods=['POST'])
 @json()
 def change_status():
@@ -100,6 +104,7 @@ def handle_api_exception(error):
     response = error.to_json()
     response.status_code = error.status_code
     return response
+
 
 if __name__ == '__main__':
     # TODO: Remove debug on production
