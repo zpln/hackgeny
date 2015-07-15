@@ -60,6 +60,14 @@ def get_event_details():
     return logic.get_event_details(data["user_id"], int(data["event_id"]))
 
 
+@app.route('/fb_login', methods=['POST'])
+@json()
+def fb_login():
+    fb_user_id = check_required_parameters({"fb_user_id"}, True)["fb_user_id"]
+    user_id = logic.fb_login(fb_user_id)
+    return {"user_id": user_id}
+
+
 @app.route('/answer_poll', methods=['POST'])
 @json()
 def answer_poll():
@@ -108,4 +116,4 @@ def handle_api_exception(error):
 
 if __name__ == '__main__':
     # TODO: Remove debug on production
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)

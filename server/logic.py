@@ -1,6 +1,9 @@
 import json
 import flask
+import random
 import db_handler
+
+MAX_40_BIT = 2**40-1
 
 
 class APIException(Exception):
@@ -103,6 +106,35 @@ def get_event_details(phone, event_id):
     event_details["users"] = users
 
     return event_details
+
+
+def new_user_id():
+    new_id = random.randrange(MAX_40_BIT/2, MAX_40_BIT)
+    db_handler.insert_db("users", {"user_id": new_id})
+    return new_id
+
+
+def get_user_id_from_facebook_user_id(fb_user_id):
+    user_id = db_handler.query_db("""
+    SELECT user_id
+    FROM fb_users
+    WHERE fb_user_id = ?
+    """, [fb_user_id], True)
+
+    if user_id is None:
+        return None
+    else:
+        return user_id["user_id"]
+
+
+def fb_login(fb_user_id):
+    user_id = get_user_id_from_facebook_user_id(fb_user_id)
+
+    if user_id is None:
+        db_handler.insert_db("fb_users", {"fb_user_id": fb_user_id, "user_id": new_user_id()})
+        user_id = get_user_id_from_facebook_user_id(fb_user_id)
+
+    return user_id
 
 
 def answer_poll(phone, poll_option_id):
